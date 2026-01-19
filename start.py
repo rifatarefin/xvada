@@ -3,7 +3,7 @@ from collections import defaultdict
 from typing import List, Tuple, Set, Dict, Optional, Union
 import statistics
 from bubble import Bubble
-from group import group, is_balanced
+from group import group, is_balanced, pre_bubble
 from oracle import ExternalOracle, ParseException
 from parse_tree import ParseNode, ParseTreeList, build_grammar, START
 from grammar import *
@@ -57,7 +57,7 @@ LLM_CALLS = 0
 USE_LLM = config.USE_LLM
 TREEVADA = config.TREEVADA
 HDD = config.HDD
-HALF_MERGE = True
+HALF_MERGE = False
 
 def get_times():
     from replacement_utils import TIME_GENERATING_EXAMPLES_INTERNAL
@@ -331,27 +331,6 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
     
     return decomposed_trees
 
-def build_naive_parse_trees_2(leaves: List[List[ParseNode]]):
-    """
-    Builds naive parse trees for each leaf in `leaves`, assigning each unique
-    character to its own nonterminal, and uniting them all under the START
-    nonterminal.
-    """
-    class_map = defaultdict(allocate_tid)
-    trees = []
-    for leaf_lst in leaves:
-        children = []
-        for leaf in leaf_lst:
-            payload = leaf.payload
-            if len(payload) == 1:
-                children.append(ParseNode(class_map[payload], False, [leaf]))
-            else:
-                grandchildren = [ParseNode(class_map[c], False, [ParseNode(c, True, [])])for c in payload]
-                children.append(ParseNode(class_map[payload], False, grandchildren))
-        trees.append(ParseNode(START, False, children))
-    # trees = [ParseNode(START, False, [ParseNode(get_class[leaf.payload], False, [leaf]) for leaf in leaf_lst])
-    #          for leaf_lst in leaves]
-    return trees
 
 
 def apply(grouping: Bubble, trees: List[ParseNode]):
@@ -581,23 +560,33 @@ def build_trees(oracle, leaves):
         """
         After a successful node merge, update the bubble elements to reflect the new nonterminal
         """
+        if not coalesced_into:
+            return bubble
+        
         if isinstance(bubble, Bubble):
+            new_nt = None
             for elem in bubble.bubbled_elems:
                 if elem.payload in coalesced_into:
-                    # assuming multi-hop coalescing is already handled
+                    # handle multi-hop coalescing
                     new_nt = coalesced_into[elem.payload]
+                    while new_nt in coalesced_into and not new_nt == coalesced_into[new_nt]:
+                        new_nt = coalesced_into[new_nt]
                     elem.payload = new_nt
-            bubble.new_nt = allocate_tid()
-            bubble.bubble_str = ''.join([e.payload for e in bubble.bubbled_elems])
+            if new_nt and new_nt != coalesced_into.get(new_nt, None):
+                bubble.new_nt = allocate_tid()
+                bubble.bubble_str = ''.join([e.payload for e in bubble.bubbled_elems])
         else:
             for bubble_single in bubble:
+                new_nt = None
                 for elem in bubble_single.bubbled_elems:
                     if elem.payload in coalesced_into:
                         new_nt = coalesced_into[elem.payload]
+                        while new_nt in coalesced_into and not new_nt == coalesced_into[new_nt]:
+                            new_nt = coalesced_into[new_nt]
                         elem.payload = new_nt
-                        
-                bubble_single.new_nt = allocate_tid()
-                bubble_single.bubble_str = ''.join([e.payload for e in bubble_single.bubbled_elems])
+                if new_nt and new_nt != coalesced_into.get(new_nt, None):      
+                    bubble_single.new_nt = allocate_tid()
+                    bubble_single.bubble_str = ''.join([e.payload for e in bubble_single.bubbled_elems])
         return bubble
     
     def update_all_bubbles(all_bubbles, coalesced_into, best_trees):
@@ -624,9 +613,10 @@ def build_trees(oracle, leaves):
             reapply = True
             last = -1
             valid_bubble = False
-            
             while reapply:
-                    
+                
+                grouping = get_updated_bubble(grouping, loop_coalesce_into)
+                 
                 if isinstance(grouping, Bubble):
                     new_trees = apply(grouping, best_trees)
                     new_score, new_trees, coalesced_into = score(new_trees, grouping)
@@ -667,7 +657,7 @@ def build_trees(oracle, leaves):
                             v = coalesced_into[v]
                         coalesced_into[k] = v
 
-                    grouping = get_updated_bubble(grouping, coalesced_into)                           
+                    # grouping = get_updated_bubble(grouping, coalesced_into)                           
                     updated, valid_bubble = True, True
 
                     # need to maintain another coalesced_into for the entire bubble loop?
@@ -676,17 +666,11 @@ def build_trees(oracle, leaves):
                 else:
                     reapply = False
 
-            if valid_bubble:
+            # if valid_bubble:
                 
-                if no_llm:
-                    break
+            #     if no_llm:
+            #         break
 
-        # flatten loop_coalesce_into
-        for k in list(loop_coalesce_into.keys()):
-            v = loop_coalesce_into[k]
-            while v in loop_coalesce_into and not v == loop_coalesce_into[v]:
-                v = loop_coalesce_into[v]
-            loop_coalesce_into[k] = v
         
         return best_trees, updated, loop_coalesce_into
 
@@ -834,9 +818,14 @@ def build_trees(oracle, leaves):
         updated = True
         threshold = 5
         grp_size = MIN_GROUP_LEN
-        while updated or threshold:
+        while threshold:
+
+           
+            pre_bubbles = pre_bubble(best_trees)
+            best_trees, updated, coalesced_into = bubble_loop(best_trees, count, pre_bubbles, True)
+
             bubble_list = group(best_trees, grp_size)
-            best_trees, updated, _ = bubble_loop(best_trees, count, bubble_list, True, grp_size)
+            best_trees, updated, coalesced_into = bubble_loop(best_trees, count, bubble_list, True, grp_size)
             
             count+=1
             if not updated:
@@ -1475,7 +1464,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
             #             get_class = {second: class_nt}
             #             coalesced_into[second] = class_nt
                     
-            elif replacement == second and isinstance(coalesce_target, Bubble):
+            elif HALF_MERGE and replacement == second and isinstance(coalesce_target, Bubble):
                 """
                 nt1
                 /   \
