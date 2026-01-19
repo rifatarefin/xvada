@@ -2,11 +2,13 @@ from lib2to3.pgen2 import token
 from math import ceil
 import random
 from collections import defaultdict
+import string
 from typing import Union, List, Dict, Tuple
 
 from bubble import Bubble
 from next_tid import allocate_tid
 from parse_tree import ParseNode
+MAX_PRE_BUBBLE_LEN = 10
 
 last_bubble_lst = None
 last_bubble_pairs = None
@@ -44,8 +46,45 @@ def is_balanced(tokens, is_list = False):
             return (open_indices, closing_indices) if is_list else True
         return False
 
+def pre_bubble(trees) -> List[Bubble]:
+    layers = {}
+
+    def add_layer(tree: ParseNode, depth: int =0):
+        
+        layer = tree.children
+        # remove brackets as these represent a complete level
+        if len(layer) > 2 and ((layer[0].payload == "[" and layer[-1].payload == "]") or (layer[0].payload == "{" and layer[-1].payload == "}") or (layer[0].payload == "(" and layer[-1].payload == ")")):
+            layer = layer[1:-1]
+
+        # skip leading and trailing whitespace
+        start, end = 0, len(layer)
+        while start < end and layer[start].payload in string.whitespace:
+            start += 1
+        while end > start and layer[end - 1].payload in string.whitespace:
+            end -= 1
+        layer = layer[start:end]
+        if not layer:
+            return
+        
+        layer_str = ' '.join([t.payload for t in layer])
+        if layer_str not in layers:
+            layers[layer_str] = Bubble(allocate_tid(), layer, depth)
+        for child in tree.children:
+            if not child.is_terminal:
+                add_layer(child, depth + 1)
+
+    for tree in trees:
+        add_layer(tree)
+    # sort layers by depth and length
+    for layer in list(layers.keys()):
+        bub_len = len(layers[layer].bubbled_elems)
+        if bub_len <=1 or bub_len > MAX_PRE_BUBBLE_LEN:
+            layers.pop(layer)
+    sorted_layers = list(sorted(layers.values(), key=lambda x: (x.depth, -len(x.bubbled_elems)), reverse= True))
+    return sorted_layers[:100]
+
 imbalance = 0
-def group(trees, max_group_size, last_applied_bubble = None) -> List[Bubble]:
+def group(trees, max_group_size) -> List[Bubble]:
     """
     TREES is a set of ParseNodes.
 
@@ -90,6 +129,7 @@ def group(trees, max_group_size, last_applied_bubble = None) -> List[Bubble]:
                 #     continue
 
                 tree_substr = ' '.join([t.payload for t in tree_sublist])
+                tree_substr = tree_substr.strip()
                 if i == 0 and j == len(children_lst):
                     # TODO: add direct parent to bubble
                     full_bubbles[tree_substr] += 1
@@ -97,6 +137,16 @@ def group(trees, max_group_size, last_applied_bubble = None) -> List[Bubble]:
                 lhs_context = [ParseNode(left_context, True, [])] + children_lst[:i]
                 rhs_context = children_lst[j:] + [ParseNode(right_context, True, [])]
 
+                # skip leading and trailing whitespaces
+                start, end = 0, len(tree_sublist)
+                while start < end and tree_sublist[start].payload in string.whitespace:
+                    start += 1
+                while end > start and tree_sublist[end - 1].payload in string.whitespace:
+                    end -= 1
+                tree_sublist = tree_sublist[start:end]
+
+                if not tree_sublist:
+                    continue
                 if not tree_substr in bubbles:
                     bubble = Bubble(allocate_tid(), tree_sublist, depth)
                     bubble.add_context(lhs_context, rhs_context)
@@ -132,7 +182,6 @@ def group(trees, max_group_size, last_applied_bubble = None) -> List[Bubble]:
     print("Number of bubbles: ", len(bubbles))
 
     bubbles = score_and_sort_bubbles(bubbles)
-
     # Return the set of repeated groupings as an iterable
     return bubbles
 
