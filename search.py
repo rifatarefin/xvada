@@ -76,22 +76,18 @@ def approx_tokenize(oracle, guide_raw:str):
         tokens.append(ParseNode(cur_token, True, []))
     # try to delete ws tokens without hurting the oracle
     tkn_so_far = []
-    prev_was_ws = False
     for i in range(len(tokens)):
         is_ws = tokens[i].payload and tokens[i].payload[0] in string.whitespace
         if is_ws:
-            if not prev_was_ws:
+            
+            new_tokens = tkn_so_far + tokens[i+1:]
+            try:
+                oracle.parse("".join([t.payload for t in new_tokens]))
+            except:
                 tkn_so_far.append(tokens[i])
-            else:
-                new_tokens = tkn_so_far + tokens[i+1:]
-                try:
-                    oracle.parse("".join([t.payload for t in new_tokens]))
-                except:
-                    tkn_so_far.append(tokens[i])
-            prev_was_ws = True
+            
         else:
             tkn_so_far.append(tokens[i])
-            prev_was_ws = False
         
     return tkn_so_far
 
@@ -162,11 +158,11 @@ def main(oracle_cmd, guide_examples_folder,  log_file_name):
     print(f"Average guide length in char: {average_guide_len}, max guide length: {max_guide_len}")
     print(f"Average token length: {average_token_len}, max token length: {max_token_len}")
     print(f"Guides with brackets: {has_bracket}, quotes: {has_quote}")
-    if has_bracket > 0:
-        bbl_bounds = (3, 8)
-    else:
-        bbl_bounds = (2, 8)
-
+    # if has_bracket > 0:
+    #     bbl_bounds = (3, 8)
+    # else:
+    #     bbl_bounds = (2, 8)
+    bbl_bounds = (3, 10)
     # Create the log file and write positive and negative examples to it
     # Also write the initial starting grammar to the file
     with open(log_file_name, 'w+') as f:
@@ -174,7 +170,7 @@ def main(oracle_cmd, guide_examples_folder,  log_file_name):
         # Build the starting grammars and test them for compilation
         print('Building the starting grammar...'.ljust(50), end='\r')
         start_time = time.time()
-        llm_grammar, llm_hdd_grammar, treevada_grammar, treevada_hdd_grammar = build_start_grammar(oracle, guide_examples, bbl_bounds)    #start_grammar = no_hdd_grammar
+        grammar, hdd_grammar = build_start_grammar(oracle, guide_examples, bbl_bounds)    #start_grammar = no_hdd_grammar
         build_time = time.time() - start_time
 
         oracle_time_spent = oracle.time_spent
@@ -184,10 +180,9 @@ def main(oracle_cmd, guide_examples_folder,  log_file_name):
         print(f'Pickling grammar...')
         import pickle
         
-        pickle.dump(llm_hdd_grammar.rules, open(log_file_name + "_llm.gramdict", "wb"))
-        pickle.dump(llm_grammar.rules, open(log_file_name + "_llm_no_hdd.gramdict", "wb"))
-        pickle.dump(treevada_hdd_grammar.rules, open(log_file_name + "_treevada.gramdict", "wb"))
-        pickle.dump(treevada_grammar.rules, open(log_file_name + "_treevada_no_hdd.gramdict", "wb"))
+
+        pickle.dump(hdd_grammar.rules, open(log_file_name + ".gramdict", "wb"))
+        pickle.dump(grammar.rules, open(log_file_name + "_no_hdd.gramdict", "wb"))
 
         print(f'Date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}', file=f)
         print(f'Date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')

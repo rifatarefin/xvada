@@ -53,6 +53,7 @@ MINIMIZE_TIME = 0
 TIME_GENERATING_EXAMPLES = 0
 TIME_GROUPING = 0
 REAPPLY = 0
+HALF_MERGE_COUNT = 0
 LLM_CALLS = 0
 USE_LLM = config.USE_LLM
 TREEVADA = config.TREEVADA
@@ -64,7 +65,7 @@ def get_times():
     return {'FIRST_COALESCE' : ORIGINAL_COALESCE_TIME, 'BUILD': BUILD_TIME,
             'LAST_COALESCE' : LAST_COALESCE_TIME, 'EXPAND': EXPAND_TIME, 'MINIMIZE': MINIMIZE_TIME,
             'OVERALL_EXAMPLE_GEN': TIME_GENERATING_EXAMPLES + TIME_GENERATING_EXAMPLES_INTERNAL,
-            'OVERALL_GROUPING': TIME_GROUPING, 'REAPPLY_COUNT': REAPPLY}
+            'OVERALL_GROUPING': TIME_GROUPING, 'REAPPLY_COUNT': REAPPLY, 'HALF_MERGE_COUNT': HALF_MERGE_COUNT}
 
 def check_recall(oracle, grammar: Grammar):
     """
@@ -95,46 +96,46 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
  
     MIN_GROUP_LEN, MAX_GROUP_LEN = bbl_bounds
     print('Building the starting trees...'.ljust(50), end='\r')
-    llm_trees, treevada_trees = build_trees(oracle, leaves)
+    trees = build_trees(oracle, leaves)
     print('Building initial grammar...'.ljust(50), end='\r')
 
-    llm_grammar, llm_hdd_grammar, treevada_grammar, treevada_hdd_grammar = None, None, None, None
-    for i, trees in enumerate([llm_trees, treevada_trees]):
-        if trees is None:
-            continue
-        grammar = build_grammar(trees)
-        print('Coalescing nonterminals...'.ljust(50), end='\r')
-        s = time.time()
-        grammar, new_trees, coalesce_caused, _ = coalesce(oracle, trees, grammar)
-        # grammar, new_trees, partial_coalesces = coalesce_partial(oracle, new_trees, grammar)
-        grammar = expand_tokens(oracle, grammar, new_trees)
-        grammar = minimize(grammar)
-        LAST_COALESCE_TIME += time.time() - s
-        if HDD:
-            augmented = {t.derived_string(): t for t in new_trees}
-            reduced_trees = hdd_decompose(new_trees, oracle, augmented)
-            if len(reduced_trees) > 0:
-                print(f"HDD decomposed {len(reduced_trees)} new trees.")
-                grammar_reduced = build_grammar(reduced_trees)
-                grammar_reduced = expand_tokens(oracle, grammar_reduced, reduced_trees)
-                new_trees += reduced_trees
-                grammar_reduced = minimize(grammar_reduced)
-                # print(str(grammar))
-                # print(str(grammar_reduced))
-                hdd_grammar = grammar.copy()
-                hdd_grammar.merge(grammar_reduced)
-                # hdd_grammar = minimize(hdd_grammar)
-                # hdd_grammar = expand_tokens(oracle, hdd_grammar, new_trees)
-                hdd_grammar = minimize(hdd_grammar)
-            else:
-                hdd_grammar = grammar
-            
-            if i == 0:
-                llm_grammar = grammar
-                llm_hdd_grammar = hdd_grammar
-            else:
-                treevada_grammar = grammar
-                treevada_hdd_grammar = hdd_grammar
+    grammar, hdd_grammar = None, None
+    
+    grammar = build_grammar(trees)
+    print('Coalescing nonterminals...'.ljust(50), end='\r')
+    s = time.time()
+    grammar, new_trees, coalesce_caused, _ = coalesce(oracle, trees, grammar)
+    # grammar, new_trees, partial_coalesces = coalesce_partial(oracle, new_trees, grammar)
+    grammar = expand_tokens(oracle, grammar, new_trees)
+    grammar = minimize(grammar)
+    LAST_COALESCE_TIME += time.time() - s
+    if HDD:
+        augmented = {t.derived_string(): t for t in new_trees}
+        reduced_trees = hdd_decompose(new_trees, oracle, augmented)
+        print(f"HDD decomposed {len(reduced_trees)} new trees.")
+
+        new_trees += reduced_trees
+        hdd_grammar = build_grammar(new_trees)
+        hdd_grammar = expand_tokens(oracle, hdd_grammar, new_trees)
+        hdd_grammar = minimize(hdd_grammar)
+
+        # if len(reduced_trees) > 0:
+
+
+        #     grammar_reduced = build_grammar(reduced_trees)
+        #     grammar_reduced = expand_tokens(oracle, grammar_reduced, new_trees)
+        #     # new_trees += reduced_trees
+        #     grammar_reduced = minimize(grammar_reduced)
+        #     # print(str(grammar))
+        #     print(str(grammar_reduced))
+        #     hdd_grammar = grammar.copy()
+        #     hdd_grammar.merge(grammar_reduced)
+        #     # hdd_grammar = minimize(hdd_grammar)
+        #     # hdd_grammar = expand_tokens(oracle, hdd_grammar, new_trees)
+        #     hdd_grammar = minimize(hdd_grammar)
+        # else:
+        #     hdd_grammar = grammar
+        
 
     # s = time.time()
     
@@ -143,7 +144,7 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     # s = time.time()
     
     # MINIMIZE_TIME += time.time() - s
-    return llm_grammar, llm_hdd_grammar, treevada_grammar, treevada_hdd_grammar
+    return grammar, hdd_grammar
 
 
 def build_naive_parse_trees(leaves: List[List[ParseNode]], bracket_items: List, oracle: ExternalOracle):
@@ -247,9 +248,13 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
         """
         Try to parse the node and remove single start->start indirections
         """
+        cache_str = {}
         try:
             seed = node.derived_string()
+            if seed in cache_str and not cache_str[seed]:
+                return False
             oracle.parse(seed)
+            cache_str[seed] = True
             # seed = seed.replace(" ", "")
             if seed not in new_trees:
                 if node.payload != START:
@@ -258,11 +263,20 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
                     node = node.children[0]
 
                 # Check all derivable strings at depth 1
-                for s in lvl_n_derivable([node], START, 1):
+                depth1_str = lvl_n_derivable([node], START, 1)
+                for s in depth1_str:
+                    if s in cache_str:
+                        if cache_str[s]:
+                            continue
+                        else:
+                            return False
                     oracle.parse(s)
-                new_trees[seed] = node
+                    cache_str[s] = True
+                new_trees[seed] = node.copy()
+                new_trees[seed].update_cache_info()
                 return True
         except:
+            cache_str[seed] = False
             return False
     
     def ddmin(node: ParseNode):
@@ -781,11 +795,11 @@ def build_trees(oracle, leaves):
 
             two_bubbles = []
             count += 1
-            bubble_list = get_llm_bubble(best_trees, False)
+            bubble_list_double = get_llm_bubble(best_trees, False)
 
             # break if not valid 2-bubbles
             try:
-                for first, second in bubble_list:
+                for first, second in bubble_list_double:
                     cand1 = ''.join(first)
                     cand2 = ''.join(second)
                     if cand1 == cand2:
@@ -811,7 +825,6 @@ def build_trees(oracle, leaves):
                 update_all_bubbles(all_bubbles, coalesced_into, best_trees)
 
 
-    llm_trees = [tree.copy() for tree in best_trees]
     if TREEVADA:
         # global HALF_MERGE
         # HALF_MERGE = False
@@ -820,12 +833,21 @@ def build_trees(oracle, leaves):
         grp_size = MIN_GROUP_LEN
         while threshold:
 
+            global HALF_MERGE
+            if threshold ==1:
+                HALF_MERGE = True
            
             pre_bubbles = pre_bubble(best_trees)
             best_trees, updated, coalesced_into = bubble_loop(best_trees, count, pre_bubbles, True)
 
             bubble_list = group(best_trees, grp_size)
             best_trees, updated, coalesced_into = bubble_loop(best_trees, count, bubble_list, True, grp_size)
+
+            if updated:
+                threshold = 5
+
+            bubble_list_double = group(best_trees, grp_size, True)
+            best_trees, updated, coalesced_into = bubble_loop(best_trees, count, bubble_list_double, True, grp_size)
             
             count+=1
             if not updated:
@@ -834,9 +856,10 @@ def build_trees(oracle, leaves):
             else:
                 threshold = 5
                 
+            # HALF_MERGE = True if threshold ==1 else False
             
     BUILD_TIME += time.time() - s
-    return llm_trees, best_trees
+    return best_trees
 
 
 
@@ -1484,6 +1507,8 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                         coalesced_into[first] = class_nt
 
                     print(f"{second} replaces {first}")
+                    global HALF_MERGE_COUNT
+                    HALF_MERGE_COUNT += 1
                 
             # Update the grammar and the trees
             if update_required:
