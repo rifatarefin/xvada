@@ -84,7 +84,7 @@ def pre_bubble(trees) -> List[Bubble]:
     return sorted_layers[:100]
 
 imbalance = 0
-def group(trees, max_group_size) -> List[Bubble]:
+def group(trees, max_group_size, double = False) -> List[Bubble]:
     """
     TREES is a set of ParseNodes.
 
@@ -129,7 +129,7 @@ def group(trees, max_group_size) -> List[Bubble]:
                 #     continue
 
                 tree_substr = ' '.join([t.payload for t in tree_sublist])
-                tree_substr = tree_substr.strip()
+                # tree_substr = tree_substr.strip()
                 if i == 0 and j == len(children_lst):
                     # TODO: add direct parent to bubble
                     full_bubbles[tree_substr] += 1
@@ -138,12 +138,12 @@ def group(trees, max_group_size) -> List[Bubble]:
                 rhs_context = children_lst[j:] + [ParseNode(right_context, True, [])]
 
                 # skip leading and trailing whitespaces
-                start, end = 0, len(tree_sublist)
-                while start < end and tree_sublist[start].payload in string.whitespace:
-                    start += 1
-                while end > start and tree_sublist[end - 1].payload in string.whitespace:
-                    end -= 1
-                tree_sublist = tree_sublist[start:end]
+                # start, end = 0, len(tree_sublist)
+                # while start < end and tree_sublist[start].payload in string.whitespace:
+                #     start += 1
+                # while end > start and tree_sublist[end - 1].payload in string.whitespace:
+                #     end -= 1
+                # tree_sublist = tree_sublist[start:end]
 
                 if not tree_sublist:
                     continue
@@ -181,13 +181,13 @@ def group(trees, max_group_size) -> List[Bubble]:
             bubbles.pop(bubble_str)
     print("Number of bubbles: ", len(bubbles))
 
-    bubbles = score_and_sort_bubbles(bubbles)
+    bubbles = score_and_sort_bubbles(bubbles, double)
     # Return the set of repeated groupings as an iterable
     return bubbles
 
         
 
-def score_and_sort_bubbles(bubbles: Dict[str, Bubble]) -> List[Union[Bubble, Tuple[Bubble, Bubble]]]:
+def score_and_sort_bubbles(bubbles: Dict[str, Bubble], double: bool) -> List[Union[Bubble, Tuple[Bubble, Bubble]]]:
     """
     Given a set of bubbles, returns a sorted list of (tuples of) bubbles, sorted by a score on how
     likely the bubble(s) is to increase the size of the grammar.
@@ -206,8 +206,11 @@ def score_and_sort_bubbles(bubbles: Dict[str, Bubble]) -> List[Union[Bubble, Tup
         for j in range(i + 1, len(bubble_lst)):
             second_bubble: Bubble = bubble_lst[j]
             # Skip recomputing single bubbles
-            # if len(second_bubble.bubbled_elems) == 1 and len(first_bubble.bubbled_elems) < max_group_size:
-            #     continue
+            if double and len(second_bubble.bubbled_elems) == 1:
+                break
+            if not double and len(second_bubble.bubbled_elems) > 1:
+                continue
+            
             # Skip overlapping/conflicting pairs
             first_prevents_second, second_prevents_first = first_bubble.application_breaks_other(second_bubble)
             if first_prevents_second and second_prevents_first:
