@@ -13,7 +13,7 @@ from replacement_utils import get_strings_with_replacement, get_strings_with_rep
     lvl_n_derivable
 import config
 from next_tid import allocate_tid
-from PrettyPrint import PrettyPrintTree
+# from PrettyPrint import PrettyPrintTree
 from label_llm import generate_label_api, regenerate_label
 from bubble_llm import bubble_api
 from bubble_pair_llm import bubble_pair_api
@@ -49,6 +49,7 @@ BUILD_TIME = 0
 LAST_COALESCE_TIME = 0
 EXPAND_TIME = 0
 MINIMIZE_TIME = 0
+HDD_TIME = 0
 
 TIME_GENERATING_EXAMPLES = 0
 TIME_GROUPING = 0
@@ -93,6 +94,8 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     global MINIMIZE_TIME
     global MIN_GROUP_LEN 
     global MAX_GROUP_LEN
+    global HDD
+    global HDD_TIME
  
     MIN_GROUP_LEN, MAX_GROUP_LEN = bbl_bounds
     print('Building the starting trees...'.ljust(50), end='\r')
@@ -110,6 +113,7 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     grammar = minimize(grammar)
     LAST_COALESCE_TIME += time.time() - s
     if HDD:
+        s = time.time()
         augmented = {t.derived_string(): t for t in new_trees}
         reduced_trees = hdd_decompose(new_trees, oracle, augmented)
         print(f"HDD decomposed {len(reduced_trees)} new trees.")
@@ -118,7 +122,7 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
         hdd_grammar = build_grammar(new_trees)
         hdd_grammar = expand_tokens(oracle, hdd_grammar, new_trees)
         hdd_grammar = minimize(hdd_grammar)
-
+        HDD_TIME = time.time() - s
         # if len(reduced_trees) > 0:
 
 
@@ -244,11 +248,11 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
     """
     # pt = PrettyPrintTree(lambda x: x.children, lambda x: x.payload)
     
+    cache_str = {}
     def try_parse(node: ParseNode):
         """
         Try to parse the node and remove single start->start indirections
         """
-        cache_str = {}
         try:
             seed = node.derived_string()
             if seed in cache_str and not cache_str[seed]:
@@ -340,10 +344,34 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
         _ = hdd(copy)
         
     # Pick newly added stmt
+    orig = list(new_trees.items())[:size]
     decomposed = list(new_trees.items())[size:]
+
+    orig = sorted(orig, key=lambda x: len(x[0]))
+    orig_trees = [x[1] for x in orig]
+    decomposed = sorted(decomposed, key=lambda x: len(x[0]))
     decomposed_trees = [x[1] for x in decomposed]
-    
-    return decomposed_trees
+    valid_trees = []
+    for tree in orig_trees:
+        try:
+            strs = lvl_n_derivable(valid_trees + [tree], START, 2)
+            for s in strs:
+                oracle.parse(s)
+            valid_trees.append(tree)
+        except:
+            continue
+    orig_size = len(valid_trees)
+
+    for tree in decomposed_trees:
+        try:
+            strs = lvl_n_derivable(valid_trees + [tree], START, 2)
+            for s in strs:
+                oracle.parse(s)
+            valid_trees.append(tree)
+        except:
+            continue 
+            
+    return valid_trees[orig_size:]
 
 
 
@@ -698,8 +726,7 @@ def build_trees(oracle, leaves):
             return []
         prompt = '\n'.join([str(i) for i in layer])
         bubble_list = bubble_api(prompt) if one_bubble else bubble_pair_api(prompt)       # llm call here
-        global LLM_CALLS
-        LLM_CALLS += 1
+        
         try:
             bubble_list = json.loads(bubble_list)['siblings']
 
@@ -1362,6 +1389,8 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
         Suggests a label using LLM, avoiding conflicts with existing labels.
         Returns the label and the dictionary of old labels.
         """
+        global LLM_CALLS
+        LLM_CALLS += 1
         s1 = min(tree_list.derivable_in_trees(first)) if first else ""
         s2 = min(tree_list.derivable_in_trees(second)) if second else ""
         class_nt = generate_label_api((s1, s2))
@@ -1374,6 +1403,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
         attempts = 0
         while (class_nt in grammar.rules.keys()):
             class_nt = regenerate_label((s1, s2), list(old_labels.keys()))
+            LLM_CALLS += 1
             old_labels[class_nt] = 1
             attempts += 1
             if attempts >= max_attempts:
