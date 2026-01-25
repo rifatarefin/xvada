@@ -9,6 +9,7 @@ from bubble import Bubble
 from next_tid import allocate_tid
 from parse_tree import ParseNode
 MAX_PRE_BUBBLE_LEN = 10
+MAX_BUBBLES_FOR_RANKING = 10000
 
 last_bubble_lst = None
 last_bubble_pairs = None
@@ -62,9 +63,8 @@ def pre_bubble(trees) -> List[Bubble]:
             start += 1
         while end > start and layer[end - 1].payload in string.whitespace:
             end -= 1
-        layer = layer[start:end]
-        if not layer:
-            return
+        if end - start > 0:
+            layer = layer[start:end]
         
         layer_str = ' '.join([t.payload for t in layer])
         if layer_str not in layers:
@@ -109,7 +109,8 @@ def group(trees, max_group_size, double = False) -> List[Bubble]:
 
         for i in range(len(children_lst)):
             
-            
+            if len(bubbles) > MAX_BUBBLES_FOR_RANKING:
+                break
             for j in range(i + 1, min(len(children_lst) + 1, i + max_group_size + 1)):
                 # if j - i == 2:
                 #     continue
@@ -138,15 +139,13 @@ def group(trees, max_group_size, double = False) -> List[Bubble]:
                 rhs_context = children_lst[j:] + [ParseNode(right_context, True, [])]
 
                 # skip leading and trailing whitespaces
-                # start, end = 0, len(tree_sublist)
-                # while start < end and tree_sublist[start].payload in string.whitespace:
-                #     start += 1
-                # while end > start and tree_sublist[end - 1].payload in string.whitespace:
-                #     end -= 1
-                # tree_sublist = tree_sublist[start:end]
-
-                if not tree_sublist:
-                    continue
+                start, end = 0, len(tree_sublist)
+                while start < end and tree_sublist[start].payload in string.whitespace:
+                    start += 1
+                while end > start and tree_sublist[end - 1].payload in string.whitespace:
+                    end -= 1
+                if end > start:
+                    tree_sublist = tree_sublist[start:end]
                 if not tree_substr in bubbles:
                     bubble = Bubble(allocate_tid(), tree_sublist, depth)
                     bubble.add_context(lhs_context, rhs_context)
@@ -254,6 +253,7 @@ def score_and_sort_bubbles(bubbles: Dict[str, Bubble], double: bool) -> List[Uni
         elif len(pair[1].bubbled_elems) == 1:
             if pair[0] not in bubbles:
                 bubbles[pair[0]] = score
+        # elif len(pair[0].bubbled_elems) > 2:    #double bubble only for larger than size 2
         else:
             bubbles[pair] = score
     bubbles = list(bubbles.keys())
