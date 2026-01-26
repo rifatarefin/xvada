@@ -76,18 +76,22 @@ def approx_tokenize(oracle, guide_raw:str):
         tokens.append(ParseNode(cur_token, True, []))
     # try to delete ws tokens without hurting the oracle
     tkn_so_far = []
+    prev_was_ws = False
     for i in range(len(tokens)):
         is_ws = tokens[i].payload and tokens[i].payload[0] in string.whitespace
         if is_ws:
-            
-            new_tokens = tkn_so_far + tokens[i+1:]
-            try:
-                oracle.parse("".join([t.payload for t in new_tokens]))
-            except:
+            if not prev_was_ws:
                 tkn_so_far.append(tokens[i])
-            
+            else:
+                new_tokens = tkn_so_far + tokens[i+1:]
+                try:
+                    oracle.parse("".join([t.payload for t in new_tokens]))
+                except:
+                    tkn_so_far.append(tokens[i])
+            prev_was_ws = True
         else:
             tkn_so_far.append(tokens[i])
+            prev_was_ws = False
         
     return tkn_so_far
 
