@@ -4,7 +4,6 @@ import re
 from lark import Lark
 import random
 
-random.seed(0)
 
 def elem_fixup(elem: str, is_antlr4=False) -> str:
     """

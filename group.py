@@ -52,6 +52,7 @@ def pre_bubble(trees) -> List[Bubble]:
 
     def add_layer(tree: ParseNode, depth: int =0):
         
+        
         layer = tree.children
         # remove brackets as these represent a complete level
         if len(layer) > 2 and ((layer[0].payload == "[" and layer[-1].payload == "]") or (layer[0].payload == "{" and layer[-1].payload == "}") or (layer[0].payload == "(" and layer[-1].payload == ")")):
@@ -67,8 +68,9 @@ def pre_bubble(trees) -> List[Bubble]:
             layer = layer[start:end]
         
         layer_str = ' '.join([t.payload for t in layer])
-        if layer_str not in layers:
+        if layer_str not in layers and all([not t.is_terminal for t in layer]):
             layers[layer_str] = Bubble(allocate_tid(), layer, depth)
+            
         for child in tree.children:
             if not child.is_terminal:
                 add_layer(child, depth + 1)
