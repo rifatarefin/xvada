@@ -68,9 +68,10 @@ def pre_bubble(trees) -> List[Bubble]:
             layer = layer[start:end]
         
         layer_str = ' '.join([t.payload for t in layer])
+        # only add non-terminals
         if layer_str not in layers and all([not t.is_terminal for t in layer]):
             layers[layer_str] = Bubble(allocate_tid(), layer, depth)
-            
+
         for child in tree.children:
             if not child.is_terminal:
                 add_layer(child, depth + 1)
@@ -132,7 +133,7 @@ def group(trees, max_group_size, double = False) -> List[Bubble]:
                 #     continue
 
                 tree_substr = ' '.join([t.payload for t in tree_sublist])
-                # tree_substr = tree_substr.strip()
+                
                 if i == 0 and j == len(children_lst):
                     # TODO: add direct parent to bubble
                     full_bubbles[tree_substr] += 1
@@ -141,13 +142,13 @@ def group(trees, max_group_size, double = False) -> List[Bubble]:
                 rhs_context = children_lst[j:] + [ParseNode(right_context, True, [])]
 
                 # skip leading and trailing whitespaces
-                start, end = 0, len(tree_sublist)
-                while start < end and tree_sublist[start].payload in string.whitespace:
-                    start += 1
-                while end > start and tree_sublist[end - 1].payload in string.whitespace:
-                    end -= 1
-                if end > start:
-                    tree_sublist = tree_sublist[start:end]
+                # start, end = 0, len(tree_sublist)
+                # while start < end and tree_sublist[start].payload in string.whitespace:
+                #     start += 1
+                # while end > start and tree_sublist[end - 1].payload in string.whitespace:
+                #     end -= 1
+                # if end > start:
+                #     tree_sublist = tree_sublist[start:end]
                 if not tree_substr in bubbles:
                     bubble = Bubble(allocate_tid(), tree_sublist, depth)
                     bubble.add_context(lhs_context, rhs_context)
