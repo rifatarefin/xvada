@@ -354,7 +354,7 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
     Sample strings at depth 2 to check validity
     """
     for tree in decomposed_trees:
-        overlapping_trees = sorted(orig_trees, key=lambda x: (len(tree.all_nts() & x.all_nts()), -len(x.cached_string)), reverse=True)
+        overlapping_trees = sorted(orig_trees, key=lambda x: (len(tree.all_nts() & x.all_nts()), len(x.cached_string)), reverse=True)
         # orig_valid = []
         # for ot in overlapping_trees:
         #     try:
@@ -368,7 +368,7 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
         #         continue
         # if orig_valid:
         try:
-            strs = lvl_n_derivable([tree] + overlapping_trees[:10], START, 2)
+            strs = lvl_n_derivable([tree] + overlapping_trees[:3], START, 2)
             for s in strs:
                 oracle.parse(s)
             valid_trees.append(tree)
