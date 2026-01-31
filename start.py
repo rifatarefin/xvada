@@ -114,6 +114,7 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     LAST_COALESCE_TIME += time.time() - s
     if HDD:
         s = time.time()
+        print('Performing HDD decomposition...'.ljust(50), end='\r')
         augmented = {t.derived_string(): t for t in new_trees}
         reduced_trees = hdd_decompose(new_trees, oracle, augmented)
         print(f"HDD decomposed {len(reduced_trees)} new trees.")
@@ -355,6 +356,7 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
     """
     for tree in decomposed_trees:
         overlapping_trees = sorted(orig_trees, key=lambda x: (len(tree.all_nts() & x.all_nts()), len(x.cached_string)), reverse=True)
+        new_valid = sorted(valid_trees, key=lambda x: (len(tree.all_nts() & x.all_nts()), len(x.cached_string)), reverse=True)
         # orig_valid = []
         # for ot in overlapping_trees:
         #     try:
@@ -368,7 +370,7 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
         #         continue
         # if orig_valid:
         try:
-            strs = lvl_n_derivable([tree] + overlapping_trees[:3], START, 2)
+            strs = lvl_n_derivable([tree] + new_valid[:3] + overlapping_trees[:3], START, 2)
             for s in strs:
                 oracle.parse(s)
             valid_trees.append(tree)
