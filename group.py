@@ -77,6 +77,8 @@ def pre_bubble(trees) -> List[Bubble]:
                 add_layer(child, depth + 1)
 
     for tree in trees:
+        if len(layers) > MAX_BUBBLES_FOR_RANKING:
+            break
         add_layer(tree)
     # sort layers by depth and length
     for layer in list(layers.keys()):
@@ -128,9 +130,17 @@ def group(trees, max_group_size, double = False) -> List[Bubble]:
                     global imbalance
                     imbalance += 1
                     continue
-                # discard if a bubble starts or ends with whitespace
-                # if stream[0] == " " or stream[-1] == " ":
-                #     continue
+
+                if len(tree_sublist) > 2 and ((tree_sublist[0].payload == "[" and tree_sublist[-1].payload == "]") or (tree_sublist[0].payload == "{" and tree_sublist[-1].payload == "}") or (tree_sublist[0].payload == "(" and tree_sublist[-1].payload == ")")):
+                    tree_sublist = tree_sublist[1:-1]
+                # skip leading and trailing whitespaces
+                start, end = 0, len(tree_sublist)
+                while start < end and tree_sublist[start].payload in string.whitespace:
+                    start += 1
+                while end > start and tree_sublist[end - 1].payload in string.whitespace:
+                    end -= 1
+                if end > start:
+                    tree_sublist = tree_sublist[start:end]
 
                 tree_substr = ' '.join([t.payload for t in tree_sublist])
                 
@@ -141,14 +151,6 @@ def group(trees, max_group_size, double = False) -> List[Bubble]:
                 lhs_context = [ParseNode(left_context, True, [])] + children_lst[:i]
                 rhs_context = children_lst[j:] + [ParseNode(right_context, True, [])]
 
-                # skip leading and trailing whitespaces
-                # start, end = 0, len(tree_sublist)
-                # while start < end and tree_sublist[start].payload in string.whitespace:
-                #     start += 1
-                # while end > start and tree_sublist[end - 1].payload in string.whitespace:
-                #     end -= 1
-                # if end > start:
-                #     tree_sublist = tree_sublist[start:end]
                 if not tree_substr in bubbles:
                     bubble = Bubble(allocate_tid(), tree_sublist, depth)
                     bubble.add_context(lhs_context, rhs_context)
