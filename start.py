@@ -66,7 +66,7 @@ def get_times():
     return {'FIRST_COALESCE' : ORIGINAL_COALESCE_TIME, 'BUILD': BUILD_TIME,
             'LAST_COALESCE' : LAST_COALESCE_TIME, 'EXPAND': EXPAND_TIME, 'MINIMIZE': MINIMIZE_TIME,
             'OVERALL_EXAMPLE_GEN': TIME_GENERATING_EXAMPLES + TIME_GENERATING_EXAMPLES_INTERNAL,
-            'OVERALL_GROUPING': TIME_GROUPING, 'REAPPLY_COUNT': REAPPLY, 'HALF_MERGE_COUNT': HALF_MERGE_COUNT}
+            'OVERALL_GROUPING': TIME_GROUPING, 'HDD_TIME': HDD_TIME, 'REAPPLY_COUNT': REAPPLY, 'HALF_MERGE_COUNT': HALF_MERGE_COUNT}
 
 def check_recall(oracle, grammar: Grammar):
     """
@@ -124,6 +124,7 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
         hdd_grammar = expand_tokens(oracle, hdd_grammar, new_trees)
         hdd_grammar = minimize(hdd_grammar)
         HDD_TIME = time.time() - s
+        print(str(hdd_grammar))
         # if len(reduced_trees) > 0:
 
 
@@ -347,6 +348,7 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
     # Pick newly added stmt
     orig = list(new_trees.items())[:size]
     decomposed = list(new_trees.items())[size:]
+    decomposed =sorted(decomposed, key=lambda x: len(x[0]), reverse=True)
     orig_trees = [x[1] for x in orig]
     decomposed_trees = [x[1] for x in decomposed]
     valid_trees = []
@@ -357,53 +359,23 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
     for tree in decomposed_trees:
         overlapping_trees = sorted(orig_trees, key=lambda x: (len(tree.all_nts() & x.all_nts()), len(x.cached_string)), reverse=True)
         new_valid = sorted(valid_trees, key=lambda x: (len(tree.all_nts() & x.all_nts()), len(x.cached_string)), reverse=True)
-        # orig_valid = []
-        # for ot in overlapping_trees:
-        #     try:
-        #         strs = lvl_n_derivable(orig_valid + [ot], START, 2)
-        #         for s in strs:
-        #             oracle.parse(s)
-        #         orig_valid.append(ot)
-        #         if len(orig_valid) >= 5:
-        #             break
-        #     except:
-        #         continue
-        # if orig_valid:
+        
         try:
-            strs = lvl_n_derivable([tree] + new_valid[:3] + overlapping_trees[:3], START, 2)
+            strs = lvl_n_derivable([tree] + new_valid[:10] + overlapping_trees[:10], START, 2)
             for s in strs:
                 oracle.parse(s)
             valid_trees.append(tree)
         except:
             continue
         
-                
-
-
-
-    # orig = sorted(orig, key=lambda x: len(x[0]))
-    # orig_trees = [x[1] for x in orig]
-    # decomposed = sorted(decomposed, key=lambda x: len(x[0]))
-    # decomposed_trees = [x[1] for x in decomposed]
-    # valid_trees = []
-    # for tree in orig_trees:
-    #     try:
-    #         strs = lvl_n_derivable([tree] +valid_trees, START, 1)
-    #         for s in strs:
-    #             oracle.parse(s)
-    #         valid_trees.append(tree)
-    #     except:
-    #         continue
-    # orig_size = len(valid_trees)
-
-    # for tree in decomposed_trees:
-    #     try:
-    #         strs = lvl_n_derivable([tree] + valid_trees, START, 1)
-    #         for s in strs:
-    #             oracle.parse(s)
-    #         valid_trees.append(tree)
-    #     except:
-    #         continue 
+        # for ot in [ot for ot in orig_trees if len(tree.all_nts() & ot.all_nts()) > 1]:
+        #     try:
+        #         strs = lvl_n_derivable([tree, ot], START, 2)
+        #         for s in strs:
+        #             oracle.parse(s)
+        #     except:
+        #         break  
+        #     valid_trees.append(tree)
             
     return valid_trees
 

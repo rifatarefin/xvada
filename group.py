@@ -47,6 +47,17 @@ def is_balanced(tokens, is_list = False):
             return (open_indices, closing_indices) if is_list else True
         return False
 
+def has_unbalanced_quotes(s: str) -> bool:
+    quotes = ["'", '"', '`']
+    quote_state = None
+    for c in s:
+        if c in quotes:
+            if quote_state is None:
+                quote_state = c
+            elif quote_state == c:
+                quote_state = None
+    return quote_state is not None
+
 def pre_bubble(trees) -> List[Bubble]:
     layers = {}
 
