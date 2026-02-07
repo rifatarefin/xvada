@@ -20,9 +20,12 @@ quote = []
 def approx_tokenize(oracle, guide_raw:str):
 
     def get_category(c, idx):
+        is_escaped = idx > 0 and guide_raw[idx - 1] == '\\'
         # everything surrounded by quote is grouped
-        if len(quote)==1:
-            if c == quote[0]:
+        if len(quote) == 1:
+            if c == quote[0] and (not is_escaped or (idx > 1 and guide_raw[idx - 2] == '\\') or c not in guide_raw[idx+1:]):
+                # closing quote, but only pop if it's not escaped or the escape is also escaped,
+                # or if there is no matching quote later in the string (to avoid grouping on an opening quote with no closing match)
                 quote.pop()
                 return None
             else:
@@ -52,14 +55,6 @@ def approx_tokenize(oracle, guide_raw:str):
     cur_token = ""
     start = True
     tokens: List[ParseNode] = []
-    # trim whitespaces... later remove whitespaces during LLM queries
-    # str_builder = ""
-    # try:
-    #     trim = " ".join(guide_raw.split())
-    #     oracle.parse(trim)
-    #     guide_raw = trim
-    # except:
-    #     print(f"Invalid: {guide_raw}")
 
     for i, c in enumerate(guide_raw):
         cur_category = get_category(c, i)

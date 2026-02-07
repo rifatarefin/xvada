@@ -25,9 +25,10 @@ def is_balanced(tokens, is_list = False):
         open_indices = []
         closing_indices = []
         for idx, i in enumerate(tokens):
+            is_escaped = idx > 0 and tokens[idx - 1] == '\\'
             if len(quote) == 1:
                 # found a matching quote
-                if i == quote[0]:
+                if i == quote[0] and (not is_escaped or (idx > 1 and tokens[idx - 2] == '\\') or i not in tokens[idx+1:]):
                     quote.pop()
                 continue
 

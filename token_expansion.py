@@ -431,9 +431,6 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
         idxs_to_replace = set()
         bodies_to_add = set()
         bodies = rule.bodies
-        # if any(len(body) >1 for body in bodies):
-        #     # We only generalize single-terminal bodies
-        #     continue
         terminal_body_idxs = [idx for idx, body in enumerate(bodies) if len(body) == 1 and is_terminal(body[0])]
         if len(terminal_body_idxs) == 0:
             # Nothing <t>o expand here, folks
