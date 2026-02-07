@@ -28,6 +28,7 @@ uppercase_type = 1
 lowercase_type = 2
 letter_type = 3
 whitespace_type = 4
+alphanum_type = 5
 
 MAX_SAMPLES = 10
 
@@ -42,6 +43,11 @@ def rules_to_add(rule_start):
         for i in range(10):
             r.add_body([f'"{i}"'])
         return [r]
+    if rule_start == "tnzdigit":
+        r = Rule(rule_start)
+        for i in range(1, 10):
+            r.add_body([f'"{i}"'])
+        return [r]
     if rule_start == "tdigits":
         r = Rule(rule_start)
         r.add_body(['tdigit'])
@@ -51,10 +57,12 @@ def rules_to_add(rule_start):
         r = Rule(rule_start)
         r.add_body(['tdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
-        nz = Rule("tnzdigit")
-        for i in range(1, 10):
-            nz.add_body([f'"{i}"'])
-        return [r, nz] + rules_to_add("tdigits")
+        return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
+    if rule_start == "tnzinteger":
+        r = Rule(rule_start)
+        r.add_body(['tnzdigit'])
+        r.add_body(["tnzdigit", "tdigits" ])
+        return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
     if rule_start == "talphanum":
         r = Rule(rule_start)
         for c in string.ascii_letters + string.digits:
@@ -196,27 +204,48 @@ def generalize_digits_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: L
     else:
         single_digit_candidates = []
 
-    integer_candidates = []
+    single_nzdigit_candidates = [s for s in single_digit_candidates if s != '0']
+    nzinteger_candidates = []
     digits_candidates = []
     for i in range(MAX_SAMPLES):
         first_dig = random.choice("123456789")
         leng = random.randint(1, 10)
         other_digs  = random.sample(string.digits, leng)
-        integer_candidates.append(first_dig + ''.join(other_digs))
+        nzinteger_candidates.append(first_dig + ''.join(other_digs))
         digits_candidates.append('0' + ''.join(other_digs))
+    integer_candidates = nzinteger_candidates + [i for i in string.digits]
 
     digit_ok = True if single_digit_candidates else False
+    nzdigit_ok = digit_ok
+    nzints_ok = True
     ints_ok = True
     digits_ok = True
 
     for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
+        # try non-zero only
+        if nzdigit_ok:
+            candidates = get_strings_with_replacement(tree, rule_start, single_nzdigit_candidates)
+            if not try_strings(oracle, candidates):
+                nzdigit_ok = False
+                digit_ok = False
+                ints_ok = False
+                nzints_ok = False
+                digits_ok = False
+                break
         if digit_ok:
             candidates = get_strings_with_replacement(tree, rule_start, single_digit_candidates)
             if not try_strings(oracle, candidates):
                 digit_ok = False
                 ints_ok = False
+                nzints_ok = False
                 digits_ok = False
-                break
+
+        if nzints_ok:
+            candidates = get_strings_with_replacement(tree, rule_start, nzinteger_candidates)
+            if not try_strings(oracle, candidates):
+                nzints_ok = False
+                ints_ok = False
+                digits_ok = False
         if ints_ok:
             candidates = get_strings_with_replacement(tree, rule_start, integer_candidates)
             if not try_strings(oracle, candidates):
@@ -232,8 +261,12 @@ def generalize_digits_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: L
         replace_str = 'tdigits'
     elif ints_ok:
         replace_str = 'tinteger'
+    elif nzints_ok:
+        replace_str = 'tnzinteger'
     elif digit_ok:
         replace_str = 'tdigit'
+    elif nzdigit_ok:
+        replace_str = 'tnzdigit'
     if replace_str == "":
         return [], ""
     else:
@@ -398,6 +431,9 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
         idxs_to_replace = set()
         bodies_to_add = set()
         bodies = rule.bodies
+        # if any(len(body) >1 for body in bodies):
+        #     # We only generalize single-terminal bodies
+        #     continue
         terminal_body_idxs = [idx for idx, body in enumerate(bodies) if len(body) == 1 and is_terminal(body[0])]
         if len(terminal_body_idxs) == 0:
             # Nothing <t>o expand here, folks
@@ -416,20 +452,25 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
                 idxs_to_replace.update(digit_bodies_to_replace)
                 bodies_to_add.add(replace_str)
 
-        for l_type in [uppercase_type, lowercase_type, letter_type]:
+        for l_type in [uppercase_type, lowercase_type, letter_type, alphanum_type]:
             if idxs_by_type[l_type]:
-                letter_bodies_to_replace, replace_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], l_type)
+                if l_type != alphanum_type:
+                    letter_bodies_to_replace, replace_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], l_type)
+                else:
+                    letter_bodies_to_replace, replace_str = generalize_to_alphanum(oracle, grammar, trees, rule_start,
+                                                                                 idxs_by_type[l_type])
                 if replace_str != "":
-                    if l_type != letter_type:
+                    if l_type == uppercase_type or l_type == lowercase_type:
                         lbt_r, r_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], letter_type)
                         if r_str != "":
                             letter_bodies_to_replace = lbt_r
                             replace_str = r_str
-                            lbt_r, r_str = generalize_to_alphanum(oracle, grammar, trees, rule_start,
-                                                                      idxs_by_type[l_type])
-                            if r_str != "":
-                                letter_bodies_to_replace = lbt_r
-                                replace_str = r_str
+                    if replace_str != "" and l_type != alphanum_type:        
+                        lbt_r, r_str = generalize_to_alphanum(oracle, grammar, trees, rule_start,
+                                                                    idxs_by_type[l_type])
+                        if r_str != "":
+                            letter_bodies_to_replace = lbt_r
+                            replace_str = r_str
 
                     idxs_to_replace.update(letter_bodies_to_replace)
                     bodies_to_add.add(replace_str)
@@ -457,7 +498,7 @@ def classify_terminals_by_type(bodies, terminal_body_idxs):
     """
     Find the upper (generalizable) character class for all the terminal bodies in bodies
     """
-    idxs_by_type = {digit_type: [], uppercase_type: [], lowercase_type: [], letter_type: [], whitespace_type: []}
+    idxs_by_type = {digit_type: [], uppercase_type: [], lowercase_type: [], letter_type: [], whitespace_type: [], alphanum_type: []}
     for idx in terminal_body_idxs:
         body = bodies[idx][0]
         body = fixup_terminal(body)
@@ -472,4 +513,6 @@ def classify_terminals_by_type(bodies, terminal_body_idxs):
                 idxs_by_type[lowercase_type].append(idx)
             else:
                 idxs_by_type[letter_type].append(idx)
+        elif all(c in string.ascii_letters + string.digits for c in body):
+            idxs_by_type[alphanum_type].append(idx)
     return idxs_by_type
