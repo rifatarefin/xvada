@@ -146,6 +146,26 @@ def try_strings(oracle: ExternalOracle, candidates: List[str]):
             return False
     return True
 
+def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode]):
+    """
+    """
+    tkn_so_far = []
+    for i in range(len(token_list)):
+        is_ws = token_list[i].payload and token_list[i].payload[0] in string.whitespace
+        if is_ws:
+            
+                new_tokens = tkn_so_far + token_list[i+1:]
+                try:
+                    oracle.parse("".join([t.payload for t in new_tokens]))
+                except:
+                    tkn_so_far.append(token_list[i])
+            
+        else:
+            if all(c in string.digits for c in token_list[i].payload):
+                pass
+            tkn_so_far.append(token_list[i])
+        
+    return tkn_so_far
 
 def generalize_whitespace_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: List[ParseNode], rule_start: str, body_idxs: List[int]):
 

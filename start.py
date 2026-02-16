@@ -54,19 +54,18 @@ HDD_TIME = 0
 TIME_GENERATING_EXAMPLES = 0
 TIME_GROUPING = 0
 REAPPLY = 0
-HALF_MERGE_COUNT = 0
+NR_MERGE_COUNT = 0
 LLM_CALLS = 0
 USE_LLM = config.USE_LLM
 TREEVADA = config.TREEVADA
 HDD = config.HDD
-HALF_MERGE = False
 
 def get_times():
     from replacement_utils import TIME_GENERATING_EXAMPLES_INTERNAL
     return {'FIRST_COALESCE' : ORIGINAL_COALESCE_TIME, 'BUILD': BUILD_TIME,
             'LAST_COALESCE' : LAST_COALESCE_TIME, 'EXPAND': EXPAND_TIME, 'MINIMIZE': MINIMIZE_TIME,
             'OVERALL_EXAMPLE_GEN': TIME_GENERATING_EXAMPLES + TIME_GENERATING_EXAMPLES_INTERNAL,
-            'OVERALL_GROUPING': TIME_GROUPING, 'HDD_TIME': HDD_TIME, 'REAPPLY_COUNT': REAPPLY, 'HALF_MERGE_COUNT': HALF_MERGE_COUNT}
+            'OVERALL_GROUPING': TIME_GROUPING, 'HDD_TIME': HDD_TIME, 'REAPPLY_COUNT': REAPPLY, 'NON-RECURSIVE_MERGE_COUNT': NR_MERGE_COUNT}
 
 def check_recall(oracle, grammar: Grammar):
     """
@@ -859,16 +858,11 @@ def build_trees(oracle, leaves):
 
 
     if TREEVADA:
-        # global HALF_MERGE
-        # HALF_MERGE = False
+        
         updated = True
         threshold = 5
         grp_size = MIN_GROUP_LEN
         while threshold:
-
-            global HALF_MERGE
-            if threshold ==1:
-                HALF_MERGE = True
            
             pre_bubbles = pre_bubble(best_trees)
             best_trees, updated, coalesced_into = bubble_loop(best_trees, count, pre_bubbles, True)
@@ -1282,6 +1276,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
             return False
         nt1_derivable_strings = list(dict.fromkeys(nt1_derivable_strings))
         nt2_derivable_strings = list(dict.fromkeys(nt2_derivable_strings))
+
         nt1_valid, nt1_check_strings = replacement_valid(oracle, nt1_derivable_strings, nt2, trees)
         # if not nt1_valid:
         #     return False        # TODO: check half merge
@@ -1296,13 +1291,28 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                 return False
         if nt1_valid and nt2_valid:
             return "<TRUE>"
-        if nt1_valid:
-            return nt1
-        if nt2_valid:
-            return nt2
+        
+        # if nt1_valid:
+        #     return nt1
+        if nt2_valid and isinstance(coalesce_target, Bubble) and coalesce_target.new_nt == nt1:
+            nt2_is_child = any(nt2 in bodies for bodies in grammar.rules[nt1].bodies)
+            if nt2_is_child:
+                return nt2
 
         return False
 
+    def rewrite_recursive_targets(node: ParseNode, target: str, label: str):
+        if node.is_terminal:
+            return
+        if node.payload == coalesce_target.new_nt:
+            node_updated = False
+            for child in node.children:
+                if child.payload == target:
+                    child.payload = label
+
+        for child in node.children:
+            rewrite_recursive_targets(child, target, label)
+        return node
 
     def get_updated_trees(get_class: Dict[str, str], trees):
 
@@ -1505,46 +1515,51 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                 update_required = True
                 merges += 1
 
-            # elif replacement == first and isinstance(coalesce_target, Bubble):
-            #     """
-            #     nt2
-            #     /   \
-            # nt1  nt3
-            # nt1 replaces nt2 only, nt2 doesn't replace nt1. Don't merge but retain the new tree
-            #     """
-            #     nt1_as_child = all(first in bodies for bodies in grammar.rules[second].bodies)
-            #     if nt1_as_child:
-            #         pair_merged = True
-            #         if second.startswith("t") and second[1:].isdigit(): # relabel artificial nonterminals
-                    
-            #             class_nt = get_llm_label("", second, tree_list, grammar)
-            #             label_set.add(class_nt)
-            #             classes = {class_nt: [second]}
-            #             get_class = {second: class_nt}
-            #             coalesced_into[second] = class_nt
-                    
-            elif HALF_MERGE and replacement == second and isinstance(coalesce_target, Bubble):
+            # nt2 is the merge target, this is for checking non-recursive merge
+            elif replacement == second:
                 """
                 nt1
                 /   \
             nt2  nt3
                 nt2 replaces nt1 only, nt1 doesn't replace nt2. Don't merge but retain the new tree
                 """
-                nt2_as_child = all(second in bodies for bodies in grammar.rules[first].bodies)
-                if nt2_as_child:
+                # nt2_as_child = all(second in bodies for bodies in grammar.rules[first].bodies)
+                # if nt2_as_child:
                     
+                # coalesce_caused = True
+                # if first.startswith("t") and first[1:].isdigit(): # relabel artificial nonterminals
+                #     update_required = True
+                #     class_nt = get_llm_label(first, first, tree_list, grammar)
+                #     label_set.add(class_nt)
+                #     classes = {class_nt: [first]}
+                #     get_class = {first: class_nt}
+                #     coalesced_into[first] = class_nt
+                label = allocate_tid()
+                tmp_trees = [rewrite_recursive_targets(tree.copy(), second, label) for tree in trees]
+                [tree.update_cache_info() for tree in tmp_trees]
+                tmp_grammar = build_grammar(tmp_trees)
+                tmp_tree_list = ParseTreeList(tmp_trees, tmp_grammar)
+                # print("Checking non-recursive merge")
+                replacement = replacement_valid_and_expanding(first, second, tmp_tree_list)
+                if replacement == "<TRUE>":
                     coalesce_caused = True
-                    if first.startswith("t") and first[1:].isdigit(): # relabel artificial nonterminals
-                        update_required = True
-                        class_nt = get_llm_label(first, first, tree_list, grammar)
-                        label_set.add(class_nt)
-                        classes = {class_nt: [first]}
-                        get_class = {first: class_nt}
-                        coalesced_into[first] = class_nt
+                    update_required = True
+                    class_nt = get_llm_label(first, second, tmp_tree_list, tmp_grammar)
+                    nr_nt = get_llm_label(label, label, tmp_tree_list, tmp_grammar)
+                    label_set.add(class_nt)
+                    label_set.add(nr_nt)
+                    classes = {class_nt: [first, second], nr_nt: [label]}
+                    get_class = {first: class_nt, second: class_nt, label: nr_nt}
+                    coalesced_into[first] = class_nt
+                    coalesced_into[second] = class_nt
+                    coalesced_into[label] = nr_nt
+
+                    tree_list = tmp_tree_list
+                    grammar = tmp_grammar
 
                     print(f"{second} replaces {first}")
-                    global HALF_MERGE_COUNT
-                    HALF_MERGE_COUNT += 1
+                    global NR_MERGE_COUNT
+                    NR_MERGE_COUNT += 1
                 
             # Update the grammar and the trees
             if update_required:
