@@ -34,3 +34,5 @@ natgi_base/
 natgi/
 ablation4/
 Seed_Programs_bk/*
+antlr_grammars/
+Seed_Programs/gi-benchmarks/*
