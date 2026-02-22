@@ -300,7 +300,7 @@ class Grammar():
                 new_rule.add_body(body + [new_start])
             new_rule.add_body([''])  # epsilon production
 
-            rule.bodies = []
+            rule.replace_bodies([])
             for body in non_left_recursive_bodies:
                 rule.add_body(body + [new_start])
 
@@ -333,19 +333,30 @@ class Grammar():
                 # Work on a copy of the original rule to avoid mutating the input grammar
                 ri = grammar.rules[old_rules[i]].copy()
                 for j in range(i):
-                    rj = new_grammar.rules[old_rules[j]]
+                    target = old_rules[j]
+                    has_substitution = False
+                    for body in ri.bodies:
+                        if len(body) > 0 and body[0] == target:
+                            has_substitution = True
+                            break
+                    if not has_substitution:
+                        continue
+
+                    rj_bodies = new_grammar.rules[target].bodies
                     new_bodies = []
+                    add_new_body = new_bodies.append
                     for body in ri.bodies:
                         # If the body starts with old_rules[j], replace it with rj's bodies
                         # replace ri: A -> B α with rj: B -> β  => add β α
-                        if len(body) > 0 and body[0] == old_rules[j]:
-                            for body_j in rj.bodies:
-                                new_body = body_j + body[1:]
-                                new_bodies.append(new_body)
+                        if len(body) > 0 and body[0] == target:
+                            suffix = body[1:]
+                            for body_j in rj_bodies:
+                                new_body = body_j + suffix
+                                add_new_body(new_body)
                             
                         else:
-                            new_bodies.append(body)
-                    ri.bodies = new_bodies
+                            add_new_body(body)
+                    ri.replace_bodies(new_bodies)
                 if is_rule_left_recursive(ri):
                     new_rule, beta = remove_left_recursion_from_rule(ri)
                     new_grammar.add_rule(new_rule)
@@ -411,20 +422,28 @@ class Rule():
         """
         self.start = start
         self.bodies = []
+        self._body_set = set()
         self.cached_str = ""
         self.cache_hash = 0
         self.depth = -1
 
     def copy(self):
         new_rule = Rule(self.start)
-        for body in self.bodies:
-            new_rule.add_body(body[:])
+        new_rule.replace_bodies([body[:] for body in self.bodies])
         new_rule.depth = self.depth
         return new_rule
 
+    def replace_bodies(self, bodies):
+        self.cache_valid = False
+        self.bodies = bodies
+        self._body_set = {tuple(body) for body in bodies}
+        return self
+
     def add_body(self, body):
         self.cache_valid = False
-        if body not in self.bodies:
+        body_key = tuple(body)
+        if body_key not in self._body_set:
+            self._body_set.add(body_key)
             self.bodies.append(body)
         return self
 
