@@ -329,8 +329,12 @@ def get_strings_with_replacement(tree: ParseNode, nt_to_replace: str, replacemen
     placeholder_strings = [s for s in placeholder_strings if REPLACE_CONST in s]
 
     ret_strings = []
+    strings_per_replacement = max(1, MAX_SAMPLES // len(replacement_strs))
     for replacement_str in replacement_strs:
-        ret_strings.extend([ps.replace(REPLACE_CONST, replacement_str) for ps in placeholder_strings])
+        segment = [ps.replace(REPLACE_CONST, replacement_str) for ps in placeholder_strings]
+        if len(segment) > strings_per_replacement:
+            segment = random.sample(segment, strings_per_replacement)
+        ret_strings.extend(segment)
 
     if len(ret_strings) > MAX_SAMPLES:
         random.shuffle(ret_strings)
