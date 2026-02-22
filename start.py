@@ -390,6 +390,7 @@ def apply(grouping: Bubble, trees: List[ParseNode]):
     Returns a new list of trees consisting of  bubbling up the grouping
     in `grouping` for each tree in `trees`
     """
+    bubble_applied = False
 
     def matches(group_lst, layer):
         """
@@ -408,7 +409,10 @@ def apply(grouping: Bubble, trees: List[ParseNode]):
             while group_ind < ng and layer_ind < nl and layer[layer_ind].payload == group_lst[group_ind].payload:
                 layer_ind += 1
                 group_ind += 1
-            if group_ind == ng: return i
+            if group_ind == ng: 
+                nonlocal bubble_applied
+                bubble_applied = True
+                return i
         return -1
 
     def apply_single(tree: ParseNode):
@@ -447,7 +451,7 @@ def apply(grouping: Bubble, trees: List[ParseNode]):
         new_tree.update_cache_info()
         return new_tree
 
-    return [apply_single(tree) for tree in trees]
+    return [apply_single(tree) for tree in trees], bubble_applied
 
 """
 Given a list of tokens, return the bubble that corresponds to the tokens
@@ -665,15 +669,19 @@ def build_trees(oracle, leaves):
                 grouping = get_updated_bubble(grouping, loop_coalesce_into)
                  
                 if isinstance(grouping, Bubble):
-                    new_trees = apply(grouping, best_trees)
+                    new_trees, applied = apply(grouping, best_trees)
+                    if not applied:
+                        break
                     new_score, new_trees, coalesced_into = score(new_trees, grouping)
                     grouping_str = f"Successful grouping (single): {grouping.bubbled_elems}\n    (aka {[e.derived_string() for e in grouping.bubbled_elems]}"
                         # grouping_str += f"\n     [score of {the_score}]"
                 else:
                     bubble_one = grouping[0]
                     bubble_two = grouping[1]
-                    new_trees = apply(bubble_one, best_trees)
-                    new_trees = apply(bubble_two, new_trees)
+                    new_trees, applied_one = apply(bubble_one, best_trees)
+                    new_trees, applied_two = apply(bubble_two, new_trees)
+                    if not (applied_one and applied_two):
+                        break
                     new_score, new_trees, coalesced_into = score(new_trees, grouping)
                     grouping_str = f"Successful grouping (double): {bubble_one.bubbled_elems}, {bubble_two.bubbled_elems}"
                     grouping_str += f"\n     (aka {[e.derived_string() for e in bubble_one.bubbled_elems]}, {[e.derived_string() for e in bubble_two.bubbled_elems]}))"
