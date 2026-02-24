@@ -28,13 +28,14 @@ uppercase_type = 1
 lowercase_type = 2
 letter_type = 3
 whitespace_type = 4
-alphanum_type = 5
+string_type = 5
+punctuation_type = 6
 
 MAX_SAMPLES = 10
 
-whitsepace_map = []
+whitespace_map = []
 
-def rules_to_add(rule_start):
+def rules_to_add(rule_start: str, symbols: List[str] = None):
     if rule_start == "":
         print("WARNING: Calling rules_to_add with the empty string",file= sys.stderr)
         exit(1)
@@ -122,10 +123,36 @@ def rules_to_add(rule_start):
         r.add_body([single])
         r.add_body(([single, rule_start]))
         return [r] + rules_to_add(single)
+
+    if rule_start.endswith("_symbol") and symbols is not None:
+        r = Rule(rule_start)
+        for c in symbols:
+            r.add_body(([f'"{c}"']))
+        
+        return [r]
+
+    if rule_start.endswith("_multi") and symbols is not None:
+        r = Rule(rule_start)
+        r_op = Rule(f"{rule_start}_op")
+        has_alphanum = False
+        for c in symbols:
+            if c not in ["1", "a", "1a"]:
+                r_op.add_body(([f'"{c}"']))
+        r.add_body([f"{rule_start}_op"])
+        if "1a" in symbols:
+            r.add_body(['talphanum'])
+            r.add_body((['talphanum', rule_start]))
+            has_alphanum = True
+        r.add_body(([f"{rule_start}_op", rule_start]))
+        if has_alphanum:
+            return [r, r_op] + rules_to_add("talphanum")
+        else:
+            return [r, r_op]
+
     if rule_start.startswith("twhitespace"):
         idx = int(rule_start[11:])
         r = Rule(rule_start)
-        for charset, charset_idx in whitsepace_map:
+        for charset, charset_idx in whitespace_map:
             if charset_idx == idx:
                 for c in charset:
                     r.add_body(([f'"{c}"']))
@@ -201,8 +228,8 @@ def generalize_whitespace_in_rule(oracle: ExternalOracle, grammar: Grammar, tree
     if len(ok_chars) == 1 and not expand_ok:
         return [], ""
 
-    charset_idx = len(whitsepace_map)
-    for charset, idx in whitsepace_map:
+    charset_idx = len(whitespace_map)
+    for charset, idx in whitespace_map:
         if charset == ok_chars:
             charset_idx = idx
             break
@@ -382,12 +409,12 @@ def generalize_to_alphanum(oracle: ExternalOracle, grammar: Grammar, trees: List
 
     multi_candidates = [''.join(random.sample(expansion_set, random.randint(2, 10))) for _ in range(MAX_SAMPLES)]
     # JIC we're missing a number or lower case or upper case... :)
-    multi_candidates.append("a1Te3t")
+    multi_candidates.insert(0, "0a1Te3t")
     # more options: starts with letter then alphanum, starts with letters then digits
     letter_alphanum_candidates = [random.choice(string.ascii_letters) +
                                   ''.join(random.sample(expansion_set, random.randint(1, 10)))
                                       for _ in range(MAX_SAMPLES)]
-    letter_alphanum_candidates.append("a1Te3t")
+    letter_alphanum_candidates.insert(0, "a1Te3t")
     letter_digits_candidates = [random.choice(string.ascii_letters) +
                                   ''.join(random.sample(string.digits, random.randint(1, 10)))
                                       for _ in range(MAX_SAMPLES)]
@@ -435,6 +462,40 @@ def generalize_to_alphanum(oracle: ExternalOracle, grammar: Grammar, trees: List
     else:
         return [], ""
 
+def generalize_to_operators(oracle: ExternalOracle, grammar: Grammar, trees: List[ParseNode], rule_start: str, body_idxs: List[int]):
+
+    existing_bodies = [fixup_terminal(body[0]) for idx, body in enumerate(grammar.rules[rule_start].bodies) if idx in body_idxs]
+
+    expansion_set = string.punctuation
+
+    single_candidates = [s for s in expansion_set if s not in existing_bodies]
+    # single_candidates.extend([" ", "\n", "\t", "a", "1", "1a"])
+    accepted_1 = set()
+    for i in single_candidates:
+        candidates_1 = []
+        for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
+            candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f" {i} "]))
+        if try_strings(oracle, candidates_1):
+            accepted_1.add(i)
+
+
+    # import itertools
+    # for a, b in itertools.combinations(single_candidates, 2):
+    #     candidates_multi = []
+    #     current = ''.join(accepted_multi) 
+    #     for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
+    #         candidates_multi.extend(get_strings_with_replacement(tree, rule_start, [a+current, b+current, a+a, b+b, a+' '+b+' '+current]))
+    #     if try_strings(oracle, candidates_multi):
+    #         accepted_multi.add(a)
+    #         accepted_multi.add(b)
+
+    if len(accepted_1) > len(set(existing_bodies)):
+        return body_idxs, f"{rule_start}_symbol", tuple(accepted_1)
+    else:
+        return [], "", []
+
+
+    
 
 def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseNode]):
     """
@@ -451,12 +512,14 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
         idxs_to_replace = set()
         bodies_to_add = set()
         bodies = rule.bodies
-        terminal_body_idxs = [idx for idx, body in enumerate(bodies) if len(body) == 1 and is_terminal(body[0])]
+        terminal_body_idxs = [idx for idx, body in enumerate(bodies) if len(body) == 1 and fixup_terminal(body[0]) in grammar.lex_types]
         if len(terminal_body_idxs) == 0:
             # Nothing <t>o expand here, folks
             continue
-        idxs_by_type = classify_terminals_by_type(bodies, terminal_body_idxs)
-        # digit_type = 0, uppercase_type = 1, lowercase_type = 2, letter_type = 3, whitespace_type = 4
+        replace_str = ""
+        printables = None
+        idxs_by_type = classify_terminals_by_type(bodies, terminal_body_idxs, grammar.lex_types)
+        # digit_type = 0, uppercase_type = 1, lowercase_type = 2, letter_type = 3, whitespace_type = 4, string_type = 5, punctuation_type = 6
         # Digit expansion...
         if idxs_by_type[digit_type]:
             digit_bodies_to_replace, replace_str = generalize_digits_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[digit_type])
@@ -467,43 +530,51 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
                         digit_bodies_to_replace = t_r
                         replace_str = r_str
                 idxs_to_replace.update(digit_bodies_to_replace)
-                bodies_to_add.add(replace_str)
+                bodies_to_add.add((replace_str, None))
 
-        for l_type in [uppercase_type, lowercase_type, letter_type, alphanum_type]:
+        for l_type in [uppercase_type, lowercase_type, letter_type]:
             if idxs_by_type[l_type]:
-                if l_type != alphanum_type:
-                    letter_bodies_to_replace, replace_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], l_type)
-                else:
-                    letter_bodies_to_replace, replace_str = generalize_to_alphanum(oracle, grammar, trees, rule_start,
-                                                                                 idxs_by_type[l_type])
+                letter_bodies_to_replace, replace_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], l_type)
                 if replace_str != "":
-                    if l_type == uppercase_type or l_type == lowercase_type:
+                    if l_type != letter_type:
                         lbt_r, r_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], letter_type)
                         if r_str != "":
                             letter_bodies_to_replace = lbt_r
                             replace_str = r_str
-                    if replace_str != "" and l_type != alphanum_type:        
-                        lbt_r, r_str = generalize_to_alphanum(oracle, grammar, trees, rule_start,
-                                                                    idxs_by_type[l_type])
-                        if r_str != "":
-                            letter_bodies_to_replace = lbt_r
-                            replace_str = r_str
+                            lbt_r, r_str = generalize_to_alphanum(oracle, grammar, trees, rule_start,
+                                                                      idxs_by_type[l_type])
+                            if r_str != "":
+                                letter_bodies_to_replace = lbt_r
+                                replace_str = r_str
 
                     idxs_to_replace.update(letter_bodies_to_replace)
-                    bodies_to_add.add(replace_str)
+                    bodies_to_add.add((replace_str, None))
 
             if idxs_by_type[whitespace_type]:
                 whitespace_bodies_to_replace, replace_str = generalize_to_alphanum(oracle, grammar, trees, rule_start,
                                                                                  idxs_by_type[whitespace_type])
                 if replace_str != "":
                     idxs_to_replace.update(whitespace_bodies_to_replace)
-                    bodies_to_add.add(replace_str)
+                    bodies_to_add.add((replace_str, None))
+        # # case: a string generalized to alphanumeric (i.e. "ab12"), it can also contain special characters
+        # if replace_str.startswith("talphanum"):
+        #         t_r, r_str, printables = generalize_to_printable(oracle, grammar, trees, rule_start, list(idxs_to_replace))
+        #         if r_str != "":
+        #             idxs_to_replace.update(t_r)
+        #             bodies_to_add.add((r_str, printables))
+        # # i.e. "Hello World!", string containing special characters but not alphanumeric
+        # if idxs_by_type[punctuation_type]:
+            
+        #     pb_tr, pb_r_str, printables = generalize_to_operators(oracle, grammar, trees, rule_start, idxs_by_type[punctuation_type])
+        #     if pb_r_str != "":
+        #         idxs_to_replace.update(pb_tr)
+        #         bodies_to_add.add((pb_r_str, printables))
 
         for body_idx in sorted(idxs_to_replace, reverse = True):
             rule.bodies.pop(body_idx)
-        for nt_name in sorted(bodies_to_add):
+        for nt_name, printables in sorted(bodies_to_add):
             rule.add_body([nt_name])
-            rs_to_add = rules_to_add(nt_name)
+            rs_to_add = rules_to_add(nt_name, printables) if printables is not None else rules_to_add(nt_name)
             for r_to_add in rs_to_add:
                 if r_to_add.start not in grammar.rules:
                     grammar.add_rule(r_to_add)
@@ -511,25 +582,26 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
     return grammar
 
 
-def classify_terminals_by_type(bodies, terminal_body_idxs):
+def classify_terminals_by_type(bodies, terminal_body_idxs, lex_types):
     """
     Find the upper (generalizable) character class for all the terminal bodies in bodies
     """
-    idxs_by_type = {digit_type: [], uppercase_type: [], lowercase_type: [], letter_type: [], whitespace_type: [], alphanum_type: []}
+    idxs_by_type = {digit_type: [], uppercase_type: [], lowercase_type: [], letter_type: [], whitespace_type: [], string_type: [], punctuation_type: []}
     for idx in terminal_body_idxs:
         body = bodies[idx][0]
         body = fixup_terminal(body)
-        if all(c in string.digits for c in body):
+        if lex_types[body] == "DIGIT":
             idxs_by_type[digit_type].append(idx)
-        elif all(c in string.whitespace for c in body):
+        elif lex_types[body] == "WHITESPACE":
             idxs_by_type[whitespace_type].append(idx)
-        elif all(c in string.ascii_letters for c in body):
-            if all(c in string.ascii_uppercase for c in body):
-                idxs_by_type[uppercase_type].append(idx)
-            elif all(c in string.ascii_lowercase for c in body):
-                idxs_by_type[lowercase_type].append(idx)
-            else:
-                idxs_by_type[letter_type].append(idx)
-        elif all(c in string.ascii_letters + string.digits for c in body):
-            idxs_by_type[alphanum_type].append(idx)
+        elif lex_types[body] == "LOWERCASE":
+            idxs_by_type[lowercase_type].append(idx)
+        elif lex_types[body] == "UPPERCASE":
+            idxs_by_type[uppercase_type].append(idx)
+        elif lex_types[body] == "LETTER":
+            idxs_by_type[letter_type].append(idx)
+        elif lex_types[body] == "STRING":
+            idxs_by_type[string_type].append(idx)
+        elif lex_types[body] == "PUNCTUATION":
+            idxs_by_type[punctuation_type].append(idx)
     return idxs_by_type

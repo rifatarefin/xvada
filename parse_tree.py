@@ -216,7 +216,7 @@ class ParseNode():
     up in the Arvada algorithm.
     """
 
-    def __init__(self, payload, is_terminal, children):
+    def __init__(self, payload, is_terminal, children, lex_type=None):
         """
         Payload is a string representing either a terminal or a nonterminal.
         The boolean flag is_terminal differentiates between the two.
@@ -226,6 +226,7 @@ class ParseNode():
         self.payload = payload
         self.children = children
         self.is_terminal = is_terminal
+        self.lex_type = lex_type
         self.cache_valid = False
         self.cached_string = None
         self.cached_nts = None
@@ -279,7 +280,7 @@ class ParseNode():
         """
         if self.is_terminal:
             assert (len(self.children) == 0)
-            return ParseNode(self.payload, True, [])
+            return ParseNode(self.payload, True, [], self.lex_type)
         else:
             copy_children: List[ParseNode] = [child.copy() for child in self.children]
             return ParseNode(self.payload, False, copy_children)
@@ -344,7 +345,7 @@ def build_grammar(trees):
     TREES is a list of fully constructed parse trees. This method builds a
     GrammarNode that is the disjunction of the parse trees, and returns it.
     """
-
+    lex_types = {}
     def epsilon_rule():
         """
         Returns a rule that produces the empty string.
@@ -370,9 +371,17 @@ def build_grammar(trees):
         #    / |
         #    ...
         # E.g. the ParseNode t0 defines the rule t0 -> t1 a b
-        rule_body = [clean_terminal(child.payload) if child.is_terminal
-                     else child.payload
-                     for child in parse_node.children]
+        # rule_body = [clean_terminal(child.payload) if child.is_terminal
+        #              else child.payload
+        #              for child in parse_node.children]
+        rule_body = []
+        for child in parse_node.children:
+            if child.is_terminal:
+                lex_types[child.payload] = child.lex_type
+                rule_body.append(clean_terminal(child.payload))
+            else:
+                rule_body.append(child.payload)
+
         rule = Rule(parse_node.payload)
         rule.add_body(rule_body)
         rule_str = ''.join([elem for elem in rule_body])
@@ -390,5 +399,5 @@ def build_grammar(trees):
     grammar, rule_map = Grammar(START), {}
     for tree in trees:
         build_rules(grammar, tree, rule_map, 0)
-    # grammar.add_rule(epsilon_rule())
+    grammar.set_lex_types(lex_types)
     return grammar
