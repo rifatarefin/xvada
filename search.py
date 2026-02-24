@@ -27,28 +27,28 @@ def approx_tokenize(oracle, guide_raw:str):
                 # closing quote, but only pop if it's not escaped or the escape is also escaped,
                 # or if there is no matching quote later in the string (to avoid grouping on an opening quote with no closing match)
                 quote.pop()
-                return None
+                return "QUOTE", False
             else:
-                return "LETTER"
+                return "STRING", True
         if c=="\"" or c=="\'" or c=="`":
             # don't group if there is no matching quote
             if idx+1 < len(guide_raw) and c in guide_raw[idx+1:]:
                 quote.append(c)
-            return None
+            return "QUOTE", False
         if not config.SPLIT_UPPER_AND_LOWER and c in string.ascii_letters:
-            return "LETTER"
+            return "LETTER", True
         if config.SPLIT_UPPER_AND_LOWER and c in string.ascii_uppercase:
-            return "UPPER"
+            return "UPPER", True
         if config.SPLIT_UPPER_AND_LOWER and c in string.ascii_lowercase:
-            return "LOWER"
+            return "LOWER", True
         if c in string.digits:
-            return "DIGIT"
-        if config.GROUP_PUNCTUATION and c in string.punctuation:
-            return "PUNCTUATION"
+            return "DIGIT", True
+        if not config.GROUP_PUNCTUATION and c in string.punctuation:
+            return "PUNCTUATION", False
         if c in string.whitespace:
-            return None
+            return "WHITESPACE", False
         else:
-            return None
+            return None, False
         
 
     prev_category = None
@@ -57,19 +57,19 @@ def approx_tokenize(oracle, guide_raw:str):
     tokens: List[ParseNode] = []
 
     for i, c in enumerate(guide_raw):
-        cur_category = get_category(c, i)
-        if cur_category is not None and cur_category == prev_category:
+        cur_category, group_ok = get_category(c, i)
+        if group_ok and cur_category == prev_category:
             cur_token += c
         else:
             if not start:
                 
-                tokens.append(ParseNode(cur_token, True, []))
+                tokens.append(ParseNode(cur_token, True, [], prev_category))
             cur_token = c
         prev_category = cur_category
         start = False
     if cur_token != "":
         
-        tokens.append(ParseNode(cur_token, True, []))
+        tokens.append(ParseNode(cur_token, True, [], prev_category))
     # try to delete ws tokens without hurting the oracle
     tkn_so_far = []
     for i in range(len(tokens)):

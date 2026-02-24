@@ -23,6 +23,10 @@ def elem_fixup(elem: str, is_antlr4=False) -> str:
                 elem = elem[:i] + '\\\\' + elem[i + 1:]
             elif term_char == '\n':
                 elem = elem[:i] + '\\n' + elem[i + 1:]
+            elif term_char == '\t':
+                elem = elem[:i] + '\\t' + elem[i + 1:]
+            elif term_char == '\r':
+                elem = elem[:i] + '\\r' + elem[i + 1:]
     if elem == ' ':
         return 'ws'
     if is_antlr4 and len(elem) >=3 and elem.startswith('"') and elem.endswith('"'):
@@ -44,6 +48,7 @@ class Grammar():
         start_rule.add_body([start])
         self.start_symbol = start
         self.rules = {'start':start_rule}
+        self.lex_types = {}
 
         # Define cacheable values and their valid bits
         self.cached_str = ""
@@ -56,7 +61,11 @@ class Grammar():
         for rule in self.rules.values():
             new_rule = rule.copy()
             new_grammar.add_rule(new_rule)
+        new_grammar.lex_types = self.lex_types.copy()
         return new_grammar
+
+    def set_lex_types(self, lex_types):
+        self.lex_types = lex_types
 
     def _rule_hash(self):
         return hash(tuple([(start, rule._body_hash()) for start, rule in self.rules.items()]))
