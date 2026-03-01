@@ -30,22 +30,22 @@ def approx_tokenize(oracle, guide_raw:str):
                 return "QUOTE", False
             else:
                 return "STRING", True
-        if c=="\"" or c=="\'" or c=="`":
+        elif c=="\"" or c=="\'" or c=="`":
             # don't group if there is no matching quote
             if idx+1 < len(guide_raw) and c in guide_raw[idx+1:]:
                 quote.append(c)
             return "QUOTE", False
-        if not config.SPLIT_UPPER_AND_LOWER and c in string.ascii_letters:
+        elif not config.SPLIT_UPPER_AND_LOWER and c in string.ascii_letters:
             return "LETTER", True
-        if config.SPLIT_UPPER_AND_LOWER and c in string.ascii_uppercase:
-            return "UPPER", True
-        if config.SPLIT_UPPER_AND_LOWER and c in string.ascii_lowercase:
-            return "LOWER", True
-        if c in string.digits:
+        elif config.SPLIT_UPPER_AND_LOWER and c in string.ascii_uppercase:
+            return "UPPERCASE", True
+        elif config.SPLIT_UPPER_AND_LOWER and c in string.ascii_lowercase:
+            return "LOWERCASE", True
+        elif c in string.digits:
             return "DIGIT", True
-        if not config.GROUP_PUNCTUATION and c in string.punctuation:
+        elif not config.GROUP_PUNCTUATION and c in string.punctuation:
             return "PUNCTUATION", False
-        if c in string.whitespace:
+        elif c in string.whitespace:
             return "WHITESPACE", False
         else:
             return None, False

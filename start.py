@@ -268,7 +268,7 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
                     node = node.children[0]
 
                 # Check all derivable strings at depth 1
-                depth1_str = lvl_n_derivable([node], START, 1)
+                depth1_str = lvl_n_derivable([node], START, 2)
                 for s in depth1_str:
                     if s in cache_str:
                         if cache_str[s]:
@@ -1531,17 +1531,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
             nt2  nt3
                 nt2 replaces nt1 only, nt1 doesn't replace nt2. Don't merge but retain the new tree
                 """
-                # nt2_as_child = all(second in bodies for bodies in grammar.rules[first].bodies)
-                # if nt2_as_child:
-                    
-                # coalesce_caused = True
-                # if first.startswith("t") and first[1:].isdigit(): # relabel artificial nonterminals
-                #     update_required = True
-                #     class_nt = get_llm_label(first, first, tree_list, grammar)
-                #     label_set.add(class_nt)
-                #     classes = {class_nt: [first]}
-                #     get_class = {first: class_nt}
-                #     coalesced_into[first] = class_nt
+                
                 label = allocate_tid()
                 tmp_trees = [rewrite_recursive_targets(tree.copy(), second, label) for tree in trees]
                 [tree.update_cache_info() for tree in tmp_trees]

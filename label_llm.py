@@ -1,5 +1,5 @@
 from openai import OpenAI
-
+import re
 client = OpenAI()
 
 SYSTEM_PROMPT = (
@@ -16,6 +16,10 @@ EXAMPLES = [
 OUTPUT_INSTRUCTION = (
     "The output must be a single label, never any explanation. Use underscore if needed, never hyphen or any special character."
 )
+
+def clean_label(label):
+    # Remove all non-alphanumeric characters except underscore
+    return re.sub(r'[^a-zA-Z0-9_]', '', label)
 
 def build_base_messages():
     messages = [{'role': 'system', 'content': SYSTEM_PROMPT}]
@@ -37,9 +41,11 @@ def generate_label_api(str_pair):
         temperature=0
     )
     ai_response = response.choices[0].message.content.strip()
+    ai_response = ai_response.split()[0].replace('whitespace', ' ').lower()
+    ai_response = clean_label(ai_response)
     history.append((str_pair, ai_response))
-    return ai_response.split()[0].replace('whitespace', ' ').lower()
-
+    history = history[-10:]  # Keep only the last 10 entries to avoid overflow
+    return ai_response
 def regenerate_label(str_pair, old_labels):
     messages = build_base_messages()
     feedback = (
@@ -58,7 +64,8 @@ def regenerate_label(str_pair, old_labels):
         temperature=0
     )
     ai_response = response.choices[0].message.content.strip()
-    return ai_response.split()[0].replace('whitespace', ' ').lower()
+    ai_response = clean_label(ai_response.split()[0].replace('whitespace', ' ').lower())
+    return ai_response
 
 if __name__ == '__main__':
     print("Welcome to the interactive GPT chat. Type 'quit' to exit.")
