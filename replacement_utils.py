@@ -329,6 +329,8 @@ def get_strings_with_replacement(tree: ParseNode, nt_to_replace: str, replacemen
     placeholder_strings = [s for s in placeholder_strings if REPLACE_CONST in s]
 
     ret_strings = []
+    if not replacement_strs:
+        return ret_strings
     strings_per_replacement = max(1, MAX_SAMPLES // len(replacement_strs))
     for replacement_str in replacement_strs:
         segment = [ps.replace(REPLACE_CONST, replacement_str) for ps in placeholder_strings]
