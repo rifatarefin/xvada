@@ -4,6 +4,7 @@ from typing import List
 from input import parse_input
 from parse_tree import ParseTree, ParseNode
 from grammar import Grammar, Rule
+from token_expansion import initial_token_replacement
 from lark import Lark
 from oracle import CachingOracle, ExternalOracle
 import string, config
@@ -55,37 +56,31 @@ def approx_tokenize(oracle, guide_raw:str):
     cur_token = ""
     start = True
     tokens: List[ParseNode] = []
-
-    for i, c in enumerate(guide_raw):
+    i = 0
+    while i < len(guide_raw):
+        c = guide_raw[i]
         cur_category, group_ok = get_category(c, i)
         if group_ok and cur_category == prev_category:
             cur_token += c
         else:
             if not start:
-                
-                tokens.append(ParseNode(cur_token, True, [], prev_category))
+                token_rp = initial_token_replacement(oracle, tokens, cur_token, prev_category, guide_raw[i:])
+                if prev_category == "STRING" and token_rp is None:
+                    # if string identification fails, treat the sequence normally
+                    prev_category = "QUOTE"
+                    i -= len(cur_token)
+                    continue
+                if token_rp is not None:
+                    tokens.append(ParseNode(token_rp, True, [], prev_category))
             cur_token = c
         prev_category = cur_category
         start = False
+        i += 1
     if cur_token != "":
-        
-        tokens.append(ParseNode(cur_token, True, [], prev_category))
-    # try to delete ws tokens without hurting the oracle
-    tkn_so_far = []
-    for i in range(len(tokens)):
-        is_ws = tokens[i].payload and tokens[i].payload[0] in string.whitespace
-        if is_ws:
-            
-                new_tokens = tkn_so_far + tokens[i+1:]
-                try:
-                    oracle.parse("".join([t.payload for t in new_tokens]))
-                except:
-                    tkn_so_far.append(tokens[i])
-            
-        else:
-            tkn_so_far.append(tokens[i])
-        
-    return tkn_so_far
+        token_rep = initial_token_replacement(oracle, tokens, cur_token, cur_category, "")
+        if token_rep is not None:
+            tokens.append(ParseNode(token_rep, True, [], cur_category))
+    return tokens
 
 
 def main_internal(external_folder, log_file, random_guides=False):

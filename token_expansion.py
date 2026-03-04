@@ -212,26 +212,41 @@ def try_strings(oracle: ExternalOracle, candidates: List[str]):
             return False
     return True
 
-def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode]):
+def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode], cur_token: str, category: str, trailing: str):
     """
+    token_list is the list of tokens we've processed so far,
+    cur_token will be replaced by a larger member of the same token category
+    category is the category of cur_token (e.g., "LETTER", "DIGIT", etc.)
+    trailing is the remaining part of the input string that follows cur_token
     """
-    tkn_so_far = []
-    for i in range(len(token_list)):
-        is_ws = token_list[i].payload and token_list[i].payload[0] in string.whitespace
-        if is_ws:
-            
-                new_tokens = tkn_so_far + token_list[i+1:]
-                try:
-                    oracle.parse("".join([t.payload for t in new_tokens]))
-                except:
-                    tkn_so_far.append(token_list[i])
-            
-        else:
-            if all(c in string.digits for c in token_list[i].payload):
-                pass
-            tkn_so_far.append(token_list[i])
-        
-    return tkn_so_far
+    preceding = ''.join([t.payload for t in token_list])
+    candidates = []
+    if category in ["STRING", "DIGIT"]:
+        candidates.extend([
+            f"1str_{cur_token}", f"str1_{cur_token}", f"teststring_{cur_token}",
+            "0str", "str0", "012", "0", "123"
+        ])
+    elif category in ["LETTER", "UPPERCASE", "LOWERCASE"]:
+        candidates.extend([
+            f"1letter_{cur_token}", f"letter1_{cur_token}", f"testletter_{cur_token}",
+            "0letter", "letter0", "letteR", "Letter", "letter", "LETTER"
+        ])
+    elif category == "WHITESPACE":
+        # try to delete the token
+        if try_strings(oracle, [preceding + trailing]):
+            return None
+
+    for rep in candidates:
+        if rep == cur_token:
+            continue
+        if try_strings(oracle, [preceding + rep + trailing]):
+            return rep
+
+    if category == "STRING":
+        return None
+    
+    return cur_token
+    
 
 def generalize_whitespace_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: List[ParseNode], rule_start: str, body_idxs: List[int]):
 

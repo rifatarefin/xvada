@@ -268,7 +268,7 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
                     node = node.children[0]
 
                 # Check all derivable strings at depth 1
-                depth1_str = lvl_n_derivable([node], START, 2)
+                depth1_str = lvl_n_derivable([node]+list(new_trees.values()), START, 1)
                 for s in depth1_str:
                     if s in cache_str:
                         if cache_str[s]:
@@ -347,7 +347,7 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
     # Pick newly added stmt
     orig = list(new_trees.items())[:size]
     decomposed = list(new_trees.items())[size:]
-    decomposed =sorted(decomposed, key=lambda x: len(x[0]), reverse=True)
+    decomposed =sorted(decomposed, key=lambda x: len(x[0]))
     orig_trees = [x[1] for x in orig]
     decomposed_trees = [x[1] for x in decomposed]
     valid_trees = []
@@ -1662,7 +1662,7 @@ def minimize(grammar):
         for rule_start in grammar.rules:
             rule = grammar.rules[rule_start]
             bodies = rule.bodies
-            if len(bodies) == 1 and len(bodies[0]) == 1 and (bodies[0][0] not in grammar.rules or bodies[0][0] in X):
+            if len(bodies) == 1 and len(bodies[0]) == 1:# and (bodies[0][0] not in grammar.rules or bodies[0][0] in X):
                 body = bodies[0]
                 if rule.start not in X and rule.start != START:
                     X[rule.start] = [X[elem][0] if elem in X else elem for elem in body]
