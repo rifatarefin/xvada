@@ -131,7 +131,7 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
         
         return [r]
 
-    if rule_start.startswith("tstring_") and symbols is not None:
+    if rule_start.startswith("tstring") and symbols is not None:
         r = Rule(rule_start)
         regular, escaped = symbols
         r_char = None
@@ -221,16 +221,13 @@ def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode
     """
     preceding = ''.join([t.payload for t in token_list])
     candidates = []
-    if category in ["STRING", "DIGIT"]:
+    if category == "STRING":
         candidates.extend([
-            f"1str_{cur_token}", f"str1_{cur_token}", f"teststring_{cur_token}",
-            "0str", "str0", "012", "0", "123"
+            random.choice(["test#string", "test_string", "test string"]),
+            random.choice(["0teststring", "1teststring"]),
+            random.choice(["teststring0", "teststring1"])
         ])
-    elif category in ["LETTER", "UPPERCASE", "LOWERCASE"]:
-        candidates.extend([
-            f"1letter_{cur_token}", f"letter1_{cur_token}", f"testletter_{cur_token}",
-            "0letter", "letter0", "letteR", "Letter", "letter", "LETTER"
-        ])
+
     elif category == "WHITESPACE":
         # try to delete the token
         if try_strings(oracle, [preceding + trailing]):
@@ -328,34 +325,25 @@ def generalize_digits_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: L
             candidates = get_strings_with_replacement(tree, rule_start, single_nzdigit_candidates)
             if not try_strings(oracle, candidates):
                 nzdigit_ok = False
-                digit_ok = False
-                ints_ok = False
-                nzints_ok = False
-                digits_ok = False
-                break
         if digit_ok:
             candidates = get_strings_with_replacement(tree, rule_start, single_digit_candidates)
             if not try_strings(oracle, candidates):
                 digit_ok = False
-                ints_ok = False
-                nzints_ok = False
-                digits_ok = False
 
         if nzints_ok:
             candidates = get_strings_with_replacement(tree, rule_start, nzinteger_candidates)
             if not try_strings(oracle, candidates):
                 nzints_ok = False
-                ints_ok = False
-                digits_ok = False
         if ints_ok:
             candidates = get_strings_with_replacement(tree, rule_start, integer_candidates)
             if not try_strings(oracle, candidates):
                 ints_ok = False
-                digits_ok = False
         if digits_ok:
             candidates = get_strings_with_replacement(tree, rule_start, digits_candidates)
             if not try_strings(oracle, candidates):
                 digits_ok = False
+        if not (digit_ok or nzdigit_ok or nzints_ok or ints_ok or digits_ok):
+            break
 
     replace_str = ''
     if digits_ok:

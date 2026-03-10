@@ -126,8 +126,6 @@ def group(trees, max_group_size, double = False) -> List[Bubble]:
 
         for i in range(len(children_lst)):
             
-            if len(bubbles) > MAX_BUBBLES_FOR_RANKING:
-                break
             for j in range(i + 1, min(len(children_lst) + 1, i + max_group_size + 1)):
                 # if j - i == 2:
                 #     continue
@@ -176,6 +174,8 @@ def group(trees, max_group_size, double = False) -> List[Bubble]:
                     bubble.add_source(tree_idx, child_idxs, (i, j-1))
                     bubble.set_depth(min(bubble.depth, depth))
 
+                if len(bubbles) > MAX_BUBBLES_FOR_RANKING:
+                    break
         # Recurse down in the other layers
         for i, child in enumerate(tree.children):
             lhs = left_context if i == 0 else 'DUMMY'

@@ -290,8 +290,17 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
         """
         reduced = []
         n = len(node.children)
-        granularity = 2
+        # deleting the corner brackets has highest chance of success, so try that first
+        if n>2 and ((node.children[0].payload == "[" and node.children[-1].payload == "]") or 
+            node.children[0].payload == "{" and node.children[-1].payload == "}" or 
+            node.children[0].payload == "(" and node.children[-1].payload == ")"):
+            trial_node = node.copy()
+            trial_node.children = trial_node.children[1:-1]
+            trial_node.update_cache_info()
+            if try_parse(trial_node):
+                return [trial_node] 
 
+        granularity = 2
         while granularity <= n:
             chunk_size = n // granularity
             
@@ -776,7 +785,6 @@ def build_trees(oracle, leaves):
     
     all_bubbles = {}    # need to update by coalesced_into
     while threshold > 0:
-        group_start = time.time()
 
         updated = True
         while updated:
@@ -816,7 +824,7 @@ def build_trees(oracle, leaves):
             # one_bubbles = list(reversed(all_bubbles.values()))
             # sort by length, shorter bubbles should be applied first
             one_bubbles = sorted(all_bubbles.values(), key=lambda x: len(x.bubbled_elems))
-            TIME_GROUPING += time.time() - group_start
+            
 
             best_trees, updated, coalesced_into = bubble_loop(best_trees, count, one_bubbles)
                 
@@ -875,13 +883,17 @@ def build_trees(oracle, leaves):
             pre_bubbles = pre_bubble(best_trees)
             best_trees, updated, coalesced_into = bubble_loop(best_trees, count, pre_bubbles, True)
 
+            group_start = time.time()
             bubble_list = group(best_trees, grp_size)
+            TIME_GROUPING += time.time() - group_start
             best_trees, updated, coalesced_into = bubble_loop(best_trees, count, bubble_list, True, grp_size)
 
             if updated:
                 threshold = 5
 
+            group_start = time.time()
             bubble_list_double = group(best_trees, grp_size, True)
+            TIME_GROUPING += time.time() - group_start
             best_trees, updated, coalesced_into = bubble_loop(best_trees, count, bubble_list_double, True, grp_size)
             
             count+=1
@@ -1473,6 +1485,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
     checked = set()
     tree_list = ParseTreeList(trees, grammar)
     merges = 0
+    print(f"Pairs to check: {len(pairs)}")
     for pair in pairs:
         first, second = pair
         # update the pair for the new grammar, because the pair was created before

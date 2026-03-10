@@ -69,6 +69,7 @@ def approx_tokenize(oracle, guide_raw:str):
                     # if string identification fails, treat the sequence normally
                     prev_category = "QUOTE"
                     i -= len(cur_token)
+                    start = True
                     continue
                 if token_rp is not None:
                     tokens.append(ParseNode(token_rp, True, [], prev_category))
