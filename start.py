@@ -107,48 +107,28 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     print('Coalescing nonterminals...'.ljust(50))
     s = time.time()
     grammar, new_trees, coalesce_caused, _ = coalesce(oracle, trees, grammar)
-    # grammar, new_trees, partial_coalesces = coalesce_partial(oracle, new_trees, grammar)
-    grammar = expand_tokens(oracle, grammar, new_trees)
-    grammar = minimize(grammar)
     LAST_COALESCE_TIME += time.time() - s
+    # grammar, new_trees, partial_coalesces = coalesce_partial(oracle, new_trees, grammar)
+    # grammar = expand_tokens(oracle, grammar, new_trees)
+    # grammar = minimize(grammar)
     if HDD:
         s = time.time()
         print('Performing HDD decomposition...'.ljust(50), end='\r')
         augmented = {t.derived_string(): t for t in new_trees}
         reduced_trees = hdd_decompose(new_trees, oracle, augmented)
         print(f"HDD decomposed {len(reduced_trees)} new trees.")
+        HDD_TIME = time.time() - s
 
         new_trees += reduced_trees
         hdd_grammar = build_grammar(new_trees)
+        s = time.time()
         hdd_grammar = expand_tokens(oracle, hdd_grammar, new_trees)
+        LAST_COALESCE_TIME += time.time() - s
+        s = time.time()
         hdd_grammar = minimize(hdd_grammar)
-        HDD_TIME = time.time() - s
+        MINIMIZE_TIME += time.time() - s
         print(str(hdd_grammar))
-        # if len(reduced_trees) > 0:
-
-
-        #     grammar_reduced = build_grammar(reduced_trees)
-        #     grammar_reduced = expand_tokens(oracle, grammar_reduced, new_trees)
-        #     # new_trees += reduced_trees
-        #     grammar_reduced = minimize(grammar_reduced)
-        #     # print(str(grammar))
-        #     print(str(grammar_reduced))
-        #     hdd_grammar = grammar.copy()
-        #     hdd_grammar.merge(grammar_reduced)
-        #     # hdd_grammar = minimize(hdd_grammar)
-        #     # hdd_grammar = expand_tokens(oracle, hdd_grammar, new_trees)
-        #     hdd_grammar = minimize(hdd_grammar)
-        # else:
-        #     hdd_grammar = grammar
         
-
-    # s = time.time()
-    
-    # EXPAND_TIME += time.time() - s
-    # print('Minimizing initial grammar...'.ljust(50), end='\r')
-    # s = time.time()
-    
-    # MINIMIZE_TIME += time.time() - s
     return grammar, hdd_grammar
 
 
