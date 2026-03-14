@@ -270,6 +270,13 @@ class Grammar():
                     return True
             return False
 
+        def rule_used_in_body(grammar_lst, target_rule_name):
+            for rule in grammar_lst:
+                for body in rule.bodies:
+                    if len(body) > 0 and body[0] == target_rule_name:
+                        return True
+            return False
+
         def remove_left_recursion_from_rule(rule):
             direct_left_recursive_bodies = []
             non_left_recursive_bodies = []
@@ -280,21 +287,6 @@ class Grammar():
                     non_left_recursive_bodies.append(body)
             if len(direct_left_recursive_bodies) == 0:
                 return rule  # No direct left recursion to remove
-            """ A → A α1 | . . . | A αn | β1 | . . . | βm 
-            becomes
-                A → A_head | A_head A_tails
-                A_head → β1 | . . . | βm
-                A_tails → A_tail | A_tail A_tails
-                A_tail → α1 | . . . | αn
-            """
-            # beta = Rule(rule.start + "_beta")
-            # alpha = Rule(rule.start + "_alpha")
-            # alphas = Rule(rule.start + "_alphas")
-            # beta.bodies = non_left_recursive_bodies
-            # alpha.bodies = direct_left_recursive_bodies
-            # alphas.bodies = [[alpha.start], [alpha.start, alphas.start]]
-            # rule.bodies = [[beta.start], [beta.start, alphas.start]]
-            # return rule, beta, alphas, alpha
 
             """
             A → A α1 | . . . | A αn | β1 | . . . | βm
@@ -365,7 +357,7 @@ class Grammar():
                         else:
                             add_new_body(body)
                     ri.replace_bodies(new_bodies)
-                if is_rule_left_recursive(ri):
+                if is_rule_left_recursive(ri) and rule_used_in_body(list(grammar.rules.values())[i+1:], ri.start):
                     new_rule, beta = remove_left_recursion_from_rule(ri)
                     new_grammar.add_rule(new_rule)
                     new_grammar.add_rule(beta)
@@ -375,22 +367,6 @@ class Grammar():
         
         current_grammar = self
         current_grammar = one_step_pass_indirect(current_grammar)
-        # indirect_left_recursive = find_indirect_left_recursion(current_grammar)
-        # while indirect_left_recursive:
-            
-        #     current_grammar = one_step_pass_indirect(current_grammar)
-        #     # need to remove direct left recursion as well to prevent infinite loops
-        #     rule_list = list({item for tpl in indirect_left_recursive for item in tpl})
-        #     for rname in rule_list:
-        #         if is_rule_left_recursive(current_grammar.rules[rname]):
-        #             old_rule = current_grammar.rules[rname]
-                    
-        #             new_rule, beta, alphas, alpha = remove_left_recursion_from_rule(old_rule)
-        #             current_grammar.rules[old_rule.start] = new_rule
-        #             current_grammar.add_rule(beta)
-        #             current_grammar.add_rule(alphas)
-        #             current_grammar.add_rule(alpha)
-        #     indirect_left_recursive = find_indirect_left_recursion(current_grammar)
 
                 
 

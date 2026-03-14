@@ -95,8 +95,15 @@ def muh_product(lst):
         prod *= e
     return prod
 
-#@functools.lru_cache()
+@functools.lru_cache(maxsize=1024)
 def lvl_n_derivable(trees, target_nt, n, max_samples=1000):
+    """
+    Cacheable version of lvl_n_derivable
+    """
+    return lvl_n_derivable_cached(tuple(trees), target_nt, n, max_samples)
+
+#@functools.lru_cache()
+def lvl_n_derivable_cached(trees, target_nt, n, max_samples=1000):
     """
     Get the strings that are level-n derivable from the nonterminal `target_nt` in `trees`.
     - Level-0 derivable: strings that are directly derivable from `target_nt` (i.e. that
@@ -171,8 +178,13 @@ def sample_from_product_ext(strings_per_child, num_samples):
     else:
         return sample_from_product(strings_per_child, num_samples, lens_per_child, prod_size)
 
-
 def sample_from_product(strings_per_child, num_samples, lens_per_child, prod_size):
+    strings_per_child = tuple(tuple(spc) for spc in strings_per_child)
+    lens_per_child = tuple(lens_per_child)
+    ret = sample_from_product_cached(strings_per_child, num_samples, lens_per_child, prod_size)
+    return ret
+@functools.lru_cache(maxsize=1024)
+def sample_from_product_cached(strings_per_child, num_samples, lens_per_child, prod_size):
     """
     Uniformly sample n strings from the product of strings_per_child.
     An approcimate test is below.

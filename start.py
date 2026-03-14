@@ -104,7 +104,7 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     grammar, hdd_grammar = None, None
     
     grammar = build_grammar(trees)
-    print('Coalescing nonterminals...'.ljust(50), end='\r')
+    print('Coalescing nonterminals...'.ljust(50))
     s = time.time()
     grammar, new_trees, coalesce_caused, _ = coalesce(oracle, trees, grammar)
     # grammar, new_trees, partial_coalesces = coalesce_partial(oracle, new_trees, grammar)
@@ -1485,7 +1485,6 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
     checked = set()
     tree_list = ParseTreeList(trees, grammar)
     merges = 0
-    print(f"Pairs to check: {len(pairs)}")
     for pair in pairs:
         first, second = pair
         # update the pair for the new grammar, because the pair was created before

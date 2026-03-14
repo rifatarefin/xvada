@@ -9,7 +9,7 @@ from replacement_utils import get_overlaps
 
 
 
-@functools.lru_cache(maxsize=None)
+@functools.lru_cache(maxsize=1024)
 def side_similarity(side, other_side, reversed = False):
     """
     Helper which computes the similarity of two lists, assumed to be the sides of contexts.
