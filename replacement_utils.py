@@ -95,14 +95,16 @@ def muh_product(lst):
         prod *= e
     return prod
 
-@functools.lru_cache(maxsize=1024)
 def lvl_n_derivable(trees, target_nt, n, max_samples=1000):
     """
     Cacheable version of lvl_n_derivable
     """
-    return lvl_n_derivable_cached(tuple(trees), target_nt, n, max_samples)
+    ret_strs = lvl_n_derivable_cached(tuple(trees), target_nt, n, max_samples)
+    if len(ret_strs) > max_samples:
+        return random.sample(ret_strs, max_samples)
+    return ret_strs
 
-#@functools.lru_cache()
+@functools.lru_cache(maxsize=1024)
 def lvl_n_derivable_cached(trees, target_nt, n, max_samples=1000):
     """
     Get the strings that are level-n derivable from the nonterminal `target_nt` in `trees`.
@@ -165,8 +167,8 @@ def lvl_n_derivable_cached(trees, target_nt, n, max_samples=1000):
                  for c in tree.children:
                     process_tree(c)
         process_tree(tree)
-    if len(ret_strs) > max_samples:
-        return random.sample(ret_strs, max_samples)
+    # if len(ret_strs) > max_samples:
+    #     return random.sample(ret_strs, max_samples)
         # return list(dict.fromkeys(ret_strs))[:max_samples]
     return ret_strs
 
@@ -179,11 +181,12 @@ def sample_from_product_ext(strings_per_child, num_samples):
         return sample_from_product(strings_per_child, num_samples, lens_per_child, prod_size)
 
 def sample_from_product(strings_per_child, num_samples, lens_per_child, prod_size):
-    strings_per_child = tuple(tuple(spc) for spc in strings_per_child)
-    lens_per_child = tuple(lens_per_child)
-    ret = sample_from_product_cached(strings_per_child, num_samples, lens_per_child, prod_size)
-    return ret
-@functools.lru_cache(maxsize=1024)
+    """
+    Cacheable version of sample_from_product
+    """
+    return sample_from_product_cached(tuple(tuple(spc) for spc in strings_per_child), num_samples, tuple(lens_per_child), prod_size)
+
+@functools.lru_cache(maxsize=1024)   
 def sample_from_product_cached(strings_per_child, num_samples, lens_per_child, prod_size):
     """
     Uniformly sample n strings from the product of strings_per_child.
@@ -350,9 +353,9 @@ def get_strings_with_replacement(tree: ParseNode, nt_to_replace: str, replacemen
             segment = random.sample(segment, strings_per_replacement)
         ret_strings.extend(segment)
 
-    if len(ret_strings) > MAX_SAMPLES:
-        random.shuffle(ret_strings)
-        ret_strings = ret_strings[:MAX_SAMPLES]
+    # if len(ret_strings) > MAX_SAMPLES:
+    #     random.shuffle(ret_strings)
+    #     ret_strings = ret_strings[:MAX_SAMPLES]
     TIME_GENERATING_EXAMPLES_INTERNAL += time.time() - s
     return ret_strings
 

@@ -1305,7 +1305,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
         if node.is_terminal:
             return
         if node.payload == coalesce_target.new_nt:
-            node_updated = False
+            # node.cache_valid = False
             for child in node.children:
                 if child.payload == target:
                     child.payload = label
@@ -1521,7 +1521,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                 nt1
                 /   \
             nt2  nt3
-                nt2 replaces nt1 only, nt1 doesn't replace nt2. Don't merge but retain the new tree
+                nt2 replaces nt1 only, nt1 doesn't replace nt2. Rewrite such instances of nt2 to check other non-recursive intances of nt2 merge with nt1.
                 """
                 
                 label = allocate_tid()
