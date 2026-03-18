@@ -109,8 +109,12 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     grammar, new_trees, coalesce_caused, _ = coalesce(oracle, trees, grammar)
     LAST_COALESCE_TIME += time.time() - s
     # grammar, new_trees, partial_coalesces = coalesce_partial(oracle, new_trees, grammar)
-    # grammar = expand_tokens(oracle, grammar, new_trees)
-    # grammar = minimize(grammar)
+    s = time.time()
+    grammar = expand_tokens(oracle, grammar, new_trees)
+    EXPAND_TIME += time.time() - s
+    s = time.time()
+    grammar = minimize(grammar)
+    MINIMIZE_TIME += time.time() - s
     if HDD:
         s = time.time()
         print('Performing HDD decomposition...'.ljust(50), end='\r')
@@ -121,12 +125,8 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
 
         new_trees += reduced_trees
         hdd_grammar = build_grammar(new_trees)
-        s = time.time()
         hdd_grammar = expand_tokens(oracle, hdd_grammar, new_trees)
-        LAST_COALESCE_TIME += time.time() - s
-        s = time.time()
         hdd_grammar = minimize(hdd_grammar)
-        MINIMIZE_TIME += time.time() - s
         print(str(hdd_grammar))
         
     return grammar, hdd_grammar
@@ -270,15 +270,6 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
         """
         reduced = []
         n = len(node.children)
-        # deleting the corner brackets has highest chance of success, so try that first
-        # if n>2 and ((node.children[0].payload == "[" and node.children[-1].payload == "]") or 
-        #     node.children[0].payload == "{" and node.children[-1].payload == "}" or 
-        #     node.children[0].payload == "(" and node.children[-1].payload == ")"):
-        #     trial_node = node.copy()
-        #     trial_node.children = trial_node.children[1:-1]
-        #     trial_node.update_cache_info()
-        #     if try_parse(trial_node):
-        #         return [trial_node] 
 
         granularity = 2
         while granularity <= n:
