@@ -271,14 +271,14 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
         reduced = []
         n = len(node.children)
         # deleting the corner brackets has highest chance of success, so try that first
-        if n>2 and ((node.children[0].payload == "[" and node.children[-1].payload == "]") or 
-            node.children[0].payload == "{" and node.children[-1].payload == "}" or 
-            node.children[0].payload == "(" and node.children[-1].payload == ")"):
-            trial_node = node.copy()
-            trial_node.children = trial_node.children[1:-1]
-            trial_node.update_cache_info()
-            if try_parse(trial_node):
-                return [trial_node] 
+        # if n>2 and ((node.children[0].payload == "[" and node.children[-1].payload == "]") or 
+        #     node.children[0].payload == "{" and node.children[-1].payload == "}" or 
+        #     node.children[0].payload == "(" and node.children[-1].payload == ")"):
+        #     trial_node = node.copy()
+        #     trial_node.children = trial_node.children[1:-1]
+        #     trial_node.update_cache_info()
+        #     if try_parse(trial_node):
+        #         return [trial_node] 
 
         granularity = 2
         while granularity <= n:
