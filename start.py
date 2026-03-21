@@ -10,7 +10,7 @@ from grammar import *
 from token_expansion import expand_tokens
 from union import UnionFind
 from replacement_utils import get_strings_with_replacement, get_strings_with_replacement_in_rule, \
-    lvl_n_derivable
+    lvl_n_derivable, nt_in_tree
 import config
 from next_tid import allocate_tid
 # from PrettyPrint import PrettyPrintTree
@@ -19,6 +19,7 @@ from bubble_llm import bubble_api
 from bubble_pair_llm import bubble_pair_api
 import json
 import string
+import functools
 """
 Bulk of the Arvada algorithm.
 """
@@ -577,9 +578,9 @@ def build_trees(oracle, leaves):
         """
         # Convert LAYERS into a grammar
         grammar = build_grammar(trees)
-
+        # t = time.time()
         grammar, new_trees, coalesce_caused, coalesced_into = coalesce(oracle, trees, grammar, new_bubble)
-        
+        # print(f"Time for coalescing: {time.time() - t}")
         new_size = grammar.size()
         if coalesce_caused:
             return 1, new_trees, coalesced_into
@@ -1177,8 +1178,12 @@ def check_epsilon(oracle, trees: List[ParseNode], grammar: Grammar):
     return grammar, trees
 
     
-
-
+# def replacement_valid(oracle, replacer_derivable_strings, replacee, trees : ParseTreeList) -> Tuple[bool, List[str]]:
+#     """
+#     Caches the results of replacement_valid_cached to avoid repeated computation
+#     """
+#     return replacement_valid_cached(oracle, tuple(replacer_derivable_strings), replacee, tuple(trees.inner_list))
+# @functools.lru_cache(maxsize=1024)
 def replacement_valid(oracle, replacer_derivable_strings, replacee, trees : ParseTreeList) -> Tuple[bool, List[str]]:
     """
     Returns true if every string derivable from `replacee` in `trees` can be replaced
@@ -1188,9 +1193,10 @@ def replacement_valid(oracle, replacer_derivable_strings, replacee, trees : Pars
 
     # Get the set of positive examples with strings derivable from replacer
     # replaced with strings derivable from replacee
-    replaced_strings = []
-    for tree in trees:
-        replaced_strings.extend(get_strings_with_replacement(tree, replacee, replacer_derivable_strings))
+    replaced_strings = {}
+    for tree in [tree for tree in trees.inner_list if nt_in_tree(tree, replacee)]:
+        for s in get_strings_with_replacement(tree, replacee, replacer_derivable_strings):
+            replaced_strings[s] = True
 
     if len(replaced_strings) == 0:
         # TODO: See the failing doctest in bubble.py. Pickle below for a "real" example
@@ -1200,7 +1206,7 @@ def replacement_valid(oracle, replacer_derivable_strings, replacee, trees : Pars
         return False, []
     #assert (replaced_strings)
 
-    replaced_strings = list(dict.fromkeys(replaced_strings))
+    replaced_strings = list(replaced_strings.keys())
     # replaced_strings = sorted(replaced_strings)
     if len(replaced_strings) > MAX_SAMPLES_PER_COALESCE:
         replaced_strings = random.sample(replaced_strings, MAX_SAMPLES_PER_COALESCE)
@@ -1401,7 +1407,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
         s1 = min(tree_list.derivable_in_trees(first)) if first else ""
         s2 = min(tree_list.derivable_in_trees(second)) if second else ""
         class_nt = generate_label_api((s1, s2))
-        print(f"LLM suggested label: {class_nt} for {s1} and {s2}")
+        print(f"LLM suggested label: {class_nt} for \"{s1}\" and \"{s2}\"")
 
         if class_nt == first or class_nt == second:
             return class_nt

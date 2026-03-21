@@ -343,21 +343,24 @@ def get_strings_with_replacement(tree: ParseNode, nt_to_replace: str, replacemen
     placeholder_strings = get_all_replacement_strings(tree, nt_to_replace)
     placeholder_strings = [s for s in placeholder_strings if REPLACE_CONST in s]
 
-    ret_strings = []
+    ret_strings = {}
     if not replacement_strs:
-        return ret_strings
+        return list(ret_strings.keys())
     strings_per_replacement = max(1, MAX_SAMPLES // len(replacement_strs))
+    replacement_strs = random.sample(replacement_strs, MAX_SAMPLES) if len(replacement_strs) > MAX_SAMPLES else replacement_strs
     for replacement_str in replacement_strs:
-        segment = [ps.replace(REPLACE_CONST, replacement_str) for ps in placeholder_strings]
-        if len(segment) > strings_per_replacement:
-            segment = random.sample(segment, strings_per_replacement)
-        ret_strings.extend(segment)
+        if len(placeholder_strings) > strings_per_replacement:
+            segment = [ps.replace(REPLACE_CONST, replacement_str) for ps in random.sample(placeholder_strings, strings_per_replacement)]
+        else:
+            segment = [ps.replace(REPLACE_CONST, replacement_str) for ps in placeholder_strings]
+        for st in segment:
+            ret_strings[st] = True
 
     # if len(ret_strings) > MAX_SAMPLES:
     #     random.shuffle(ret_strings)
     #     ret_strings = ret_strings[:MAX_SAMPLES]
     TIME_GENERATING_EXAMPLES_INTERNAL += time.time() - s
-    return ret_strings
+    return list(ret_strings.keys())
 
 
 def get_strings_with_replacement_in_rule(tree: ParseNode, replacee_rule: Tuple[str, List[str]], replacee_posn: int, replacement_strs: Set[str]):
