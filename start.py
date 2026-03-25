@@ -1178,12 +1178,6 @@ def check_epsilon(oracle, trees: List[ParseNode], grammar: Grammar):
     return grammar, trees
 
     
-# def replacement_valid(oracle, replacer_derivable_strings, replacee, trees : ParseTreeList) -> Tuple[bool, List[str]]:
-#     """
-#     Caches the results of replacement_valid_cached to avoid repeated computation
-#     """
-#     return replacement_valid_cached(oracle, tuple(replacer_derivable_strings), replacee, tuple(trees.inner_list))
-# @functools.lru_cache(maxsize=1024)
 def replacement_valid(oracle, replacer_derivable_strings, replacee, trees : ParseTreeList) -> Tuple[bool, List[str]]:
     """
     Returns true if every string derivable from `replacee` in `trees` can be replaced
@@ -1497,7 +1491,8 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                         class_nt = second
                     else:
                         # ask llm for label suggestion, expand to terminals from the nonterminal nodes
-                        class_nt = get_llm_label(first, second, tree_list, grammar)
+                        # class_nt = get_llm_label(first, second, tree_list, grammar)
+                        class_nt = allocate_tid()
 
                         # class_nt = allocate_tid()
                     # temporary way-around
@@ -1531,8 +1526,10 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                 if replacement == "<TRUE>":
                     coalesce_caused = True
                     update_required = True
-                    class_nt = get_llm_label(first, second, tmp_tree_list, tmp_grammar)
-                    nr_nt = get_llm_label(label, label, tmp_tree_list, tmp_grammar)
+                    # class_nt = get_llm_label(first, second, tmp_tree_list, tmp_grammar)
+                    # nr_nt = get_llm_label(label, label, tmp_tree_list, tmp_grammar)
+                    class_nt = allocate_tid()
+                    nr_nt = allocate_tid()
                     label_set.add(class_nt)
                     label_set.add(nr_nt)
                     classes = {class_nt: [first, second], nr_nt: [label]}
