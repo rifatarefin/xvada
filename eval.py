@@ -20,9 +20,7 @@ See __main__ dispatch at the bottom for usage.
 random.seed(0)
 PRECISION_SIZE=1000
 ANTLR4_OUTPUT=True
-RECALL_MEMORY_MB=None
-RECALL_MEMORY_FRACTION=0.9
-RECALL_MEMORY_RESERVE_MB=512
+MEMORY_SAFE_RECALL=False
 
 
 def _parse_with_limits_worker(parser, example, memory_mb, result_queue):
@@ -33,16 +31,16 @@ def _parse_with_limits_worker(parser, example, memory_mb, result_queue):
             resource.setrlimit(resource.RLIMIT_AS, (memory_bytes, memory_bytes))
         parser.parse(example)
         result_queue.put(("ok", None))
-    except MemoryError:
-        result_queue.put(("memory_error", None))
+    except MemoryError as e:
+        result_queue.put(("memory_error", repr(e)))
     except Exception as e:
         result_queue.put(("parse_error", repr(e)))
 
 
-def get_default_recall_memory_mb():
+def get_default_recall_memory_mb(fraction=0.9, reserve_mb=512, min_mb=256, fallback_mb=1024):
     """
-    Use most of the currently available memory, while leaving headroom for the
-    parent process and the operating system.
+    Returns the memory limit (in MB) to use for recall parsing.
+    Uses most of the available memory, leaving reserve_mb for the OS.
     """
     try:
         with open("/proc/meminfo") as f:
@@ -50,22 +48,21 @@ def get_default_recall_memory_mb():
                 if line.startswith("MemAvailable:"):
                     available_kb = int(line.split()[1])
                     available_mb = available_kb // 1024
-                    dynamic_mb = int(available_mb * RECALL_MEMORY_FRACTION) - RECALL_MEMORY_RESERVE_MB
-                    return max(dynamic_mb, 256)
+                    allowed_mb = int(available_mb * fraction) - reserve_mb
+                    return max(allowed_mb, min_mb)
     except Exception:
         pass
-    return 1024
+    return fallback_mb
 
 
-def parse_with_limits(parser, example, memory_mb=None):
+def parse_with_limits(parser, example):
     """
     Parse a single recall example in an isolated child process.
 
     This prevents an out-of-memory parse from killing the entire evaluation
     process. A non-success result is treated as a failed recall example.
     """
-    if memory_mb is None:
-        memory_mb = get_default_recall_memory_mb()
+    memory_mb = get_default_recall_memory_mb()
 
     ctx = mp.get_context("fork")
     result_queue = ctx.Queue()
@@ -84,7 +81,7 @@ def parse_with_limits(parser, example, memory_mb=None):
     except Exception:
         return False, "no_result"
 
-    return status == "ok", status if detail is None else f"{status}: {detail}"
+    return status == "ok", detail
 
 
 def main_internal(external_folder, log_file, random_guides=False):
@@ -107,7 +104,7 @@ def main_internal(external_folder, log_file, random_guides=False):
     
     main(parser_command, log_file, test_folder)
 
-def main(oracle_cmd, log_file_name, test_examples_folder ):
+def main(oracle_cmd, log_file_name, test_examples_folder, memory_safe_recall=MEMORY_SAFE_RECALL):
     oracle = ExternalOracle(oracle_cmd)
 
 
@@ -163,11 +160,11 @@ def main(oracle_cmd, log_file_name, test_examples_folder ):
         print("Eval of precision:")
         for example in tqdm(precision_set):
             try:
-                oracle.parse(example, timeout=10)
-                print("Passed\n", example, file=f)
+                oracle.parse(example)
+                print(example, "<----- PASSED", file=f)
                 num_precision_parsed += 1
             except Exception as e:
-                print("Failed", example, " <----- FAILURE", file=f)
+                print(example, f" <----- FAILURE ({e})", file=f)
                 continue
 
         example_gen_time = time.time()
@@ -179,17 +176,19 @@ def main(oracle_cmd, log_file_name, test_examples_folder ):
             print("Recall eval:")
             for example in tqdm(real_recall_set):
                 try:
-                    parsed, reason = parse_with_limits(
-                        parser,
-                        example,
-                        memory_mb=RECALL_MEMORY_MB,
-                    )
-                    if not parsed:
-                        raise RuntimeError(reason)
-                    print("   ", example, file=f)
+                    if memory_safe_recall:
+                        parsed, reason = parse_with_limits(
+                            parser,
+                            example,
+                        )
+                        if not parsed:
+                            raise RuntimeError(reason)
+                    else:
+                        parser.parse(example)
+                    print(example,"<----- PASSED", file=f)
                     num_recall_parsed += 1
                 except Exception as e:
-                    print("   ", example, f" <----- FAILURE ({e})", file=f)
+                    print(example, f" <----- FAILURE ({e})", file=f)
                     continue
             recall = num_recall_parsed / len(real_recall_set)
             precision = num_precision_parsed / len(precision_set)
@@ -215,20 +214,11 @@ if __name__ == '__main__':
     parser.add_argument('log_file', help='log file output from search.py', type=str)
     parser.add_argument('--no-antlr4', help='also output an ANTLR4 grammar file', action='store_true', dest='no_antlr4')
     parser.add_argument('-n', '--precision_set_size', help='size of precision set to sample from learned grammar (default 1000)', type=int, default=1000)
-    parser.add_argument('--recall-memory-mb', help='memory cap per recall example in MB; set 0 to disable; default uses most currently available memory', type=int, default=None)
-    parser.add_argument('--recall-memory-fraction', help='fraction of currently available memory to allow for each recall parse when no explicit cap is set (default 0.9)', type=float, default=0.9)
-    parser.add_argument('--recall-memory-reserve-mb', help='memory in MB to keep free for the parent process and OS when no explicit cap is set (default 512)', type=int, default=512)
-
+    parser.add_argument('--memory-safe-recall', help='run each recall parse in a separate child process with a memory limit to avoid OOM killing the evaluator', action='store_true', dest='memory_safe_recall')
     args = parser.parse_args()
     
     if args.precision_set_size is not None:
         PRECISION_SIZE = args.precision_set_size
     if args.no_antlr4:
         ANTLR4_OUTPUT = False
-    if args.recall_memory_mb is not None:
-        RECALL_MEMORY_MB = None if args.recall_memory_mb <= 0 else args.recall_memory_mb
-    if args.recall_memory_fraction is not None:
-        RECALL_MEMORY_FRACTION = args.recall_memory_fraction
-    if args.recall_memory_reserve_mb is not None:
-        RECALL_MEMORY_RESERVE_MB = args.recall_memory_reserve_mb
-    main(args.oracle_cmd, args.log_file, args.examples_dir)
+    main(args.oracle_cmd, args.log_file, args.examples_dir, memory_safe_recall=args.memory_safe_recall)
