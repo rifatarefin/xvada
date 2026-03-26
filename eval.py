@@ -1,4 +1,5 @@
 import argparse
+import multiprocessing as mp
 from pathlib import Path
 import random, sys, os, time, string
 from typing import Dict, List
@@ -14,11 +15,77 @@ from token_expansion import expand_tokens
 """
 High-level command line to launch Arvada evaluation.
  
-See __main__ dispatch at the bottom for usage. 
+See __main__ dispatch at the bottom for usage.
 """
 random.seed(0)
 PRECISION_SIZE=1000
 ANTLR4_OUTPUT=True
+RECALL_MEMORY_MB=None
+RECALL_MEMORY_FRACTION=0.9
+RECALL_MEMORY_RESERVE_MB=512
+
+
+def _parse_with_limits_worker(parser, example, memory_mb, result_queue):
+    try:
+        if memory_mb is not None:
+            import resource
+            memory_bytes = memory_mb * 1024 * 1024
+            resource.setrlimit(resource.RLIMIT_AS, (memory_bytes, memory_bytes))
+        parser.parse(example)
+        result_queue.put(("ok", None))
+    except MemoryError:
+        result_queue.put(("memory_error", None))
+    except Exception as e:
+        result_queue.put(("parse_error", repr(e)))
+
+
+def get_default_recall_memory_mb():
+    """
+    Use most of the currently available memory, while leaving headroom for the
+    parent process and the operating system.
+    """
+    try:
+        with open("/proc/meminfo") as f:
+            for line in f:
+                if line.startswith("MemAvailable:"):
+                    available_kb = int(line.split()[1])
+                    available_mb = available_kb // 1024
+                    dynamic_mb = int(available_mb * RECALL_MEMORY_FRACTION) - RECALL_MEMORY_RESERVE_MB
+                    return max(dynamic_mb, 256)
+    except Exception:
+        pass
+    return 1024
+
+
+def parse_with_limits(parser, example, memory_mb=None):
+    """
+    Parse a single recall example in an isolated child process.
+
+    This prevents an out-of-memory parse from killing the entire evaluation
+    process. A non-success result is treated as a failed recall example.
+    """
+    if memory_mb is None:
+        memory_mb = get_default_recall_memory_mb()
+
+    ctx = mp.get_context("fork")
+    result_queue = ctx.Queue()
+    process = ctx.Process(
+        target=_parse_with_limits_worker,
+        args=(parser, example, memory_mb, result_queue),
+    )
+    process.start()
+    process.join()
+
+    if process.exitcode != 0:
+        return False, f"child_exit_{process.exitcode}"
+
+    try:
+        status, detail = result_queue.get_nowait()
+    except Exception:
+        return False, "no_result"
+
+    return status == "ok", status if detail is None else f"{status}: {detail}"
+
 
 def main_internal(external_folder, log_file, random_guides=False):
     """
@@ -112,11 +179,17 @@ def main(oracle_cmd, log_file_name, test_examples_folder ):
             print("Recall eval:")
             for example in tqdm(real_recall_set):
                 try:
-                    parser.parse(example)
+                    parsed, reason = parse_with_limits(
+                        parser,
+                        example,
+                        memory_mb=RECALL_MEMORY_MB,
+                    )
+                    if not parsed:
+                        raise RuntimeError(reason)
                     print("   ", example, file=f)
                     num_recall_parsed += 1
                 except Exception as e:
-                    print("   ", example, " <----- FAILURE", file=f)
+                    print("   ", example, f" <----- FAILURE ({e})", file=f)
                     continue
             recall = num_recall_parsed / len(real_recall_set)
             precision = num_precision_parsed / len(precision_set)
@@ -142,6 +215,9 @@ if __name__ == '__main__':
     parser.add_argument('log_file', help='log file output from search.py', type=str)
     parser.add_argument('--no-antlr4', help='also output an ANTLR4 grammar file', action='store_true', dest='no_antlr4')
     parser.add_argument('-n', '--precision_set_size', help='size of precision set to sample from learned grammar (default 1000)', type=int, default=1000)
+    parser.add_argument('--recall-memory-mb', help='memory cap per recall example in MB; set 0 to disable; default uses most currently available memory', type=int, default=None)
+    parser.add_argument('--recall-memory-fraction', help='fraction of currently available memory to allow for each recall parse when no explicit cap is set (default 0.9)', type=float, default=0.9)
+    parser.add_argument('--recall-memory-reserve-mb', help='memory in MB to keep free for the parent process and OS when no explicit cap is set (default 512)', type=int, default=512)
 
     args = parser.parse_args()
     
@@ -149,4 +225,10 @@ if __name__ == '__main__':
         PRECISION_SIZE = args.precision_set_size
     if args.no_antlr4:
         ANTLR4_OUTPUT = False
+    if args.recall_memory_mb is not None:
+        RECALL_MEMORY_MB = None if args.recall_memory_mb <= 0 else args.recall_memory_mb
+    if args.recall_memory_fraction is not None:
+        RECALL_MEMORY_FRACTION = args.recall_memory_fraction
+    if args.recall_memory_reserve_mb is not None:
+        RECALL_MEMORY_RESERVE_MB = args.recall_memory_reserve_mb
     main(args.oracle_cmd, args.log_file, args.examples_dir)
