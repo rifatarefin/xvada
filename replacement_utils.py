@@ -157,9 +157,9 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=1000):
                  for c in tree.children:
                     process_tree(c)
         process_tree(tree)
-    # if len(ret_strs) > max_samples:
-    #     return random.sample(ret_strs, max_samples)
-        # return list(dict.fromkeys(ret_strs))[:max_samples]
+    if len(ret_strs) > max_samples:
+        return random.sample(ret_strs, max_samples)
+        return list(dict.fromkeys(ret_strs))[:max_samples]
     return ret_strs
 
 def sample_from_product_ext(strings_per_child, num_samples):
@@ -328,7 +328,7 @@ def get_strings_with_replacement(tree: ParseNode, nt_to_replace: str, replacemen
 
     ret_strings = {}
     if not replacement_strs:
-        return list(ret_strings.keys())
+        return []
     strings_per_replacement = max(1, MAX_SAMPLES // len(replacement_strs))
     replacement_strs = random.sample(replacement_strs, MAX_SAMPLES) if len(replacement_strs) > MAX_SAMPLES else replacement_strs
     for replacement_str in replacement_strs:

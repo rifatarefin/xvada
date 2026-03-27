@@ -109,8 +109,9 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     s = time.time()
     grammar, new_trees, coalesce_caused, _ = coalesce(oracle, trees, grammar)
     LAST_COALESCE_TIME += time.time() - s
-    # print('Relabeling nonterminals...'.ljust(50))
-    new_trees, grammar = relabel_tree_nonterminals(new_trees, grammar)
+    if config.AI_LABEL:
+        print('Relabeling nonterminals...'.ljust(50))
+        new_trees, grammar = relabel_tree_nonterminals(new_trees, grammar)
     # grammar, new_trees, partial_coalesces = coalesce_partial(oracle, new_trees, grammar)
     s = time.time()
     grammar = expand_tokens(oracle, grammar, new_trees)

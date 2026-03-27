@@ -103,7 +103,7 @@ def main_internal(external_folder, log_file, random_guides=False):
     
     main(parser_command, log_file, test_folder)
 
-def main(oracle_cmd, log_file_name, test_examples_folder, memory_safe_recall=MEMORY_SAFE_RECALL):
+def main(oracle_cmd, log_file_name, test_examples_folder):
     oracle = ExternalOracle(oracle_cmd)
 
 
@@ -175,7 +175,7 @@ def main(oracle_cmd, log_file_name, test_examples_folder, memory_safe_recall=MEM
             print("Recall eval:")
             for example in tqdm(real_recall_set):
                 try:
-                    if memory_safe_recall:
+                    if MEMORY_SAFE_RECALL:
                         parsed, reason = parse_with_limits(
                             parser,
                             example,
@@ -213,11 +213,13 @@ if __name__ == '__main__':
     parser.add_argument('log_file', help='log file output from search.py', type=str)
     parser.add_argument('--no-antlr4', help='also output an ANTLR4 grammar file', action='store_true', dest='no_antlr4')
     parser.add_argument('-n', '--precision_set_size', help='size of precision set to sample from learned grammar (default 1000)', type=int, default=1000)
-    parser.add_argument('--memory-safe-recall', help='run each recall parse in a separate child process with a memory limit to avoid OOM killing the evaluator', action='store_true', dest='memory_safe_recall')
+    parser.add_argument('--memory-safe', help='run each recall parse in a separate child process with a memory limit to avoid OOM killing the evaluator', action='store_true', dest='memory_safe_recall')
     args = parser.parse_args()
     
     if args.precision_set_size is not None:
         PRECISION_SIZE = args.precision_set_size
     if args.no_antlr4:
         ANTLR4_OUTPUT = False
-    main(args.oracle_cmd, args.log_file, args.examples_dir, memory_safe_recall=args.memory_safe_recall)
+    if args.memory_safe_recall:
+        MEMORY_SAFE_RECALL = True
+    main(args.oracle_cmd, args.log_file, args.examples_dir)

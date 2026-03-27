@@ -204,6 +204,7 @@ if __name__ == '__main__':
     parser.add_argument('--treevada', help='use TreeVada heuristics for more bubbles', action='store_true')
     parser.add_argument('--no-hdd', help='use Hierarchical Delta-debugging for tree-pruning (default)', action='store_true', dest='no_hdd')
     parser.add_argument('--no-pretokenize',  help=f'assign each character to its own leaf node, rather than grouping characters of same class', action='store_true', dest='no_pretokenize')
+    parser.add_argument('--no-ai-label', help='skip AI-based relabeling of nonterminals after tree construction', action='store_true', dest='no_ai_label')
     parser.add_argument('--group_punctuation', help=f'group sequences of punctuation during pretokenization', action='store_true')
     parser.add_argument('--group_upper_lower',
                                  help=f'group uppercase characters with lowerchase characters during pretokenization', action='store_true')
@@ -216,6 +217,7 @@ if __name__ == '__main__':
     config.USE_PRETOKENIZATION = not args.no_pretokenize if args.no_pretokenize else config.USE_PRETOKENIZATION
     config.GROUP_PUNCTUATION = args.group_punctuation if args.group_punctuation else config.GROUP_PUNCTUATION
     config.SPLIT_UPPER_AND_LOWER = args.group_upper_lower if args.group_upper_lower else config.SPLIT_UPPER_AND_LOWER
+    config.AI_LABEL = not args.no_ai_label if args.no_ai_label else config.AI_LABEL
 
     main(args.oracle_cmd, args.examples_dir, args.log_file)
     

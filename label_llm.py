@@ -44,8 +44,8 @@ def generate_label_api(str_pair):
         temperature=0
     )
     ai_response = response.choices[0].message.content.strip()
-    ai_response = ai_response.split()[0].replace('whitespace', ' ').lower()
-    ai_response = clean_label(ai_response)
+    ai_response = ai_response.split()[0] if ai_response else "t_default"
+    ai_response = clean_label(ai_response.replace('whitespace', ' ').lower())
     history.append((str_pair, ai_response))
     history = history[-10:]  # Keep only the last 10 entries to avoid overflow
     return ai_response
@@ -67,7 +67,8 @@ def regenerate_label(str_pair, old_labels):
         temperature=0
     )
     ai_response = response.choices[0].message.content.strip()
-    ai_response = clean_label(ai_response.split()[0].replace('whitespace', ' ').lower())
+    ai_response = ai_response.split()[0] if ai_response else "t_default"
+    ai_response = clean_label(ai_response.replace('whitespace', ' ').lower())
     return ai_response
 
 if __name__ == '__main__':

@@ -4,3 +4,4 @@ SPLIT_UPPER_AND_LOWER = False
 USE_LLM = False
 TREEVADA = True
 HDD = True
+AI_LABEL = True
