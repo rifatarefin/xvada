@@ -15,7 +15,6 @@ from token_expansion import expand_tokens
 """
 High-level command line to launch Arvada evaluation.
  
-See __main__ dispatch at the bottom for usage.
 """
 random.seed(0)
 PRECISION_SIZE=1000

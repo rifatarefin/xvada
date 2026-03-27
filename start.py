@@ -109,6 +109,8 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     s = time.time()
     grammar, new_trees, coalesce_caused, _ = coalesce(oracle, trees, grammar)
     LAST_COALESCE_TIME += time.time() - s
+    # print('Relabeling nonterminals...'.ljust(50))
+    new_trees, grammar = relabel_tree_nonterminals(new_trees, grammar)
     # grammar, new_trees, partial_coalesces = coalesce_partial(oracle, new_trees, grammar)
     s = time.time()
     grammar = expand_tokens(oracle, grammar, new_trees)
@@ -1216,10 +1218,73 @@ def replacement_valid(oracle, replacer_derivable_strings, replacee, trees : Pars
             return False, []
     return True, replaced_strings
 
-# set of llm-generated labels
-label_set = set()
-# append numbers to break ties in node labeling
-label_count = defaultdict(int)
+
+def get_llm_label(first, second, tree_list, existing_labels=None, max_attempts=5):
+    """
+    Suggests a nonterminal label using the LLM while avoiding conflicts with
+    labels that are already reserved in the current relabeling pass.
+    """
+    global LLM_CALLS
+
+    existing_labels = set() if existing_labels is None else set(existing_labels)
+    s1 = random.choice(list(tree_list.derivable_in_trees(first))) if first else ""
+    s2 = random.choice(list(tree_list.derivable_in_trees(second))) if second else s1
+
+    LLM_CALLS += 1
+    class_nt = generate_label_api((s1, s2))
+    print(f"LLM suggested label: {class_nt} for \"{s1}\" and \"{s2}\"")
+
+    old_labels = {class_nt: 1}
+    attempts = 0
+    while class_nt in existing_labels:
+        class_nt = regenerate_label((s1, s2), list(old_labels.keys()))
+        LLM_CALLS += 1
+        old_labels[class_nt] = 1
+        attempts += 1
+        if attempts >= max_attempts:
+            while class_nt in old_labels or class_nt in existing_labels:
+                if not class_nt[-1].isdigit():
+                    class_nt += "_1"
+                else:
+                    i = len(class_nt) - 1
+                    while i >= 0 and class_nt[i].isdigit():
+                        i -= 1
+                    number_part = class_nt[i + 1:]
+                    class_nt = class_nt[:i + 1] + str(int(number_part) + 1)
+            old_labels[class_nt] = 1
+        print(f" Next suggestion: {class_nt}")
+
+    return class_nt
+
+def relabel_tree_nonterminals(trees: List[ParseNode], grammar: Grammar):
+    """
+    Relabels all nonterminal nodes in the fully constructed trees with
+    LLM-suggested names, then returns the relabeled trees and rebuilt grammar.
+    """
+    def relabel_node(node: ParseNode, label_map: Dict[str, str]):
+        if node.is_terminal:
+            return
+        node.payload = label_map.get(node.payload, node.payload)
+        for child in node.children:
+            relabel_node(child, label_map)
+
+    tree_list = ParseTreeList(trees, grammar)
+    nonterminals = sorted(grammar.rules.items(), key=lambda item: (item[1].depth, item[0]), reverse=True)
+    label_map = {START: START}
+    reserved_labels = {START, 'start'}
+
+    for nonterminal, _ in nonterminals:
+        if nonterminal == START or nonterminal == 'start':
+            continue
+        label_map[nonterminal] = get_llm_label(nonterminal, nonterminal, tree_list, reserved_labels)
+        reserved_labels.add(label_map[nonterminal])
+
+    relabeled_trees = [tree.copy() for tree in trees]
+    for tree in relabeled_trees:
+        relabel_node(tree, label_map)
+        tree.update_cache_info()
+
+    return relabeled_trees, build_grammar(relabeled_trees)
 
 def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
              coalesce_target: Bubble = None):
@@ -1391,43 +1456,6 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                 new_checked.add((second, first))
         return new_checked
     
-    def get_llm_label(first, second, tree_list, grammar, max_attempts=5):
-        """
-        Suggests a label using LLM, avoiding conflicts with existing labels.
-        Returns the label and the dictionary of old labels.
-        """
-        global LLM_CALLS
-        LLM_CALLS += 1
-        s1 = min(tree_list.derivable_in_trees(first)) if first else ""
-        s2 = min(tree_list.derivable_in_trees(second)) if second else ""
-        class_nt = generate_label_api((s1, s2))
-        print(f"LLM suggested label: {class_nt} for \"{s1}\" and \"{s2}\"")
-
-        if class_nt == first or class_nt == second:
-            return class_nt
-
-        old_labels = {class_nt: 1}
-        attempts = 0
-        while (class_nt in grammar.rules.keys()):
-            class_nt = regenerate_label((s1, s2), list(old_labels.keys()))
-            LLM_CALLS += 1
-            old_labels[class_nt] = 1
-            attempts += 1
-            if attempts >= max_attempts:
-                while class_nt in old_labels or class_nt in grammar.rules.keys():
-                    if not class_nt[-1].isdigit():
-                        class_nt += "_1"
-                    else:
-                        # increment the trailing number
-                        i = len(class_nt) - 1
-                        while i >= 0 and class_nt[i].isdigit():
-                            i -= 1
-                        number_part = class_nt[i+1:]
-                        class_nt = class_nt[:i+1] + str(int(number_part) + 1)
-                old_labels[class_nt] = 1
-            print(f" Next suggestion: {class_nt}")
-        return class_nt
-    
     # Define helpful data structures
     # store non-terminals depth-wise across all trees
     nonterminals = sorted(grammar.rules.items(), key=lambda x: x[1].depth)
@@ -1485,21 +1513,8 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                 if first == START or second == START:
                     class_nt = START
                 else:
-                    if first in label_set:
-                        class_nt = first
-                    elif second in label_set:
-                        class_nt = second
-                    else:
-                        # ask llm for label suggestion, expand to terminals from the nonterminal nodes
-                        # class_nt = get_llm_label(first, second, tree_list, grammar)
-                        class_nt = allocate_tid()
+                    class_nt = first if first <= second else second
 
-                        # class_nt = allocate_tid()
-                    # temporary way-around
-                    # if re.search(r'[^a-zA-Z0-9]', class_nt) or re.match(r'^\d+$', class_nt):
-                    #     class_nt = allocate_tid()
-
-                label_set.add(class_nt)
                 classes = {class_nt: [first, second]}
                 get_class = {first: class_nt, second: class_nt}
                 coalesced_into[first] = class_nt
@@ -1528,15 +1543,12 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                     update_required = True
                     # class_nt = get_llm_label(first, second, tmp_tree_list, tmp_grammar)
                     # nr_nt = get_llm_label(label, label, tmp_tree_list, tmp_grammar)
-                    class_nt = allocate_tid()
-                    nr_nt = allocate_tid()
-                    label_set.add(class_nt)
-                    label_set.add(nr_nt)
-                    classes = {class_nt: [first, second], nr_nt: [label]}
-                    get_class = {first: class_nt, second: class_nt, label: nr_nt}
+                    class_nt = first if first <= second else second
+
+                    classes = {class_nt: [first, second]}
+                    get_class = {first: class_nt, second: class_nt}
                     coalesced_into[first] = class_nt
                     coalesced_into[second] = class_nt
-                    coalesced_into[label] = nr_nt
 
                     tree_list = tmp_tree_list
                     grammar = tmp_grammar
