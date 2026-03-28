@@ -95,7 +95,7 @@ def muh_product(lst):
         prod *= e
     return prod
 
-def lvl_n_derivable(trees, target_nt, n, max_samples=1000):
+def lvl_n_derivable(trees, target_nt, n, max_samples=1000, _memo=None):
     """
     Get the strings that are level-n derivable from the nonterminal `target_nt` in `trees`.
     - Level-0 derivable: strings that are directly derivable from `target_nt` (i.e. that
@@ -141,6 +141,12 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=1000):
     >>> lvl_n_derivable([tree_1, tree_2], 't0', 2)
     ['3', '(3)', '((3))', '(((3)))']
     """
+    if _memo is None:
+        _memo = {}
+    memo_key = (tuple(id(tree) for tree in trees), target_nt, n, max_samples)
+    if memo_key in _memo:
+        return list(_memo[memo_key])
+
     # switching from set() to list() for deterministic order of elements
     ret_strs = []
     for tree in trees:
@@ -150,7 +156,7 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=1000):
                 if n == 0 or tree.is_terminal:
                     ret_strs.append(tree.derived_string())
                 else:
-                    child_strs = [lvl_n_derivable(trees, c.payload, n-1, max_samples) for c in tree.children]
+                    child_strs = [lvl_n_derivable(trees, c.payload, n-1, max_samples, _memo) for c in tree.children]
                     ret_strs.extend(sample_from_product_ext(child_strs, max_samples))
                 ret_strs = list(dict.fromkeys(ret_strs))
              else:
@@ -158,9 +164,11 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=1000):
                     process_tree(c)
         process_tree(tree)
     if len(ret_strs) > max_samples:
-        return random.sample(ret_strs, max_samples)
-        return list(dict.fromkeys(ret_strs))[:max_samples]
-    return ret_strs
+        result = random.sample(ret_strs, max_samples)
+    else:
+        result = ret_strs
+    _memo[memo_key] = tuple(result)
+    return list(_memo[memo_key])
 
 def sample_from_product_ext(strings_per_child, num_samples):
     lens_per_child = [len(spc) for spc in strings_per_child]
@@ -203,7 +211,7 @@ def sample_from_product(strings_per_child, num_samples, lens_per_child, prod_siz
     return ret_strings
 
 
-def get_all_replacement_strings(tree: ParseNode, nt_to_replace: str):
+def get_all_replacement_strings(tree: ParseNode, nt_to_replace: str, _memo=None):
     """
     Get all the possible strings derived from `tree` where all possible combinations
     (including the combination of len 0) of instances of `nt_to_replace` are replaced
@@ -229,31 +237,35 @@ def get_all_replacement_strings(tree: ParseNode, nt_to_replace: str):
     >>> sorted(get_all_replacement_strings(big_tree,  't2'))
     ['44*4', '44*[[:REPLACEME]]', '4[[:REPLACEME]]*4', '4[[:REPLACEME]]*[[:REPLACEME]]', '[[:REPLACEME]]*4', '[[:REPLACEME]]*[[:REPLACEME]]', '[[:REPLACEME]]4*4', '[[:REPLACEME]]4*[[:REPLACEME]]', '[[:REPLACEME]][[:REPLACEME]]*4', '[[:REPLACEME]][[:REPLACEME]]*[[:REPLACEME]]']
     """
+    if _memo is None:
+        _memo = {}
+    memo_key = (id(tree), nt_to_replace)
+    if memo_key in _memo:
+        return list(_memo[memo_key])
+
     replacement_strings = []
     if tree.is_terminal:
-        return [fixup_terminal(tree.payload)]
-
-    if not nt_in_tree(tree, nt_to_replace):
-        return [tree.derived_string()]
-
-    if tree.payload == nt_to_replace:
-        replacement_strings.append(REPLACE_CONST)
-
-
-
-    strings_per_child = [get_all_replacement_strings(c, nt_to_replace) for c in tree.children]
-    lens_per_child = [len(spc) for spc in strings_per_child]
-    prod_size = muh_product(lens_per_child)
-    if prod_size > MAX_SAMPLES:
-        replacement_strings.extend(sample_from_product(strings_per_child, MAX_SAMPLES, lens_per_child, prod_size))
+        result = [fixup_terminal(tree.payload)]
+    elif not nt_in_tree(tree, nt_to_replace):
+        result = [tree.derived_string()]
     else:
-        replacement_strings.extend([''.join(p) for p in itertools.product(*strings_per_child)])
+        if tree.payload == nt_to_replace:
+            replacement_strings.append(REPLACE_CONST)
 
-    return list(dict.fromkeys(replacement_strings))
+        strings_per_child = [get_all_replacement_strings(c, nt_to_replace, _memo) for c in tree.children]
+        lens_per_child = [len(spc) for spc in strings_per_child]
+        prod_size = muh_product(lens_per_child)
+        if prod_size > MAX_SAMPLES:
+            replacement_strings.extend(sample_from_product(strings_per_child, MAX_SAMPLES, lens_per_child, prod_size))
+        else:
+            replacement_strings.extend([''.join(p) for p in itertools.product(*strings_per_child)])
 
+        result = list(dict.fromkeys(replacement_strings))
 
+    _memo[memo_key] = tuple(result)
+    return list(_memo[memo_key])
 
-def get_all_rule_replacement_strs(tree: ParseNode, replacee_rule: Tuple[str, List[str]], replacee_posn: int):
+def get_all_rule_replacement_strs(tree: ParseNode, replacee_rule: Tuple[str, List[str]], replacee_posn: int, _memo=None):
     """
     Get all the possible strings derived from `tree` where all possible combinations
     (including the combination of len 0) of instances of the nonterminal at position
@@ -281,26 +293,37 @@ def get_all_rule_replacement_strs(tree: ParseNode, replacee_rule: Tuple[str, Lis
     >>> sorted(get_all_rule_replacement_strs(big_tree,replacee_rule, replacee_posn))
     ['44*4', '44*[[:REPLACEME]]', '[[:REPLACEME]]*4', '[[:REPLACEME]]*[[:REPLACEME]]']
     """
+    if _memo is None:
+        _memo = {}
+    rule_key = (replacee_rule[0], tuple(replacee_rule[1]), replacee_posn)
+    memo_key = (id(tree), rule_key)
+    if memo_key in _memo:
+        return list(_memo[memo_key])
+
     start = replacee_rule[0]
     body = [fixup_terminal(elem) for elem in replacee_rule[1]]
     if tree.is_terminal:
-        return [fixup_terminal(tree.payload)]
-    if not nt_in_tree(tree, start):
-        return [tree.derived_string()]
-    strings_per_child = [get_all_rule_replacement_strs(c, replacee_rule, replacee_posn) for c in tree.children]
-    if tree.payload == start:
-        tree_body = [fixup_terminal(c.payload) for c in tree.children]
-        if tree_body == body:
-            strings_per_child[replacee_posn].append(REPLACE_CONST)
-
-    lens_per_child = [len(spc) for spc in strings_per_child]
-    prod_size = muh_product(lens_per_child)
-    if prod_size > MAX_SAMPLES:
-        ret_list = sample_from_product(strings_per_child, MAX_SAMPLES, lens_per_child, prod_size)
+        result = [fixup_terminal(tree.payload)]
+    elif not nt_in_tree(tree, start):
+        result = [tree.derived_string()]
     else:
-        ret_list = [''.join(p) for p in itertools.product(*strings_per_child)]
+        strings_per_child = [get_all_rule_replacement_strs(c, replacee_rule, replacee_posn, _memo) for c in tree.children]
+        if tree.payload == start:
+            tree_body = [fixup_terminal(c.payload) for c in tree.children]
+            if tree_body == body:
+                strings_per_child[replacee_posn].append(REPLACE_CONST)
 
-    return list(set(ret_list))
+        lens_per_child = [len(spc) for spc in strings_per_child]
+        prod_size = muh_product(lens_per_child)
+        if prod_size > MAX_SAMPLES:
+            ret_list = sample_from_product(strings_per_child, MAX_SAMPLES, lens_per_child, prod_size)
+        else:
+            ret_list = [''.join(p) for p in itertools.product(*strings_per_child)]
+
+        result = list(set(ret_list))
+
+    _memo[memo_key] = tuple(result)
+    return list(_memo[memo_key])
 
 def get_strings_with_replacement(tree: ParseNode, nt_to_replace: str, replacement_strs: List[str]):
     """

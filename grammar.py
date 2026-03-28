@@ -306,26 +306,6 @@ class Grammar():
 
             return rule, new_rule
 
-        def find_indirect_left_recursion(grammar):
-            indirect_left_recursive = set()
-            for rule in grammar.rules.values():
-                for body in rule.bodies:
-                    if len(body) > 0 and body[0] in grammar.rules and body[0] != rule.start:
-                        # Check if body[0] can eventually lead back to rule.start
-                        to_visit = [body[0]]
-                        visited = set()
-                        while to_visit:
-                            current = to_visit.pop()
-                            if current == rule.start:
-                                indirect_left_recursive.add((rule.start, body[0]))
-                                break
-                            if current not in visited:
-                                visited.add(current)
-                                for b in grammar.rules[current].bodies:
-                                    if len(b) > 0 and b[0] in grammar.rules:
-                                        to_visit.append(b[0])
-            return indirect_left_recursive
-
         def one_step_pass_indirect(grammar):
             new_grammar = Grammar(grammar.start_symbol)
             old_rules = list(grammar.rules.keys())

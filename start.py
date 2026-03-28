@@ -1335,12 +1335,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
         nt2_derivable_strings = list(dict.fromkeys(nt2_derivable_strings))
 
         nt1_valid, nt1_check_strings = replacement_valid(oracle, nt1_derivable_strings, nt2, trees)
-        # if not nt1_valid:
-        #     return False        # TODO: check half merge
         nt2_valid, nt2_check_strings = replacement_valid(oracle, nt2_derivable_strings, nt1, trees)
-        # if not nt2_valid:
-        #     return False
-
 
         if MUST_EXPAND_IN_COALESCE and coalesce_target is not None:
             if trees.represented_by_derived_grammar(nt1_check_strings) and \
@@ -1349,8 +1344,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
         if nt1_valid and nt2_valid:
             return "<TRUE>"
         
-        # if nt1_valid:
-        #     return nt1
+        # Non-recursive merge case
         if nt2_valid and isinstance(coalesce_target, Bubble) and coalesce_target.new_nt == nt1:
             nt2_is_child = any(nt2 in bodies for bodies in grammar.rules[nt1].bodies)
             if nt2_is_child:
