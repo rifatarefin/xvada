@@ -143,7 +143,7 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=1000, _memo=None):
     """
     if _memo is None:
         _memo = {}
-    memo_key = (tuple(id(tree) for tree in trees), target_nt, n, max_samples)
+    memo_key = (target_nt, n, max_samples)
     if memo_key in _memo:
         return list(_memo[memo_key])
 
@@ -325,6 +325,7 @@ def get_all_rule_replacement_strs(tree: ParseNode, replacee_rule: Tuple[str, Lis
     _memo[memo_key] = tuple(result)
     return list(_memo[memo_key])
 
+
 def get_strings_with_replacement(tree: ParseNode, nt_to_replace: str, replacement_strs: List[str]):
     """
     Get all the possible strings derived from `tree` where all possible combinations
@@ -362,12 +363,8 @@ def get_strings_with_replacement(tree: ParseNode, nt_to_replace: str, replacemen
         for st in segment:
             ret_strings[st] = True
 
-    # if len(ret_strings) > MAX_SAMPLES:
-    #     random.shuffle(ret_strings)
-    #     ret_strings = ret_strings[:MAX_SAMPLES]
     TIME_GENERATING_EXAMPLES_INTERNAL += time.time() - s
     return list(ret_strings.keys())
-
 
 def get_strings_with_replacement_in_rule(tree: ParseNode, replacee_rule: Tuple[str, List[str]], replacee_posn: int, replacement_strs: Set[str]):
     """

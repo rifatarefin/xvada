@@ -289,7 +289,7 @@ class ParseNode():
         if not isinstance(other, ParseNode):
             return False
         if self.payload != other.payload or self.is_terminal != other.is_terminal or len(self.children) != len(
-                other.children) or (self.cache_valid and other.cache_valid and self.cached_nts != other.cached_nts):
+                other.children) or (self.all_nts()) != other.all_nts():
             return False
         for idx in range(len(self.children)):
             if not self.children[idx] == other.children[idx]:
@@ -300,7 +300,7 @@ class ParseNode():
         return not self == other
 
     def __hash__(self):
-        return hash((self.payload, self.is_terminal, tuple(self.children), tuple(self.cached_nts)))
+        return hash((self.payload, self.is_terminal, tuple(self.children), tuple(sorted(self.all_nts()))))
 
     def __str__(self):
         def place_in_middle(s: str, strlen: int):
