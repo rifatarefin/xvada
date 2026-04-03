@@ -144,7 +144,13 @@ def build_naive_parse_trees(leaves: List[List[ParseNode]], bracket_items: List, 
     bracket_items is a list of bracket enclosed sequence lengths.
     """
     terminals = list(dict.fromkeys([leaf.payload for leaf_lst in leaves for leaf in leaf_lst]))
-    get_class = {t: t for t in terminals}
+    reserved = [START, 'start']
+    get_class = {t: t for t in terminals if t not in reserved}
+    for r in reserved:
+        new_nt = r
+        while new_nt in terminals:
+            new_nt = new_nt + "_"
+        get_class[r] = new_nt
     quotes = ["\"", "\'"]
 
     def braces_tree(leaves: List[ParseNode], index: int, open_list: List[int], close_list: List[int], first: ParseNode = None):

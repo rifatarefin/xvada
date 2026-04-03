@@ -166,6 +166,8 @@ def main(oracle_cmd, log_file_name, test_examples_folder):
                 print(example, f" <----- FAILURE ({e})", file=f)
                 continue
 
+        precision = num_precision_parsed / len(precision_set)
+        print(f'Precision: {precision}')
         example_gen_time = time.time()
         num_recall_parsed = 0
 
@@ -190,7 +192,6 @@ def main(oracle_cmd, log_file_name, test_examples_folder):
                     print(example, f" <----- FAILURE ({e})", file=f)
                     continue
             recall = num_recall_parsed / len(real_recall_set)
-            precision = num_precision_parsed / len(precision_set)
             f1 = 2 * (recall * precision) / (recall + precision) if (recall + precision) > 0 else 0
             print(f'Recall: {recall}, Precision: {precision}, F-1: {f1}', file=f)
             print(f'Recall: {recall}, Precision: {precision}, F-1: {f1}')

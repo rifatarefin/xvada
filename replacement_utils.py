@@ -4,7 +4,7 @@ import random
 import time
 from typing import Tuple, List, Set
 import sys
-
+import math
 from grammar import Grammar
 from parse_tree import ParseNode, fixup_terminal
 REPLACE_CONST = '[[:REPLACEME]]'
@@ -143,7 +143,7 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=1000, _memo=None):
     """
     if _memo is None:
         _memo = {}
-    memo_key = (target_nt, n, max_samples)
+    memo_key = (target_nt, n)
     if memo_key in _memo:
         return list(_memo[memo_key])
 
@@ -151,16 +151,19 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=1000, _memo=None):
     ret_strs = []
     for tree in trees:
         def process_tree(tree: ParseNode):
-             if tree.payload == target_nt:
+            if tree.payload == target_nt:
                 nonlocal ret_strs
                 if n == 0 or tree.is_terminal:
                     ret_strs.append(tree.derived_string())
                 else:
-                    child_strs = [lvl_n_derivable(trees, c.payload, n-1, max_samples, _memo) for c in tree.children]
+                    num_children = len(tree.children)
+                    # Dynamically reduce max_samples for children to avoid combinatorial explosion
+                    child_max_samples = max(1, int(math.ceil(max_samples ** (1.0 / num_children))))
+                    child_strs = [lvl_n_derivable(trees, c.payload, n-1, child_max_samples, _memo) for c in tree.children]
                     ret_strs.extend(sample_from_product_ext(child_strs, max_samples))
                 ret_strs = list(dict.fromkeys(ret_strs))
-             else:
-                 for c in tree.children:
+            else:
+                for c in tree.children:
                     process_tree(c)
         process_tree(tree)
     if len(ret_strs) > max_samples:
