@@ -1322,23 +1322,19 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
         """
 
         global TIME_GENERATING_EXAMPLES
-        nt1_derivable_strings = []
-        nt2_derivable_strings = []
 
         s = time.time()
         if isinstance(coalesce_target, tuple):
-            nt1_derivable_strings.extend(lvl_n_derivable(trees, nt1, 1))
-            nt2_derivable_strings.extend(lvl_n_derivable(trees, nt2, 1))
+            nt1_derivable_strings = lvl_n_derivable(trees, nt1, 1)
+            nt2_derivable_strings = lvl_n_derivable(trees, nt2, 1)
         else:
-            nt1_derivable_strings.extend(lvl_n_derivable(trees, nt1, 0))
-            nt2_derivable_strings.extend(lvl_n_derivable(trees, nt2, 0))
+            nt1_derivable_strings = lvl_n_derivable(trees, nt1, 0)
+            nt2_derivable_strings = lvl_n_derivable(trees, nt2, 0)
         TIME_GENERATING_EXAMPLES += time.time() - s
 
         # First check if the replacement is expanding
         if MUST_EXPAND_IN_COALESCE and coalesce_target is not None and nt1_derivable_strings == nt2_derivable_strings:
             return False
-        nt1_derivable_strings = list(dict.fromkeys(nt1_derivable_strings))
-        nt2_derivable_strings = list(dict.fromkeys(nt2_derivable_strings))
 
         nt1_valid, nt1_check_strings = replacement_valid(oracle, nt1_derivable_strings, nt2, trees)
         nt2_valid, nt2_check_strings = replacement_valid(oracle, nt2_derivable_strings, nt1, trees)
@@ -1661,7 +1657,7 @@ def minimize(grammar):
         for rule_start in grammar.rules:
             rule = grammar.rules[rule_start]
             bodies = rule.bodies
-            if len(bodies) == 1 and len(bodies[0]) == 1:# and (bodies[0][0] not in grammar.rules or bodies[0][0] in X):
+            if len(bodies) == 1 and len(bodies[0]) == 1 and (bodies[0][0] not in grammar.rules or bodies[0][0] in X):
                 body = bodies[0]
                 if rule.start not in X and rule.start != START:
                     X[rule.start] = [X[elem][0] if elem in X else elem for elem in body]

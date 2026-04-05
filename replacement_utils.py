@@ -95,7 +95,7 @@ def muh_product(lst):
         prod *= e
     return prod
 
-def lvl_n_derivable(trees, target_nt, n, max_samples=1000, _memo=None):
+def lvl_n_derivable(trees, target_nt, n, max_samples=20, _memo=None):
     """
     Get the strings that are level-n derivable from the nonterminal `target_nt` in `trees`.
     - Level-0 derivable: strings that are directly derivable from `target_nt` (i.e. that
@@ -140,6 +140,13 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=1000, _memo=None):
     10
     >>> lvl_n_derivable([tree_1, tree_2], 't0', 2)
     ['3', '(3)', '((3))', '(((3)))']
+    >>> uncached_tree = ParseNode('root', False, [ParseNode('mid', False, [ParseNode('z', True, [])]), ParseNode('other', False, [ParseNode('w', True, [])])])
+    >>> cached_tree = uncached_tree.copy()
+    >>> cached_tree.update_cache_info()
+    >>> lvl_n_derivable([uncached_tree], 'mid', 0) == lvl_n_derivable([cached_tree], 'mid', 0)
+    True
+    >>> lvl_n_derivable([cached_tree], 'missing', 0)
+    []
     """
     if _memo is None:
         _memo = {}
@@ -151,6 +158,8 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=1000, _memo=None):
     ret_strs = []
     for tree in trees:
         def process_tree(tree: ParseNode):
+            if tree.cache_valid and target_nt not in tree.cached_nts:
+                return
             if tree.payload == target_nt:
                 nonlocal ret_strs
                 if n == 0 or tree.is_terminal:
