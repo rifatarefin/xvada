@@ -95,7 +95,7 @@ def muh_product(lst):
         prod *= e
     return prod
 
-def lvl_n_derivable(trees, target_nt, n, max_samples=20, _memo=None):
+def lvl_n_derivable(trees, target_nt, n, max_samples=10, _memo=None):
     """
     Get the strings that are level-n derivable from the nonterminal `target_nt` in `trees`.
     - Level-0 derivable: strings that are directly derivable from `target_nt` (i.e. that
@@ -223,7 +223,7 @@ def sample_from_product(strings_per_child, num_samples, lens_per_child, prod_siz
     return ret_strings
 
 
-def get_all_replacement_strings(tree: ParseNode, nt_to_replace: str, _memo=None):
+def get_all_replacement_strings(tree: ParseNode, nt_to_replace: str, max_samples: int = 50, _memo=None):
     """
     Get all the possible strings derived from `tree` where all possible combinations
     (including the combination of len 0) of instances of `nt_to_replace` are replaced
@@ -264,11 +264,13 @@ def get_all_replacement_strings(tree: ParseNode, nt_to_replace: str, _memo=None)
         if tree.payload == nt_to_replace:
             replacement_strings.append(REPLACE_CONST)
 
-        strings_per_child = [get_all_replacement_strings(c, nt_to_replace, _memo) for c in tree.children]
+        num_children = len(tree.children)
+        child_max_samples = max(1, int(math.ceil(max_samples ** (1.0 / num_children))))
+        strings_per_child = [get_all_replacement_strings(c, nt_to_replace, child_max_samples, _memo) for c in tree.children]
         lens_per_child = [len(spc) for spc in strings_per_child]
         prod_size = muh_product(lens_per_child)
-        if prod_size > MAX_SAMPLES:
-            replacement_strings.extend(sample_from_product(strings_per_child, MAX_SAMPLES, lens_per_child, prod_size))
+        if prod_size > max_samples:
+            replacement_strings.extend(sample_from_product(strings_per_child, max_samples, lens_per_child, prod_size))
         else:
             replacement_strings.extend([''.join(p) for p in itertools.product(*strings_per_child)])
 

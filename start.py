@@ -1540,7 +1540,10 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                     update_required = True
                     # class_nt = get_llm_label(first, second, tmp_tree_list, tmp_grammar)
                     # nr_nt = get_llm_label(label, label, tmp_tree_list, tmp_grammar)
-                    class_nt = allocate_tid()
+                    if first == START or second == START:
+                        class_nt = START
+                    else:
+                        class_nt = allocate_tid()
 
                     classes = {class_nt: [first, second]}
                     get_class = {first: class_nt, second: class_nt}
