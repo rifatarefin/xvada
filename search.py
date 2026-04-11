@@ -78,7 +78,7 @@ def approx_tokenize(oracle, guide_raw:str):
         start = False
         i += 1
     if cur_token != "":
-        token_rep = initial_token_replacement(oracle, tokens, cur_token, cur_category, "")
+        token_rep = initial_token_replacement(oracle, tokens, cur_token, cur_category)
         if token_rep is not None:
             tokens.append(ParseNode(token_rep, True, [], cur_category))
     return tokens

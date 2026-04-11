@@ -436,8 +436,8 @@ class Rule():
 
     def _body_str(self, body, is_antlr4=False):
 
-        # return ' '.join([elem_fixup(b, is_antlr4) if len(b) > 0 else '\u03B5' for b in body])
-        return ' '.join([elem_fixup(b, is_antlr4) for b in body])
+        return ' '.join([elem_fixup(b, is_antlr4) if b!='""' else '' for b in body])
+        # return ' '.join([elem_fixup(b, is_antlr4) for b in body])     #'\u03B5'
 
     def size(self):
         return 1 + sum([len(body) for body in self.bodies])

@@ -212,7 +212,7 @@ def try_strings(oracle: ExternalOracle, candidates: List[str]):
             return False
     return True
 
-def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode], cur_token: str, category: str, trailing: str):
+def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode], cur_token: str, category: str, trailing: str = ""):
     """
     token_list is the list of tokens we've processed so far,
     cur_token will be replaced by a larger member of the same token category
@@ -223,12 +223,13 @@ def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode
     candidates = []
     if category == "STRING":
         candidates.extend([
-            random.choice(["test#string", "test_string", "test string"]),
+            random.choice(["0 test#string", "1_test string", "2 test#string"]),
             random.choice(["0teststring", "1teststring"]),
             random.choice(["teststring0", "teststring1"])
         ])
 
     elif category == "WHITESPACE":
+        # if (not preceding) or (preceding and preceding[-1] in string.whitespace) or all(t in string.whitespace for t in trailing):
         # try to delete the token
         if try_strings(oracle, [preceding + trailing]):
             return None
@@ -237,7 +238,7 @@ def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode
         if rep == cur_token:
             continue
         if try_strings(oracle, [preceding + rep + trailing]):
-            return rep
+            return cur_token
 
     if category == "STRING":
         return None
@@ -570,7 +571,8 @@ def generalize_to_strings(oracle: ExternalOracle, grammar: Grammar, trees: List[
     if digit_ok:
         return body_idxs, "tstring_digit", (tuple(regular), tuple(escaped))
     if len(regular) + len(escaped) > len(existing_bodies):
-        return body_idxs, "tstring", (tuple(regular), tuple(escaped))
+        regular.update(existing_bodies)
+        return body_idxs, f"tstring_{rule_start}", (tuple(regular), tuple(escaped))
 
     else:
         return [], "", ()

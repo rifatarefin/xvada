@@ -166,7 +166,7 @@ def build_naive_parse_trees(leaves: List[List[ParseNode]], bracket_items: List, 
         """
 
         if first:
-            children = [first]
+            children = [ParseNode(get_class[first.payload], False, [first])]
         else:
             nonlocal bracket_items
             bracket_items = []
