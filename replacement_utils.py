@@ -158,7 +158,7 @@ def lvl_n_derivable(trees, target_nt, n, max_samples=20, _memo=None):
     ret_strs = []
     for tree in trees:
         def process_tree(tree: ParseNode):
-            if tree.cache_valid and target_nt not in tree.cached_nts:
+            if n>0 and tree.cache_valid and target_nt not in tree.cached_nts:
                 return
             if tree.payload == target_nt:
                 nonlocal ret_strs

@@ -54,7 +54,7 @@ def get_default_recall_memory_mb(fraction=0.9, reserve_mb=512, min_mb=256, fallb
     return fallback_mb
 
 
-def parse_with_limits(parser, example):
+def parse_with_limits(parser, example, timeout_seconds=300):
     """
     Parse a single recall example in an isolated child process.
 
@@ -70,7 +70,12 @@ def parse_with_limits(parser, example):
         args=(parser, example, memory_mb, result_queue),
     )
     process.start()
-    process.join()
+    process.join(timeout_seconds)
+
+    if process.is_alive():
+        process.terminate()
+        process.join()
+        return False, "timeout"
 
     if process.exitcode != 0:
         return False, f"child_exit_{process.exitcode}"

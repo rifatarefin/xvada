@@ -39,156 +39,118 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
     if rule_start == "":
         print("WARNING: Calling rules_to_add with the empty string",file= sys.stderr)
         exit(1)
-    if rule_start == "tdigit":
-        r = Rule(rule_start)
-        for i in range(10):
-            r.add_body([f'"{i}"'])
-        return [r]
-    if rule_start == "tnzdigit":
-        r = Rule(rule_start)
+    r = Rule(rule_start)
+    if symbols:
+        char_rule = Rule(rule_start + "_char")
+        for c in symbols:
+            char_rule.add_body(([f'"{c}"']))
+        r.add_body([char_rule.start])
+
+    if rule_start == "tupper_lowers":
+        r.add_body(['tupper', 'tlowers'])
+        return [r] + rules_to_add('tupper') + rules_to_add('tlowers')
+
+    elif rule_start == "tnzdigit":
         for i in range(1, 10):
             r.add_body([f'"{i}"'])
         return [r]
-    if rule_start == "tdigits":
-        r = Rule(rule_start)
-        r.add_body(['tdigit'])
-        r.add_body(["tdigit", "tdigits" ])
-        return [r, rules_to_add("tdigit")[0]]
-    if rule_start == "tinteger":
-        r = Rule(rule_start)
+    elif rule_start == "tinteger":
         r.add_body(['tdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
-    if rule_start == "tnzinteger":
-        r = Rule(rule_start)
+    elif rule_start == "tnzinteger":
         r.add_body(['tnzdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
-    if rule_start == "talphanum":
-        r = Rule(rule_start)
-        r.add_body(['tdigit'])
-        r.add_body(['tletter'])
-        return [r] + rules_to_add("tdigit") + rules_to_add("tletter")
-    if rule_start == "tletter":
-        r = Rule(rule_start)
-        for c in string.ascii_letters:
-            r.add_body(([f'"{c}"']))
-        return [r]
-    if rule_start == "tlower":
-        r = Rule(rule_start)
-        for c in string.ascii_lowercase:
-            r.add_body(([f'"{c}"']))
-        return [r]
-    if rule_start == "tupper":
-        r = Rule(rule_start)
-        for c in string.ascii_uppercase:
-            r.add_body(([f'"{c}"']))
-        return [r]
-    if rule_start == "tuppers":
-        r = Rule(rule_start)
-        r.add_body(['tupper'])
-        r.add_body((['tupper', 'tuppers']))
-        return [r] + rules_to_add('tupper')
-    if rule_start == "tlowers":
-        r = Rule(rule_start)
-        r.add_body(['tlower'])
-        r.add_body((['tlower', 'tlowers']))
-        return [r] + rules_to_add('tlower')
-    if rule_start == "tletters":
-        r = Rule(rule_start)
-        r.add_body(['tletter'])
-        r.add_body((['tletter', 'tletters']))
-        return [r] + rules_to_add('tletter')
-    if rule_start == "tupper_lowers":
-        r = Rule(rule_start)
-        r.add_body(['tupper', 'tlowers'])
-        return [r] + rules_to_add('tupper') + rules_to_add('tlowers')
-    if rule_start == "talphanums":
-        r = Rule(rule_start)
-        r.add_body(['talphanum'])
-        r.add_body((['talphanum', 'talphanums']))
-        return [r] + rules_to_add('talphanum')
-    if rule_start == "tletter_alphanums":
-        r = Rule(rule_start)
+    elif rule_start == "tletter_alphanums":
         r.add_body(['tletter', 'talphanums'])
         return [r] + rules_to_add('tletter') + rules_to_add('talphanums')
-    if rule_start == "tletter_digits":
-        r = Rule(rule_start)
+    elif rule_start == "tletter_digits":
         r.add_body(['tletter', 'tdigits'])
         return [r] + rules_to_add('tletter') + rules_to_add('tdigits')
-    if rule_start.startswith("twhitespaces"):
+
+    elif rule_start.startswith("tdigits"):
+        r.add_body(['tdigit'])
+        r.add_body(["tdigit", rule_start])
+        if symbols:
+            r.add_body([char_rule.start, rule_start])
+            return [r, char_rule] + rules_to_add("tdigit")
+        return [r] + rules_to_add("tdigit")
+
+    elif rule_start.startswith("tdigit"):
+        for i in range(10):
+            r.add_body([f'"{i}"'])
+        if symbols:
+            return [r, char_rule]
+        return [r]
+
+    elif rule_start.startswith("talphanums"):
+        r.add_body(['talphanum'])
+        r.add_body((['talphanum', rule_start]))
+        if symbols:
+            r.add_body([char_rule.start, rule_start])
+            return [r, char_rule] + rules_to_add('talphanum')
+        return [r] + rules_to_add('talphanum')
+    elif rule_start.startswith("talphanum"):
+        r.add_body(['tdigit'])
+        r.add_body(['tletter'])
+        if symbols:
+            return [r, char_rule] + rules_to_add("tdigit") + rules_to_add("tletter")
+        return [r] + rules_to_add("tdigit") + rules_to_add("tletter")
+    elif rule_start.startswith("tletters"):
+        r.add_body(['tletter'])
+        r.add_body((['tletter', rule_start]))
+        if symbols:
+            r.add_body([char_rule.start, rule_start])
+            return [r, char_rule] + rules_to_add('tletter')
+        return [r] + rules_to_add('tletter')
+    elif rule_start.startswith("tletter"):
+        for c in string.ascii_letters:
+            r.add_body(([f'"{c}"']))
+        if symbols:
+            return [r, char_rule]
+        return [r]
+    elif rule_start.startswith("tlowers"):
+        r.add_body(['tlower'])
+        r.add_body((['tlower', rule_start]))
+        if symbols:
+            r.add_body([char_rule.start, rule_start])
+            return [r, char_rule] + rules_to_add('tlower')
+        return [r] + rules_to_add('tlower')
+    elif rule_start.startswith("tlower"):
+        for c in string.ascii_lowercase:
+            r.add_body(([f'"{c}"']))
+        if symbols:
+            return [r, char_rule]
+        return [r]
+    elif rule_start.startswith("tuppers"):
+        r.add_body(['tupper'])
+        r.add_body((['tupper', rule_start]))
+        if symbols:
+            r.add_body([char_rule.start, rule_start])
+            return [r, char_rule] + rules_to_add('tupper')
+        return [r] + rules_to_add('tupper')
+    elif rule_start.startswith("tupper"):
+        for c in string.ascii_uppercase:
+            r.add_body(([f'"{c}"']))
+        if symbols:
+            return [r, char_rule]
+        return [r]
+    
+    elif symbols:
+        # for c in symbols:
+        #     r.add_body(([f'"{c}"']))
+        return [r, char_rule]
+
+    elif rule_start.startswith("twhitespaces"):
         idx = int(rule_start[12:])
         single = f"twhitespace{idx}"
         r = Rule(rule_start)
         r.add_body([single])
         r.add_body(([single, rule_start]))
         return [r] + rules_to_add(single)
-
-    if rule_start.endswith("_symbol") and symbols is not None:
-        r = Rule(rule_start)
-        for c in symbols:
-            r.add_body(([f'"{c}"']))
-        
-        return [r]
-
-    if rule_start.startswith("tstring") and symbols is not None:
-        r = Rule(rule_start)
-        regular, escaped = symbols
-        r_char = None
-        if regular or escaped:
-            r_char = Rule(rule_start + "_char")
-            for c in regular:
-                r_char.add_body(([f'"{c}"']))
-            for c in escaped:
-                r_char.add_body(([f'"\\{c}"']))
-            r.add_body([r_char.start])
-        # check what standard classes are supported
-        if rule_start.endswith("digit"):
-            r.add_body(['tdigit'])
-            if r_char:
-                return [r, r_char] + rules_to_add('tdigit')
-            else:
-                return [r] + rules_to_add('tdigit')
-        if rule_start.endswith("letter"):
-            r.add_body(['tletter'])
-            if r_char:
-                return [r, r_char] + rules_to_add('tletter')
-            else:
-                return [r] + rules_to_add('tletter')
-        if rule_start.endswith("alphanum"):
-            r.add_body(['talphanum'])
-            if r_char:
-                return [r, r_char] + rules_to_add('talphanum')
-            else:
-                return [r] + rules_to_add('talphanum')
-        
-        if rule_start.endswith("digits"):
-            if r_char:
-                r_char.add_body(['tdigit'])
-                r.add_body([r_char.start, rule_start])
-                return [r, r_char] + rules_to_add('tdigit')
-            else:
-                r.add_body(['tdigits'])
-                return [r] + rules_to_add('tdigits')
-        if rule_start.endswith("letters"):
-            if r_char:
-                r_char.add_body(['tletter'])
-                r.add_body([r_char.start, rule_start])
-                return [r, r_char] + rules_to_add('tletter')
-            else:
-                r.add_body(['tletters'])
-                return [r] + rules_to_add('tletters')
-        if rule_start.endswith("alphanums"):
-            if r_char:
-                r_char.add_body(['talphanum'])
-                r.add_body([r_char.start, rule_start])
-                return [r, r_char] + rules_to_add('talphanum')
-            else:
-                r.add_body(['talphanums'])
-                return [r] + rules_to_add('talphanums')
-        return [r, r_char]
-
-    if rule_start.startswith("twhitespace"):
+    
+    elif rule_start.startswith("twhitespace"):
         idx = int(rule_start[11:])
         r = Rule(rule_start)
         for charset, charset_idx in whitespace_map:
@@ -223,9 +185,9 @@ def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode
     candidates = []
     if category == "STRING":
         candidates.extend([
-            random.choice(["0 test#string", "1_test string", "2 test#string"]),
-            random.choice(["0teststring", "1teststring"]),
-            random.choice(["teststring0", "teststring1"])
+            random.choice(["0 Test#String", "1_Test String", "2 Test#String!"]),
+            random.choice(["0TestString", "1TestString"]),
+            random.choice(["TestString0", "TestString1"])
         ])
 
     elif category == "WHITESPACE":
@@ -377,6 +339,8 @@ def generalize_letters_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: 
 
     if all(len(body) == 1 for body in existing_bodies):
         single_candidates = [s for s in expansion_set if s not in existing_bodies]
+        if not single_candidates:
+            single_candidates = [s for s in random.sample(expansion_set, min(MAX_SAMPLES, len(expansion_set)))]
         if len(single_candidates) > MAX_SAMPLES:
             single_candidates = random.sample(single_candidates, MAX_SAMPLES - 1)
     else:
@@ -530,49 +494,47 @@ def generalize_to_operators(oracle: ExternalOracle, grammar: Grammar, trees: Lis
 
 def generalize_to_strings(oracle: ExternalOracle, grammar: Grammar, trees: List[ParseNode], rule_start: str, body_idxs: List[int]):
 
-    existing_bodies = [fixup_terminal(body[0]) for idx, body in enumerate(grammar.rules[rule_start].bodies) if idx in body_idxs]
-    tree_1 = random.choice([tree for tree in trees if nt_in_tree(tree, rule_start)])
 
-    alphanums_ok = True if try_strings(oracle, get_strings_with_replacement(tree_1, rule_start, ["teststring1"])) else False
-    letters_ok = True if try_strings(oracle, get_strings_with_replacement(tree_1, rule_start, ["teststring"])) else False
-    letter_ok = True if try_strings(oracle, get_strings_with_replacement(tree_1, rule_start, ["a"])) else False
-    digits_ok = True if try_strings(oracle, get_strings_with_replacement(tree_1, rule_start, ["12345"])) else False
-    digit_ok = True if try_strings(oracle, get_strings_with_replacement(tree_1, rule_start, ["1"])) else False
-    
+    existing_bodies = [fixup_terminal(body[0]) for idx, body in enumerate(grammar.rules[rule_start].bodies) if idx in body_idxs]
+
+    _, expansion_ok = generalize_to_alphanum(oracle, grammar, trees, rule_start, body_idxs)
+    if not expansion_ok:
+        _, expansion2_ok = generalize_letters_in_rule(oracle, grammar, trees, rule_start, body_idxs, letter_type)
+        expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
+    if not expansion_ok:
+        _, expansion2_ok = generalize_letters_in_rule(oracle, grammar, trees, rule_start, body_idxs, lowercase_type)
+        expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
+    if not expansion_ok:
+        _, expansion2_ok = generalize_letters_in_rule(oracle, grammar, trees, rule_start, body_idxs, uppercase_type)
+        expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
+    if not expansion_ok:
+        _, expansion2_ok = generalize_digits_in_rule(oracle, grammar, trees, rule_start, body_idxs)
+        expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
+
     expansion_set = string.punctuation + " \n\t\r"
     single_candidates = [s for s in expansion_set]
     single_candidates.append("")
+    single_candidates = list(dict.fromkeys(single_candidates+existing_bodies))
     
-    regular = set()
-    escaped = set()
+    chars = []
+    count = 3 if (expansion_ok and expansion_ok.endswith("s")) else 1
     for i in single_candidates:
         candidates_1 = []
         for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
-            candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"{i}"]))
+            candidates_1.extend(get_strings_with_replacement(tree, rule_start, ["".join(i for _ in range(count))]))
         if try_strings(oracle, candidates_1):
-            regular.add(i)
+            chars.append(i)
         else:
             candidates_1 = []
             for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
-                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"\\{i}"]))
+                candidates_1.extend(get_strings_with_replacement(tree, rule_start, ["".join(f"\{i}" for _ in range(count))]))
             if try_strings(oracle, candidates_1):
-                escaped.add(i)
+                chars.append(f"\{i}")
 
-    if alphanums_ok:
-        return body_idxs, "tstring_alphanums", (tuple(regular), tuple(escaped))
-    if letters_ok:
-        return body_idxs, "tstring_letters", (tuple(regular), tuple(escaped))
-    if digits_ok:
-        return body_idxs, "tstring_digits", (tuple(regular), tuple(escaped))
-    if digit_ok and letter_ok:
-        return body_idxs, "tstring_alphanum", (tuple(regular), tuple(escaped))
-    if letter_ok:
-        return body_idxs, "tstring_letter", (tuple(regular), tuple(escaped))
-    if digit_ok:
-        return body_idxs, "tstring_digit", (tuple(regular), tuple(escaped))
-    if len(regular) + len(escaped) > len(existing_bodies):
-        regular.update(existing_bodies)
-        return body_idxs, f"tstring_{rule_start}", (tuple(regular), tuple(escaped))
+    if expansion_ok:
+        return body_idxs, f"{expansion_ok}_string", tuple(chars)
+    elif len(set(chars+existing_bodies)) > len(existing_bodies):
+        return body_idxs, f"{rule_start}_string", tuple(chars)
 
     else:
         return [], "", ()
@@ -613,22 +575,26 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
                 idxs_to_replace.update(digit_bodies_to_replace)
                 bodies_to_add.add((replace_str, None))
 
-        if idxs_by_type[letter_type]:
-            for l_type in [uppercase_type, lowercase_type]:
-                letter_bodies_to_replace, replace_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[letter_type], l_type)
-                if replace_str != "":
-                    lbt_r, r_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[letter_type], letter_type)
+        if idxs_by_type[letter_type] or idxs_by_type[lowercase_type] or idxs_by_type[uppercase_type]:
+            for l_type in [uppercase_type, lowercase_type, letter_type]:
+                if not idxs_by_type[l_type]:
+                    continue
+                replace_str = ""
+                if l_type == uppercase_type or l_type == lowercase_type:
+                    letter_bodies_to_replace, replace_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], l_type)
+                if l_type == letter_type or replace_str != "":
+                    lbt_r, r_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], letter_type)
                     if r_str != "":
                             letter_bodies_to_replace = lbt_r
                             replace_str = r_str
                             lbt_r, r_str = generalize_to_alphanum(oracle, grammar, trees, rule_start,
-                                                                    idxs_by_type[letter_type])
+                                                                    idxs_by_type[l_type])
                             if r_str != "":
                                 letter_bodies_to_replace = lbt_r
                                 replace_str = r_str
-
-                    idxs_to_replace.update(letter_bodies_to_replace)
-                    bodies_to_add.add((replace_str, None))
+                    if replace_str != "":
+                        idxs_to_replace.update(letter_bodies_to_replace)
+                        bodies_to_add.add((replace_str, None))
         # TODO: add cases for upper and lowercase in case those are split in pretokenization
         # skip whitespace for now
         # if idxs_by_type[whitespace_type]:
@@ -647,7 +613,7 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
 
         if idxs_by_type[string_type]:
             sb_tr, sb_r_str, printables = generalize_to_strings(oracle, grammar, trees, rule_start, idxs_by_type[string_type])
-            if sb_r_str != "":
+            if sb_r_str != "" and sb_r_str not in (t[0] for t in bodies_to_add):
                 idxs_to_replace.update(sb_tr)
                 bodies_to_add.add((sb_r_str, printables))
 
@@ -655,7 +621,7 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
             rule.bodies.pop(body_idx)
         for nt_name, printables in sorted(bodies_to_add):
             rule.add_body([nt_name])
-            rs_to_add = rules_to_add(nt_name, printables) if printables is not None else rules_to_add(nt_name)
+            rs_to_add = rules_to_add(nt_name, printables)
             for r_to_add in rs_to_add:
                 if r_to_add.start not in grammar.rules:
                     grammar.add_rule(r_to_add)

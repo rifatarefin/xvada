@@ -113,6 +113,7 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
         print('Relabeling nonterminals...'.ljust(50))
         new_trees, grammar = relabel_tree_nonterminals(new_trees, grammar)
     # grammar, new_trees, partial_coalesces = coalesce_partial(oracle, new_trees, grammar)
+    
     s = time.time()
     grammar = expand_tokens(oracle, grammar, new_trees)
     EXPAND_TIME += time.time() - s
@@ -254,11 +255,17 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
             if seed not in new_trees:
                 if node.payload != START:
                     node.payload = START
-                while len(node.children) == 1 and node.payload == node.children[0].payload:
+                while len(node.children) == 1 and (not node.children[0].is_terminal) and node.payload == node.children[0].payload:
                     node = node.children[0]
+                node.cache_valid = False
+                node.update_cache_info()
 
-                # Check all derivable strings at depth 1
-                depth1_str = lvl_n_derivable([node]+list(new_trees.values()), START, 1)
+                # Check all derivable strings with overlapping original trees
+                overlapping = [t for t in new_trees.values() if len(node.all_nts() & t.all_nts()) > 1]
+                
+                
+                overlapping = sorted(overlapping, key=lambda x: (len(node.all_nts() & x.all_nts()), len(x.cached_string)), reverse=True)
+                depth1_str = lvl_n_derivable([node]+overlapping[:20], START, 2)
                 for s in depth1_str:
                     if s in cache_str:
                         if cache_str[s]:
@@ -340,33 +347,13 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
     decomposed =sorted(decomposed, key=lambda x: len(x[0]))
     orig_trees = [x[1] for x in orig]
     decomposed_trees = [x[1] for x in decomposed]
-    valid_trees = []
     """  
-    test each decomposed tree with most overlapping 5 original trees
+    test each decomposed tree with most overlapping 10 original trees
     Sample strings at depth 2 to check validity
     """
-    for tree in decomposed_trees:
-        overlapping_trees = sorted(orig_trees, key=lambda x: (len(tree.all_nts() & x.all_nts()), len(x.cached_string)), reverse=True)
-        new_valid = sorted(valid_trees, key=lambda x: (len(tree.all_nts() & x.all_nts()), len(x.cached_string)), reverse=True)
-        
-        try:
-            strs = lvl_n_derivable([tree] + new_valid[:10] + overlapping_trees[:10], START, 2)
-            for s in strs:
-                oracle.parse(s)
-            valid_trees.append(tree)
-        except:
-            continue
-        
-        # for ot in [ot for ot in orig_trees if len(tree.all_nts() & ot.all_nts()) > 1]:
-        #     try:
-        #         strs = lvl_n_derivable([tree, ot], START, 2)
-        #         for s in strs:
-        #             oracle.parse(s)
-        #     except:
-        #         break  
-        #     valid_trees.append(tree)
-            
-    return valid_trees
+
+    return decomposed_trees
+
 
 
 
@@ -1237,8 +1224,11 @@ def get_llm_label(first, second, tree_list, existing_labels=None, max_attempts=5
     s1 = random.choice(list(tree_list.derivable_in_trees(first))) if first else ""
     s2 = random.choice(list(tree_list.derivable_in_trees(second))) if second else s1
 
-    LLM_CALLS += 1
-    class_nt = generate_label_api((s1, s2))
+    if any(s == " " for s in [s1, s2]):
+        class_nt = "ws"
+    else:
+        LLM_CALLS += 1
+        class_nt = generate_label_api((s1, s2))
     print(f"LLM suggested label: {class_nt} for \"{s1}\" and \"{s2}\"")
 
     old_labels = {class_nt: 1}
