@@ -1,0 +1,5 @@
+golden_nonterminal,best_xvada_match,similarity,golden_rule,xvada_rule
+start,start,1.0,start,start
+stmt,stmt,1.0,stmt,stmt
+boolexpr,boolexpr,1.0,boolexpr,boolexpr
+numexpr,numexpr,1.0,numexpr,numexpr
