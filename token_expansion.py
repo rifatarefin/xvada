@@ -46,27 +46,39 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
             char_rule.add_body(([f'"{c}"']))
         r.add_body([char_rule.start])
 
-    if rule_start == "tupper_lowers":
+    if rule_start.startswith("tupper_lowers"):
         r.add_body(['tupper', 'tlowers'])
+        if symbols:
+            return [r, char_rule] + rules_to_add('tupper') + rules_to_add('tlowers')
         return [r] + rules_to_add('tupper') + rules_to_add('tlowers')
 
-    elif rule_start == "tnzdigit":
+    elif rule_start.startswith("tnzdigit"):
         for i in range(1, 10):
             r.add_body([f'"{i}"'])
+        if symbols:
+            return [r, char_rule]
         return [r]
-    elif rule_start == "tinteger":
+    elif rule_start.startswith("tinteger"):
         r.add_body(['tdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
+        if symbols:
+            return [r, char_rule] + rules_to_add("tnzdigit") + rules_to_add("tdigits")
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
-    elif rule_start == "tnzinteger":
+    elif rule_start.startswith("tnzinteger"):
         r.add_body(['tnzdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
+        if symbols:
+            return [r, char_rule] + rules_to_add("tnzdigit") + rules_to_add("tdigits")
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
-    elif rule_start == "tletter_alphanums":
+    elif rule_start.startswith("tletter_alphanums"):
         r.add_body(['tletter', 'talphanums'])
+        if symbols:
+            return [r, char_rule] + rules_to_add('tletter') + rules_to_add('talphanums')
         return [r] + rules_to_add('tletter') + rules_to_add('talphanums')
-    elif rule_start == "tletter_digits":
+    elif rule_start.startswith("tletter_digits"):
         r.add_body(['tletter', 'tdigits'])
+        if symbols:
+            return [r, char_rule] + rules_to_add('tletter') + rules_to_add('tdigits')
         return [r] + rules_to_add('tletter') + rules_to_add('tdigits')
 
     elif rule_start.startswith("tdigits"):
@@ -514,7 +526,7 @@ def generalize_to_strings(oracle: ExternalOracle, grammar: Grammar, trees: List[
     expansion_set = string.punctuation + " \n\t\r"
     single_candidates = [s for s in expansion_set]
     single_candidates.append("")
-    single_candidates = list(dict.fromkeys(single_candidates+existing_bodies))
+    # single_candidates = list(dict.fromkeys(single_candidates+existing_bodies))
     
     chars = []
     count = 3 if (expansion_ok and expansion_ok.endswith("s")) else 1
