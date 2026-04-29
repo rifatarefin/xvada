@@ -41,7 +41,7 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
         exit(1)
     r = Rule(rule_start)
     if symbols:
-        char_rule = Rule(rule_start + "_char")
+        char_rule = Rule(rule_start + "_symbol")
         for c in symbols:
             char_rule.add_body(([f'"{c}"']))
         r.add_body([char_rule.start])
@@ -500,7 +500,7 @@ def generalize_to_operators(oracle: ExternalOracle, grammar: Grammar, trees: Lis
             accepted_1.add(i)
 
     if len(accepted_1) > len(existing_bodies):
-        return body_idxs, f"{rule_start}_symbol", tuple(accepted_1)
+        return body_idxs, rule_start, tuple(accepted_1)
     else:
         return [], "", []
 
