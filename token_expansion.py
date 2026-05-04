@@ -159,9 +159,10 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
         return [r]
     
     elif symbols:
-        # for c in symbols:
-        #     r.add_body(([f'"{c}"']))
-        return [r, char_rule]
+        r = Rule(rule_start)
+        for c in symbols:
+            r.add_body(([f'"{c}"']))
+        return [r]
 
     elif rule_start.startswith("twhitespaces"):
         idx = int(rule_start[12:])
@@ -514,7 +515,7 @@ def generalize_to_operators(oracle: ExternalOracle, grammar: Grammar, trees: Lis
             accepted_1.append(i)
 
     if len(accepted_1) > len(existing_bodies):
-        return body_idxs, rule_start, tuple(accepted_1)
+        return body_idxs, f"{rule_start}_symbol", tuple(accepted_1)
     else:
         return [], "", []
 
@@ -548,7 +549,9 @@ def generalize_to_strings(oracle: ExternalOracle, grammar: Grammar, trees: List[
         candidates_1 = []
         for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
             if expansion_ok and expansion_ok.endswith("s"):
-                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i+j+i for j in replacement_candidates]))
+                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i+j for j in replacement_candidates]))
+                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [j+i for j in replacement_candidates]))
+                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i]))
             else:
                 candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i]))
         if try_strings(oracle, candidates_1):
@@ -557,7 +560,9 @@ def generalize_to_strings(oracle: ExternalOracle, grammar: Grammar, trees: List[
             candidates_1 = []
             for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
                 if expansion_ok and expansion_ok.endswith("s"):
-                    candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"\\{i}{j}\\{i}" for j in replacement_candidates]))
+                    candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"\\{i}{j}" for j in replacement_candidates]))
+                    candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"{j}\\{i}" for j in replacement_candidates]))
+                    candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"\\{i}"]))
                 else:
                     candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"\\{i}"]))
             if try_strings(oracle, candidates_1):
