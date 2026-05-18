@@ -116,8 +116,7 @@ def main(oracle_cmd, log_file_name, test_examples_folder):
     for filename in os.listdir(test_examples_folder):
         full_filename = os.path.join(test_examples_folder, filename)
         test_raw = open(full_filename).read()
-        if test_raw:
-            real_recall_set.append(test_raw)
+        real_recall_set.append(test_raw)
         # TODO: make an option to try
 
 
