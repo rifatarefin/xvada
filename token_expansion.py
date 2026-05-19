@@ -49,7 +49,7 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
     if rule_start.startswith("tupper_lowers"):
         r.add_body(['tupper', 'tlowers'])
         if symbols:
-            r.add_body([char_rule.start, 'tupper', 'tlowers'])
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tupper') + rules_to_add('tlowers')
         return [r] + rules_to_add('tupper') + rules_to_add('tlowers')
 
@@ -65,28 +65,26 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
         r.add_body(['tdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
         if symbols:
-            r.add_body([char_rule.start, 'tdigit'])
-            r.add_body([char_rule.start, 'tnzdigit', 'tdigits'])
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add("tnzdigit") + rules_to_add("tdigits")
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
     elif rule_start.startswith("tnzinteger"):
         r.add_body(['tnzdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
         if symbols:
-            r.add_body([char_rule.start, 'tnzdigit'])
-            r.add_body([char_rule.start, 'tnzdigit', 'tdigits'])
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add("tnzdigit") + rules_to_add("tdigits")
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
     elif rule_start.startswith("tletter_alphanums"):
         r.add_body(['tletter', 'talphanums'])
         if symbols:
-            r.add_body([char_rule.start, 'tletter', 'talphanums'])
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tletter') + rules_to_add('talphanums')
         return [r] + rules_to_add('tletter') + rules_to_add('talphanums')
     elif rule_start.startswith("tletter_digits"):
         r.add_body(['tletter', 'tdigits'])
         if symbols:
-            r.add_body([char_rule.start, 'tletter', 'tdigits'])
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tletter') + rules_to_add('tdigits')
         return [r] + rules_to_add('tletter') + rules_to_add('tdigits')
 
