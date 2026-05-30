@@ -130,6 +130,9 @@ def main(oracle_cmd, log_file_name, test_examples_folder):
         for key, rule in grammar_dict.items():
             print(rule)
             learned_grammar.add_rule(rule)
+        longest_rule_distance = learned_grammar.max_rule_distance()
+        print(f"Longest rule distance: {longest_rule_distance}", file=f)
+        print(f"Longest rule distance: {longest_rule_distance}")
 
         try:
             print("Loading grammar")
@@ -154,7 +157,7 @@ def main(oracle_cmd, log_file_name, test_examples_folder):
             print(e)
             exit()
         parser: Lark = learned_grammar.parser()
-        precision_set = learned_grammar.sample_positives(PRECISION_SIZE, 5)
+        precision_set = learned_grammar.sample_positives(PRECISION_SIZE, max(longest_rule_distance, 5))
 
         num_precision_parsed = 0
 

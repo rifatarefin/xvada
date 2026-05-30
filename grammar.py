@@ -1,5 +1,6 @@
 import copy
 import re
+from collections import deque
 
 from lark import Lark
 import random
@@ -55,6 +56,9 @@ class Grammar():
         self.cached_parser = None
         self.str_cache_hash = self._rule_hash()
         self.parser_cache_hash = self._rule_hash()
+        self.rule_distance_cache_hash = None
+        self.rule_distances = {}
+        self.longest_rule_distance = -1
 
     def copy(self):
         new_grammar = Grammar(self.start_symbol)
@@ -100,6 +104,61 @@ class Grammar():
             self.rules[rule.start].depth = max(depth, rule.depth)
 
         self.cache_hash = self._rule_hash()
+
+
+    def update_rule_distances(self):
+        """
+        Stores each nonterminal's minimum graph distance from the grammar root.
+
+        The Lark-only dummy ``start`` rule and the real ``start_symbol`` are
+        both treated as roots at distance 0. Recursive expansions keep the
+        already-known minimum distance instead of increasing it.
+
+        >>> grammar = Grammar('stmt')
+        >>> grammar.add_rule(Rule('stmt').add_body(['stmt']).add_body(['expr']))
+        >>> grammar.add_rule(Rule('expr').add_body(['stmt']).add_body(['term']))
+        >>> grammar.add_rule(Rule('term').add_body(['"x"']))
+        >>> grammar.get_rule_distances()
+        {'start': 0, 'stmt': 0, 'expr': 1, 'term': 2}
+        >>> grammar.max_rule_distance()
+        2
+        """
+        rule_hash = self._rule_hash()
+        if self.rule_distance_cache_hash == rule_hash:
+            return self.rule_distances
+
+        distances = {}
+        queue = deque()
+        distances[self.start_symbol] = 0
+        queue.append(self.start_symbol)
+
+        while queue:
+            current = queue.popleft()
+            current_distance = distances[current]
+            for body in self.rules[current].bodies:
+                for child in self.body_nonterminals(self, body):
+                    next_distance = current_distance + 1
+                    if child not in distances or next_distance < distances[child]:
+                        distances[child] = next_distance
+                        queue.append(child)
+
+        self.rule_distances = {}
+        for start, rule in self.rules.items():
+            distance = distances.get(start, -1)
+            rule.distance = distance
+            self.rule_distances[start] = distance
+
+        reachable_distances = [distance for distance in self.rule_distances.values() if distance >= 0]
+        self.longest_rule_distance = max(reachable_distances, default=-1)
+        self.rule_distance_cache_hash = rule_hash
+        return self.rule_distances
+
+    def get_rule_distances(self):
+        return self.update_rule_distances().copy()
+
+    def max_rule_distance(self):
+        self.update_rule_distances()
+        return self.longest_rule_distance
 
     def parser(self):
         if self.parser_cache_valid():
@@ -389,11 +448,13 @@ class Rule():
         self._body_set = set()
         self.cached_str = ""
         self.cache_hash = 0
+        self.distance = -1
         self.depth = -1
 
     def copy(self):
         new_rule = Rule(self.start)
         new_rule.replace_bodies([body[:] for body in self.bodies])
+        new_rule.distance = self.distance
         new_rule.depth = self.depth
         return new_rule
 
