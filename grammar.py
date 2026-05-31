@@ -129,7 +129,7 @@ class Grammar():
 
         distances = {}
         queue = deque()
-        distances[self.start_symbol] = 0
+        distances[self.start_symbol] = 1
         queue.append(self.start_symbol)
 
         while queue:
