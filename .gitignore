@@ -9,6 +9,7 @@ Experiments/*
 error/*
 *.eval
 *.gramdict
+*.out
 Tmp/*
 Crash/*
 SLForge/
@@ -20,6 +21,7 @@ micro-benchmarks/
 *.txt
 *.xlsx
 .vscode/*
+.codex
 Exception/
 slog*
 tlog*
@@ -36,3 +38,4 @@ ablation4/
 Seed_Programs_bk/*
 antlr_grammars/
 Seed_Programs/gi-benchmarks/*
+crucio-gram

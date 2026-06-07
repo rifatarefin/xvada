@@ -87,6 +87,34 @@ def parse_with_limits(parser, example, timeout_seconds=300):
 
     return status == "ok", detail
 
+def grammar_stats(grammar: Grammar):
+    """
+    Computes NT/ T count, rule alternatives, avg rule length, sum of rule lengths, longest rule distance
+    """
+    nt_count = len(grammar.rules) - 1  # exclude the dummy start rule
+
+    rule_alternatives = sum(len(rule.bodies) for rule in grammar.rules.values()) - 1
+    total_rule_length = sum(len(body) for rule in grammar.rules.values() for body in rule.bodies) - 1
+    avg_rule_length = total_rule_length / rule_alternatives if rule_alternatives > 0 else 0
+
+    terminals = set()
+    for rule in grammar.rules.values():
+        for body in rule.bodies:
+            for symbol in body:
+                if '"' in symbol:
+                    terminals.add(symbol)
+
+    longest_rule_distance = grammar.max_rule_distance()
+
+    return {
+        "nonterminal_count": nt_count,
+        "terminal_count": len(terminals),
+        "rule_alternatives": rule_alternatives,
+        "avg_rule_length": avg_rule_length,
+        "total_rule_length": total_rule_length,
+        "longest_rule_distance": longest_rule_distance,
+    }
+
 
 def main_internal(external_folder, log_file, random_guides=False):
     """
