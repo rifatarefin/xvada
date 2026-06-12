@@ -194,6 +194,28 @@ def try_strings(oracle: ExternalOracle, candidates: List[str]):
             return False
     return True
 
+def _special_symbol_candidates():
+    candidates = [s for s in string.punctuation + " \n\t\r"]
+    candidates.extend(["\\n", "\\t", "\\r"])
+    return candidates
+
+def generalize_special_symbols(oracle: ExternalOracle, trees: List[ParseNode], rule_start: str, try_escaped: bool = False):
+    chars = []
+    relevant_trees = [tree for tree in trees if nt_in_tree(tree, rule_start)]
+    for i in _special_symbol_candidates():
+        candidates_1 = []
+        for tree in relevant_trees:
+            candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i]))
+        if try_strings(oracle, candidates_1):
+            chars.append(i)
+        elif try_escaped:
+            candidates_1 = []
+            for tree in relevant_trees:
+                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"\\{i}"]))
+            if try_strings(oracle, candidates_1):
+                chars.append(f"\\{i}")
+    return tuple(chars)
+
 def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode], cur_token: str, category: str, trailing: str = ""):
     """
     token_list is the list of tokens we've processed so far,
@@ -328,30 +350,18 @@ def generalize_digits_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: L
         if not (digit_ok or nzdigit_ok or nzints_ok or ints_ok or digits_ok):
             break
 
-    if digit_ok or nzdigit_ok or nzints_ok or ints_ok or digits_ok:
-        chars = []
-        # try special characters
-        expansion_set = string.punctuation + " \n\t\r"
-        single_candidates = [s for s in expansion_set]
-        single_candidates.extend(["\\n", "\\t", "\\r"])
-        for i in single_candidates:
-            candidates_1 = []
-            for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
-                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i]))
-            if try_strings(oracle, candidates_1):
-                chars.append(i)
     if digits_ok:
-        return body_idxs, 'tdigits', tuple(chars)
+        return body_idxs, 'tdigits'
     elif ints_ok:
-        return body_idxs, 'tinteger', tuple(chars)
+        return body_idxs, 'tinteger'
     elif nzints_ok:
-        return body_idxs, 'tnzinteger', tuple(chars)
+        return body_idxs, 'tnzinteger'
     elif digit_ok:
-        return body_idxs, 'tdigit', tuple(chars)
+        return body_idxs, 'tdigit'
     elif nzdigit_ok:
-        return body_idxs, 'tnzdigit', tuple(chars)
+        return body_idxs, 'tnzdigit',
     else:
-        return [], "", ()
+        return [], ""
 
 
 def generalize_letters_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: List[ParseNode], rule_start: str, body_idxs: List[int], expansion_type):
@@ -405,39 +415,26 @@ def generalize_letters_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: 
                 expand_Capital_ok = False
                 if not (expand_1_ok or expand_multi_ok): break
 
-    chars = []
-    if expand_1_ok or expand_multi_ok or expand_Capital_ok:
-        # try special characters
-        expansion_set = string.punctuation + " \n\t\r"
-        single_candidates = [s for s in expansion_set]
-        single_candidates.extend(["\\n", "\\t", "\\r"])
-
-        for i in single_candidates:
-            candidates_1 = []
-            for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
-                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i]))
-            if try_strings(oracle, candidates_1):
-                chars.append(i)
     if expand_multi_ok:
         if expansion_type == lowercase_type:
-            return body_idxs, 'tlowers', tuple(chars)
+            return body_idxs, 'tlowers'
         elif expansion_type == uppercase_type:
-            return body_idxs, 'tuppers', tuple(chars)
+            return body_idxs, 'tuppers'
         else:
-            return body_idxs, 'tletters', tuple(chars)
+            return body_idxs, 'tletters'
 
     elif expand_Capital_ok:
-        return body_idxs, 'tupper_lowers', tuple(chars)
-    
+        return body_idxs, 'tupper_lowers'
+
     elif expand_1_ok:
         if expansion_type == lowercase_type:
-            return body_idxs, 'tlower', tuple(chars)
+            return body_idxs, 'tlower'
         elif expansion_type == uppercase_type:
-            return body_idxs, 'tupper', tuple(chars)
+            return body_idxs, 'tupper'
         else:
-            return body_idxs, 'tletter', tuple(chars)
+            return body_idxs, 'tletter'
     else:
-        return [], "", ()
+        return [], ""
 
 
 
@@ -500,29 +497,16 @@ def generalize_to_alphanum(oracle: ExternalOracle, grammar: Grammar, trees: List
                 expand_letter_digits_ok = False
                 if not (expand_1_ok or expand_multi_ok or expand_letter_alphanum_ok): break
 
-    chars = []
-    if expand_1_ok or expand_multi_ok or expand_letter_alphanum_ok or expand_letter_digits_ok:
-        # try special characters
-        expansion_set = string.punctuation + " \n\t\r"
-        single_candidates = [s for s in expansion_set]
-        single_candidates.extend(["\\n", "\\t", "\\r"])
-
-        for i in single_candidates:
-            candidates_1 = []
-            for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
-                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i]))
-            if try_strings(oracle, candidates_1):
-                chars.append(i)
     if expand_multi_ok:
-        return body_idxs, 'talphanums', tuple(chars)
+        return body_idxs, 'talphanums'
     elif expand_letter_alphanum_ok:
-        return body_idxs, 'tletter_alphanums', tuple(chars)
+        return body_idxs, 'tletter_alphanums'
     elif expand_letter_digits_ok:
-        return body_idxs, 'tletter_digits', tuple(chars)
+        return body_idxs, 'tletter_digits'
     elif expand_1_ok:
-        return body_idxs, 'talphanum', tuple(chars)
+        return body_idxs, 'talphanum'
     else:
-        return [], "", ()
+        return [], ""
 
 def generalize_to_operators(oracle: ExternalOracle, grammar: Grammar, trees: List[ParseNode], rule_start: str, body_idxs: List[int]):
 
@@ -532,15 +516,16 @@ def generalize_to_operators(oracle: ExternalOracle, grammar: Grammar, trees: Lis
             existing_bodies.add(fixup_terminal(grammar.rules[rule_start].bodies[i][0]))
         else:
             body_idxs.remove(i)
-    expansion_set = string.punctuation
+    # expansion_set = string.punctuation
 
-    accepted_1 = []
-    for i in expansion_set:
-        candidates_1 = []
-        for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
-            candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f" {i} "]))
-        if try_strings(oracle, candidates_1):
-            accepted_1.append(i)
+    # accepted_1 = []
+    # for i in expansion_set:
+    #     candidates_1 = []
+    #     for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
+    #         candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f" {i} "]))
+    #     if try_strings(oracle, candidates_1):
+    #         accepted_1.append(i)
+    accepted_1 = list(generalize_special_symbols(oracle, trees, rule_start, try_escaped=False))
 
     if len(accepted_1) > len(existing_bodies):
         return body_idxs, f"{rule_start}_symbol", tuple(accepted_1)
@@ -552,40 +537,21 @@ def generalize_to_strings(oracle: ExternalOracle, grammar: Grammar, trees: List[
 
     existing_bodies = [''.join([fixup_terminal(elem) for elem in body]) for idx, body in enumerate(grammar.rules[rule_start].bodies) if idx in body_idxs]
 
-    _, expansion_ok, _ = generalize_to_alphanum(oracle, grammar, trees, rule_start, body_idxs)
+    _, expansion_ok = generalize_to_alphanum(oracle, grammar, trees, rule_start, body_idxs)
     if not expansion_ok:
-        _, expansion2_ok, _ = generalize_letters_in_rule(oracle, grammar, trees, rule_start, body_idxs, letter_type)
+        _, expansion2_ok = generalize_letters_in_rule(oracle, grammar, trees, rule_start, body_idxs, letter_type)
         expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
     if not expansion_ok:
-        _, expansion2_ok, _ = generalize_letters_in_rule(oracle, grammar, trees, rule_start, body_idxs, lowercase_type)
+        _, expansion2_ok = generalize_letters_in_rule(oracle, grammar, trees, rule_start, body_idxs, lowercase_type)
         expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
     if not expansion_ok:
-        _, expansion2_ok, _ = generalize_letters_in_rule(oracle, grammar, trees, rule_start, body_idxs, uppercase_type)
+        _, expansion2_ok = generalize_letters_in_rule(oracle, grammar, trees, rule_start, body_idxs, uppercase_type)
         expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
     if not expansion_ok:
-        _, expansion2_ok, _ = generalize_digits_in_rule(oracle, grammar, trees, rule_start, body_idxs)
+        _, expansion2_ok = generalize_digits_in_rule(oracle, grammar, trees, rule_start, body_idxs)
         expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
 
-    
-    chars = []
-    # try special characters
-    expansion_set = string.punctuation + " \n\t\r"
-    single_candidates = [s for s in expansion_set]
-    single_candidates.extend(["\\n", "\\t", "\\r"])
-
-    for i in single_candidates:
-        candidates_1 = []
-        for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
-            candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i]))
-        if try_strings(oracle, candidates_1):
-            chars.append(i)
-        else:
-            # Try escaped version if not accepted
-            candidates_1 = []
-            for tree in [tree for tree in trees if nt_in_tree(tree, rule_start)]:
-                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"\\{i}"]))
-            if try_strings(oracle, candidates_1):
-                chars.append(f"\\{i}")
+    chars = list(generalize_special_symbols(oracle, trees, rule_start, try_escaped=True))
 
     if expansion_ok:
         return body_idxs, expansion_ok, tuple(chars)
@@ -635,14 +601,14 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
         # digit_type = 0, uppercase_type = 1, lowercase_type = 2, letter_type = 3, whitespace_type = 4, string_type = 5, punctuation_type = 6
         # Digit expansion...
         if idxs_by_type[digit_type]:
-            digit_bodies_to_replace, replace_str, symbols = generalize_digits_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[digit_type])
+            digit_bodies_to_replace, replace_str = generalize_digits_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[digit_type])
             if replace_str != "":
                 if "digit" in replace_str:
-                    t_r, r_str, sym = generalize_to_alphanum(oracle, grammar, trees, rule_start, idxs_by_type[digit_type])
+                    t_r, r_str = generalize_to_alphanum(oracle, grammar, trees, rule_start, idxs_by_type[digit_type])
                     if r_str != "":
                         digit_bodies_to_replace = t_r
                         replace_str = r_str
-                        symbols = sym
+                symbols = generalize_special_symbols(oracle, trees, rule_start)
                 idxs_to_replace.update(digit_bodies_to_replace)
                 add_body_tuple(replace_str, symbols, bodies_to_add)
 
@@ -652,20 +618,19 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
                     continue
                 replace_str = ""
                 if l_type == uppercase_type or l_type == lowercase_type:
-                    letter_bodies_to_replace, replace_str, symbols = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], l_type)
+                    letter_bodies_to_replace, replace_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], l_type)
                 if l_type == letter_type or replace_str != "":
-                    lbt_r, r_str, sym = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], letter_type)
+                    lbt_r, r_str = generalize_letters_in_rule(oracle, grammar, trees, rule_start, idxs_by_type[l_type], letter_type)
                     if r_str != "":
                             letter_bodies_to_replace = lbt_r
                             replace_str = r_str
-                            symbols = sym
-                            lbt_r, r_str, sym = generalize_to_alphanum(oracle, grammar, trees, rule_start,
+                            lbt_r, r_str = generalize_to_alphanum(oracle, grammar, trees, rule_start,
                                                                     idxs_by_type[l_type])
                             if r_str != "":
                                 letter_bodies_to_replace = lbt_r
                                 replace_str = r_str
-                                symbols = sym
                     if replace_str != "":
+                        symbols = generalize_special_symbols(oracle, trees, rule_start)
                         idxs_to_replace.update(letter_bodies_to_replace)
                         add_body_tuple(replace_str, symbols, bodies_to_add)
         # TODO: add cases for upper and lowercase in case those are split in pretokenization
