@@ -57,8 +57,6 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
         for i in range(1, 10):
             r.add_body([f'"{i}"'])
         if symbols:
-            for i in range(1, 10):
-                r.add_body([char_rule.start, f'"{i}"'])
             return [r, char_rule]
         return [r]
     elif rule_start.startswith("tinteger"):
