@@ -197,21 +197,50 @@ def _special_symbol_candidates():
     candidates.extend(["\\n", "\\t", "\\r"])
     return candidates
 
-def generalize_special_symbols(oracle: ExternalOracle, trees: List[ParseNode], rule_start: str, try_escaped: bool = False):
+def _special_symbol_replacements(symbol: str, rule_class: str):
+    def with_symbol(suffixes: List[str]):
+        return list(dict.fromkeys([symbol] + [symbol + suffix for suffix in suffixes]))
+
+    if not rule_class:
+        return [symbol]
+
+    class_suffixes = [
+        ("tupper_lowers", ["Aa", "Zz", "Test"]),
+        ("tinteger", ["0", "7", "10", "42", "100"]),
+        ("tnzinteger", ["1", "9", "10", "42", "100"]),
+        ("tletter_alphanums", ["a1", "Z9", "aB2", "Test1"]),
+        ("tletter_digits", ["a1", "Z9", "A123", "b007"]),
+        ("tdigits", ["0", "7", "42", "0123"]),
+        ("talphanums", ["a", "Z", "1", "a1", "A0b2"]),
+        ("tletters", ["a", "Z", "ab", "Test"]),
+        ("tlowers", ["a", "z", "abc", "test"]),
+        ("tuppers", ["A", "Z", "ABC", "TEST"]),
+    ]
+
+    for class_name, suffixes in class_suffixes:
+        if rule_class.startswith(class_name):
+            return with_symbol(suffixes)
+
+    return [symbol]
+
+def generalize_special_symbols(oracle: ExternalOracle, trees: List[ParseNode], rule_start: str, try_escaped: bool = False, rule_class: str = ""):
     chars = []
     relevant_trees = [tree for tree in trees if nt_in_tree(tree, rule_start)]
     for i in _special_symbol_candidates():
         candidates_1 = []
+        replacements = _special_symbol_replacements(i, rule_class)
         for tree in relevant_trees:
-            candidates_1.extend(get_strings_with_replacement(tree, rule_start, [i]))
+            candidates_1.extend(get_strings_with_replacement(tree, rule_start, replacements))
         if try_strings(oracle, candidates_1):
             chars.append(i)
         elif try_escaped:
             candidates_1 = []
+            escaped = f"\\{i}"
+            replacements = _special_symbol_replacements(escaped, rule_class)
             for tree in relevant_trees:
-                candidates_1.extend(get_strings_with_replacement(tree, rule_start, [f"\\{i}"]))
+                candidates_1.extend(get_strings_with_replacement(tree, rule_start, replacements))
             if try_strings(oracle, candidates_1):
-                chars.append(f"\\{i}")
+                chars.append(escaped)
     return tuple(chars)
 
 def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode], cur_token: str, category: str, trailing: str = ""):
@@ -549,7 +578,7 @@ def generalize_to_strings(oracle: ExternalOracle, grammar: Grammar, trees: List[
         _, expansion2_ok = generalize_digits_in_rule(oracle, grammar, trees, rule_start, body_idxs)
         expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
 
-    chars = list(generalize_special_symbols(oracle, trees, rule_start, try_escaped=True))
+    chars = list(generalize_special_symbols(oracle, trees, rule_start, try_escaped=True, rule_class=expansion_ok))
 
     if expansion_ok:
         return body_idxs, expansion_ok, tuple(chars)
@@ -606,7 +635,7 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
                     if r_str != "":
                         digit_bodies_to_replace = t_r
                         replace_str = r_str
-                symbols = generalize_special_symbols(oracle, trees, rule_start)
+                symbols = generalize_special_symbols(oracle, trees, rule_start, rule_class=replace_str)
                 idxs_to_replace.update(digit_bodies_to_replace)
                 add_body_tuple(replace_str, symbols, bodies_to_add)
 
@@ -628,7 +657,7 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
                                 letter_bodies_to_replace = lbt_r
                                 replace_str = r_str
                     if replace_str != "":
-                        symbols = generalize_special_symbols(oracle, trees, rule_start)
+                        symbols = generalize_special_symbols(oracle, trees, rule_start, rule_class=replace_str)
                         idxs_to_replace.update(letter_bodies_to_replace)
                         add_body_tuple(replace_str, symbols, bodies_to_add)
         # TODO: add cases for upper and lowercase in case those are split in pretokenization
