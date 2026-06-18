@@ -1352,6 +1352,9 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
             for child in node.children:
                 if child.payload == target:
                     child.payload = label
+        elif node.payload == target:
+            new_node = ParseNode(label, False, node.children)
+            node.children = [new_node]
 
         for child in node.children:
             rewrite_recursive_targets(child, target, label)
