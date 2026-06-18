@@ -35,11 +35,7 @@ MAX_SAMPLES = 10
 
 whitespace_map = []
 
-SYMBOL_MODE_BOTH = "both"
-SYMBOL_MODE_RECURSIVE_ONLY = "recursive_only"
-SYMBOL_MODE_STANDALONE_ONLY = "standalone_only"
-
-def rules_to_add(rule_start: str, symbols: List[str] = None, symbol_mode: str = SYMBOL_MODE_BOTH):
+def rules_to_add(rule_start: str, symbols: List[str] = None):
     if rule_start == "":
         print("WARNING: Calling rules_to_add with the empty string",file= sys.stderr)
         exit(1)
@@ -48,18 +44,12 @@ def rules_to_add(rule_start: str, symbols: List[str] = None, symbol_mode: str = 
         char_rule = Rule(rule_start + "_symbol")
         for c in symbols:
             char_rule.add_body(([f'"{c}"']))
-
-        if symbol_mode != SYMBOL_MODE_RECURSIVE_ONLY:
-            r.add_body([char_rule.start])
-
-    def add_symbol_recursion():
-        if symbols and symbol_mode != SYMBOL_MODE_STANDALONE_ONLY:
-            r.add_body([char_rule.start, rule_start])
+        r.add_body([char_rule.start])
 
     if rule_start.startswith("tupper_lowers"):
         r.add_body(['tupper', 'tlowers'])
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tupper') + rules_to_add('tlowers')
         return [r] + rules_to_add('tupper') + rules_to_add('tlowers')
 
@@ -73,26 +63,26 @@ def rules_to_add(rule_start: str, symbols: List[str] = None, symbol_mode: str = 
         r.add_body(['tdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add("tnzdigit") + rules_to_add("tdigits")
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
     elif rule_start.startswith("tnzinteger"):
         r.add_body(['tnzdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add("tnzdigit") + rules_to_add("tdigits")
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
     elif rule_start.startswith("tletter_alphanums"):
         r.add_body(['tletter', 'talphanums'])
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tletter') + rules_to_add('talphanums')
         return [r] + rules_to_add('tletter') + rules_to_add('talphanums')
     elif rule_start.startswith("tletter_digits"):
         r.add_body(['tletter', 'tdigits'])
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tletter') + rules_to_add('tdigits')
         return [r] + rules_to_add('tletter') + rules_to_add('tdigits')
 
@@ -100,7 +90,7 @@ def rules_to_add(rule_start: str, symbols: List[str] = None, symbol_mode: str = 
         r.add_body(['tdigit'])
         r.add_body(["tdigit", rule_start])
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add("tdigit")
         return [r] + rules_to_add("tdigit")
 
@@ -115,7 +105,7 @@ def rules_to_add(rule_start: str, symbols: List[str] = None, symbol_mode: str = 
         r.add_body(['talphanum'])
         r.add_body((['talphanum', rule_start]))
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('talphanum')
         return [r] + rules_to_add('talphanum')
     elif rule_start.startswith("talphanum"):
@@ -128,7 +118,7 @@ def rules_to_add(rule_start: str, symbols: List[str] = None, symbol_mode: str = 
         r.add_body(['tletter'])
         r.add_body((['tletter', rule_start]))
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tletter')
         return [r] + rules_to_add('tletter')
     elif rule_start.startswith("tletter"):
@@ -141,7 +131,7 @@ def rules_to_add(rule_start: str, symbols: List[str] = None, symbol_mode: str = 
         r.add_body(['tlower'])
         r.add_body((['tlower', rule_start]))
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tlower')
         return [r] + rules_to_add('tlower')
     elif rule_start.startswith("tlower"):
@@ -154,7 +144,7 @@ def rules_to_add(rule_start: str, symbols: List[str] = None, symbol_mode: str = 
         r.add_body(['tupper'])
         r.add_body((['tupper', rule_start]))
         if symbols:
-            add_symbol_recursion()
+            r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tupper')
         return [r] + rules_to_add('tupper')
     elif rule_start.startswith("tupper"):
@@ -207,7 +197,13 @@ def _special_symbol_candidates():
     candidates.extend(["\\n", "\\t", "\\r"])
     return candidates
 
-def generalize_special_symbol_groups(oracle: ExternalOracle, trees: List[ParseNode], rule_start: str, try_escaped: bool = False, rule_class: str = ""):
+def _special_symbol_replacements(symbol: str, rule_class: str):
+    def with_symbol(suffixes: List[str]):
+        return list(dict.fromkeys([symbol] + [symbol + suffix for suffix in suffixes]))
+
+    if not rule_class:
+        return [symbol]
+
     class_suffixes = [
         ("tupper_lowers", ["Aa", "Zz", "Test"]),
         ("tinteger", ["0", "7", "10", "42", "100"]),
@@ -220,54 +216,32 @@ def generalize_special_symbol_groups(oracle: ExternalOracle, trees: List[ParseNo
         ("tlowers", ["a", "z", "abc", "test"]),
         ("tuppers", ["A", "Z", "ABC", "TEST"]),
     ]
-    suffixes = []
-    for class_name, class_suffix_list in class_suffixes:
+
+    for class_name, suffixes in class_suffixes:
         if rule_class.startswith(class_name):
-            suffixes = class_suffix_list
-            break
+            return with_symbol(suffixes)
 
-    modes = [SYMBOL_MODE_BOTH]
-    if suffixes:
-        modes.extend([SYMBOL_MODE_RECURSIVE_ONLY, SYMBOL_MODE_STANDALONE_ONLY])
-
-    relevant_trees = [tree for tree in trees if nt_in_tree(tree, rule_start)]
-    for symbol_mode in modes:
-        chars = []
-        for i in _special_symbol_candidates():
-            candidate_symbols = [i]
-            if try_escaped:
-                candidate_symbols.append(f"\\{i}")
-
-            for symbol in candidate_symbols:
-                if suffixes and symbol_mode == SYMBOL_MODE_RECURSIVE_ONLY:
-                    replacements = [symbol + suffix for suffix in suffixes]
-                elif suffixes and symbol_mode == SYMBOL_MODE_STANDALONE_ONLY:
-                    replacements = [symbol]
-                elif suffixes:
-                    replacements = list(dict.fromkeys([symbol] + [symbol + suffix for suffix in suffixes]))
-                elif symbol_mode != SYMBOL_MODE_RECURSIVE_ONLY:
-                    replacements = [symbol]
-                else:
-                    replacements = []
-
-                if not replacements:
-                    continue
-
-                candidates = []
-                for tree in relevant_trees:
-                    candidates.extend(get_strings_with_replacement(tree, rule_start, replacements))
-                if try_strings(oracle, candidates):
-                    chars.append(symbol)
-                    break
-
-        if chars:
-            return tuple(chars), symbol_mode
-
-    return (), ""
+    return [symbol]
 
 def generalize_special_symbols(oracle: ExternalOracle, trees: List[ParseNode], rule_start: str, try_escaped: bool = False, rule_class: str = ""):
-    chars, _ = generalize_special_symbol_groups(oracle, trees, rule_start, try_escaped, rule_class)
-    return chars
+    chars = []
+    relevant_trees = [tree for tree in trees if nt_in_tree(tree, rule_start)]
+    for i in _special_symbol_candidates():
+        candidates_1 = []
+        replacements = _special_symbol_replacements(i, rule_class)
+        for tree in relevant_trees:
+            candidates_1.extend(get_strings_with_replacement(tree, rule_start, replacements))
+        if try_strings(oracle, candidates_1):
+            chars.append(i)
+        elif try_escaped:
+            candidates_1 = []
+            escaped = f"\\{i}"
+            replacements = _special_symbol_replacements(escaped, rule_class)
+            for tree in relevant_trees:
+                candidates_1.extend(get_strings_with_replacement(tree, rule_start, replacements))
+            if try_strings(oracle, candidates_1):
+                chars.append(escaped)
+    return tuple(chars)
 
 def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode], cur_token: str, category: str, trailing: str = ""):
     """
@@ -604,17 +578,16 @@ def generalize_to_strings(oracle: ExternalOracle, grammar: Grammar, trees: List[
         _, expansion2_ok = generalize_digits_in_rule(oracle, grammar, trees, rule_start, body_idxs)
         expansion_ok = expansion2_ok if not expansion_ok else expansion_ok
 
-    symbols, symbol_mode = generalize_special_symbol_groups(oracle, trees, rule_start, try_escaped=True, rule_class=expansion_ok)
-    chars = list(symbols)
+    chars = list(generalize_special_symbols(oracle, trees, rule_start, try_escaped=True, rule_class=expansion_ok))
 
     if expansion_ok:
-        return body_idxs, expansion_ok, symbols, symbol_mode
+        return body_idxs, expansion_ok, tuple(chars)
     elif len(set(chars+existing_bodies)) > len(existing_bodies):
-        return body_idxs, f"{rule_start}_symbol", symbols, symbol_mode
+        return body_idxs, f"{rule_start}_symbol", tuple(chars)
 
     else:
-        return [], "", (), ""
-
+        return [], "", ()
+    
 
 def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseNode]):
     """
@@ -622,22 +595,16 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
 
     Currently only expands alphanumerics (not whitespace or punctuation)
     """
-    all_body_tuples = set([(i, None, SYMBOL_MODE_BOTH) for i in grammar.rules.keys()])
+    all_body_tuples = set([(i,None) for i in grammar.rules.keys()])
     rule_starts = set(grammar.rules.keys())
     def is_terminal(elem):
         return elem not in rule_starts
 
-    def add_body_tuple(rule_name, symbols, bodies_to_add, symbol_mode=SYMBOL_MODE_BOTH):
-        while any(rule_name == t[0] and (symbols != t[1] or symbol_mode != t[2]) for t in all_body_tuples):
+    def add_body_tuple(rule_name, symbols, bodies_to_add):
+        while any(rule_name == t[0] and symbols != t[1] for t in all_body_tuples):
             rule_name = rename_conflict(rule_name)
-        bodies_to_add.add((rule_name, symbols, symbol_mode))
-        all_body_tuples.add((rule_name, symbols, symbol_mode))
-
-    def add_symbol_tuple(rule_name, symbols, symbol_mode, bodies_to_add):
-        if symbols:
-            add_body_tuple(rule_name, symbols, bodies_to_add, symbol_mode)
-        else:
-            add_body_tuple(rule_name, (), bodies_to_add)
+        bodies_to_add.add((rule_name, symbols))
+        all_body_tuples.add((rule_name, symbols))
 
     def rename_conflict(rule_name):
         parts = rule_name.rsplit('_', 1)
@@ -668,9 +635,9 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
                     if r_str != "":
                         digit_bodies_to_replace = t_r
                         replace_str = r_str
-                symbols, symbol_mode = generalize_special_symbol_groups(oracle, trees, rule_start, rule_class=replace_str)
+                symbols = generalize_special_symbols(oracle, trees, rule_start, rule_class=replace_str)
                 idxs_to_replace.update(digit_bodies_to_replace)
-                add_symbol_tuple(replace_str, symbols, symbol_mode, bodies_to_add)
+                add_body_tuple(replace_str, symbols, bodies_to_add)
 
         if idxs_by_type[letter_type] or idxs_by_type[lowercase_type] or idxs_by_type[uppercase_type]:
             for l_type in [uppercase_type, lowercase_type, letter_type]:
@@ -690,9 +657,9 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
                                 letter_bodies_to_replace = lbt_r
                                 replace_str = r_str
                     if replace_str != "":
-                        symbols, symbol_mode = generalize_special_symbol_groups(oracle, trees, rule_start, rule_class=replace_str)
+                        symbols = generalize_special_symbols(oracle, trees, rule_start, rule_class=replace_str)
                         idxs_to_replace.update(letter_bodies_to_replace)
-                        add_symbol_tuple(replace_str, symbols, symbol_mode, bodies_to_add)
+                        add_body_tuple(replace_str, symbols, bodies_to_add)
         # TODO: add cases for upper and lowercase in case those are split in pretokenization
         # skip whitespace for now
         # if idxs_by_type[whitespace_type]:
@@ -701,25 +668,25 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
         #     if replace_str != "":
         #         idxs_to_replace.update(whitespace_bodies_to_replace)
         #         bodies_to_add.add((replace_str, None))
-
+        
         if idxs_by_type[punctuation_type]:
-
+            
             pb_tr, pb_r_str, printables = generalize_to_operators(oracle, grammar, trees, rule_start, idxs_by_type[punctuation_type])
             if pb_r_str != "":
                 idxs_to_replace.update(pb_tr)
                 add_body_tuple(pb_r_str, printables, bodies_to_add)
 
         if idxs_by_type[string_type]:
-            sb_tr, sb_r_str, symbols, symbol_mode = generalize_to_strings(oracle, grammar, trees, rule_start, idxs_by_type[string_type])
+            sb_tr, sb_r_str, printables = generalize_to_strings(oracle, grammar, trees, rule_start, idxs_by_type[string_type])
             if sb_r_str != "":
                 idxs_to_replace.update(sb_tr)
-                add_symbol_tuple(sb_r_str, symbols, symbol_mode, bodies_to_add)
+                add_body_tuple(sb_r_str, printables, bodies_to_add)
 
         for body_idx in sorted(idxs_to_replace, reverse = True):
             rule.bodies.pop(body_idx)
-        for nt_name, printables, symbol_mode in sorted(bodies_to_add, key= lambda x: x[0]):
+        for nt_name, printables in sorted(bodies_to_add, key= lambda x: x[0]):
             rule.add_body([nt_name])
-            rs_to_add = rules_to_add(nt_name, printables, symbol_mode)
+            rs_to_add = rules_to_add(nt_name, printables)
             for r_to_add in rs_to_add:
                 if r_to_add.start not in grammar.rules:
                     grammar.add_rule(r_to_add)
