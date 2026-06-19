@@ -1531,7 +1531,8 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                 tmp_grammar = build_grammar(tmp_trees)
                 tmp_tree_list = ParseTreeList(tmp_trees, tmp_grammar)
                 # print("Checking non-recursive merge")
-                replacement = replacement_valid_and_expanding(first, second, tmp_tree_list)
+                # add indirection of label to nt2 in places of nt2
+                replacement = replacement_valid_and_expanding(first, label, tmp_tree_list)
                 if replacement == "<TRUE>":
                     coalesce_caused = True
                     update_required = True
@@ -1542,10 +1543,10 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                     else:
                         class_nt = allocate_tid()
 
-                    classes = {class_nt: [first, second]}
-                    get_class = {first: class_nt, second: class_nt}
+                    classes = {class_nt: [first, label]}
+                    get_class = {first: class_nt, label: class_nt}
                     coalesced_into[first] = class_nt
-                    coalesced_into[second] = class_nt
+                    coalesced_into[label] = class_nt
 
                     tree_list = tmp_tree_list
                     grammar = tmp_grammar
