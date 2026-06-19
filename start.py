@@ -1347,6 +1347,18 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
     def rewrite_recursive_targets(node: ParseNode, target: str, label: str):
         if node.is_terminal:
             return
+
+        """
+            bubble              bubble
+            /   \       ->      /   \ 
+          nt1   target        nt1   label
+
+             target              target
+               |        ->         |
+            children             label
+                                   |
+                                children
+        """
         if node.payload == coalesce_target.new_nt:
             # node.cache_valid = False
             for child in node.children:
