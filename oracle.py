@@ -30,12 +30,21 @@ class ExternalOracle:
         self.parse_calls = 0
         self.real_calls = 0
         self.time_spent = 0
+        if command=="liquid":
+            from liquid import Environment
+            self._environment_class = Environment
 
     def _parse_internal(self, string):
         """
         Does the work of calling the subprocess.
         """
         self.real_calls +=1
+        if self.command=="liquid":
+            try:
+                self._environment_class().from_string(string)
+                return True
+            except Exception:
+                return False
         FNULL = open(os.devnull, 'w')
         f = tempfile.NamedTemporaryFile()
         f.write(bytes(string, 'utf-8'))
