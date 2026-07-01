@@ -1,86 +1,16 @@
-# NatGI Overview
+# X-Vada Overview
 
-NatGI infers context-free grammar from example programs. It has only black‑box access to the language parser (an oracle) during the learning process. NatGI follows the parse tree recovery principle from Arvada/TreeVada for grammar inference. NatGI's tree building technique is more powerful with GPT-4o and it produces human‑readable grammars with semantically meaningful nonterminal names.
+X-Vada infers context-free grammar from example programs. It has only black-box access to the language parser (an oracle) during the learning process. X-Vada follows the parse tree recovery principle from Arvada/TreeVada for grammar inference. X-Vada's tree building technique is more powerful with GPT-4o and it produces human-readable grammars with semantically meaningful nonterminal names.
 
-<table>
-<tr>
-<th>Ground Truth <i>while</i> Grammar</th>
-<th>NatGI<sub>Base</sub> Inferred <i>while</i> Grammar</th>
-</tr>
-<tr>
-<td>
-
-```antlr
-grammar whileLang;
-
-start
-    : stmt
-    ;
-stmt
-    : stmt ';' stmt
-    | 'skip'
-    ;
-boolexpr
-    : '~' boolexpr
-    | boolexpr '&' boolexpr
-    | numexpr '==' numexpr
-    | 'true'
-    | 'false'
-    ;
-numexpr
-    : '(' numexpr '+' numexpr ')'
-    | 'L'
-    | 'n'
-    ;
-```
-</td>
-<td>
- 
-```antlr
-grammar whileLang;
-
-start
-    : stmt
-    ;
-stmt
-    : stmt ';' stmt
-    | 'L' '=' numexpr
-    | 'L' '=' 'L'
-    | 'while' boolexpr 'do' stmt
-    | 'if' boolexpr 'then' stmt 'else' stmt
-    | 'skip'
-    ;
-boolexpr
-    : '~' boolexpr
-    | boolexpr '&' boolexpr
-    | numexpr '==' numexpr
-    | 'L' '==' numexpr
-    | numexpr '==' 'L'
-    | 'L' '==' 'L'
-    | 'true'
-    | 'false'
-    ;
-numexpr
-    : '(' 'L' '+' 'L' ')'
-    | '(' 'L' '+' numexpr ')'
-    | '(' numexpr '+' 'L' ')'
-    | '(' numexpr '+' numexpr ')'
-    | 'n'
-    ;
-```
-</td>
-</tr> </table>
+The inferred grammars are intended to be easy to inspect and use in downstream tooling.
 
 Key features
 - Needs few example programs and an oracle, the oracle is a command that accepts a filename and returns 0 for valid inputs.
-- Relies on LLM to build parse-trees of the example programs.
 - Produces human-readable grammars with meaningful non-terminals.
 - Generates grammar in ANTLR4 format, which is directly compatible with popular grammar-based fuzzers (i.e. [Grammarinator](https://github.com/renatahodovan/grammarinator))
 
-![NatGI](NatGI.jpg)
 
-
-NatGI is built on Arvada/TreeVada's approach for grammar inference and aims to make inferred grammars easier to inspect and use in downstream tooling.
+X-Vada is built on Arvada/TreeVada's approach for grammar inference and aims to make inferred grammars easier to inspect and use in downstream tooling.
 
 ## Requirements
 
@@ -95,7 +25,7 @@ pip3 install antlr4-python3-runtime==4.9.2
 
 ## Quickstart
 
-NatGI takes a directory of example programs (TRAIN_DIR) and an oracle command (ORACLE_CMD). The oracle must be invocable as:
+X-Vada takes a directory of example programs (TRAIN_DIR) and an oracle command (ORACLE_CMD). The oracle must be invocable as:
 
 - `ORACLE_CMD filename` — runs the oracle on the file `filename`
 - return 0 for valid examples, non‑zero for invalid examples
@@ -115,29 +45,7 @@ $ python3 eval.py [--no-antlr4] [-n PRECISION_SET_SIZE] ORACLE_CMD TEST_DIR LOG_
 - `TEST_DIR` is a directory of held-out valid programs. 
 - `--no-antlr4` flag doesn't generate antlr4 grammar. Otherwise antlr4 grammar is written into a `.g4` file.
 
-## Zero shot GPT-o4 (mini) grammar
 
-Compare how NatGI performs against zero shot grammar inference, even with powerful reasoning models like GPT-o4. 
-1. Run `gpt.py` to get a text grammar.
-
-```
-python3 gpt.py SEED_DIR SEED_NAME   #python3 gpt.py Seed_Programs/tinyc/tinyc-train tinyc-r1
-```
-This writes a text grammar to `results/gpt_grammar_{SEED_NAME}.txt`.
-
-2. Convert the text grammar into the pickled `.gramdict` format (uses ORACLE_CMD for lexical inference on the terminals):
-```
-python3 grammar_from_csv.py SEED_NAME ORACLE_CMD        #python3 grammar_from_csv.py tinyc-r1 Seed_Programs/tinyc/parse_tinyc
-```
-This produces a binary grammar file named `results/gpt-grammar_{SEED_NAME}.gramdict`.
-
-3. Evaluate the saved grammar (precision/recall/F1) with the eval utility:
-```
-python3 eval.py ORACLE_CMD TEST_DIR LOG_FILE   #python3 eval.py Seed_Programs/tinyc/parse_tinyc Seed_Programs/tinyc/tinyc-test tinyc-r1
-```
-Here, `LOG_FILE` is the base name used for the .gramdict produced by step 2.
-
-Note that `grammar_from_csv.py` expects the text grammar in a format instructed in the prompt. if the LLM cannot follow the specific format or the grammar has errors (i.e. some non-terminals used in rules but never defined), step 2 and 3 will fail.
 <!-- ## Acknowledgements
 
 
