@@ -1,6 +1,6 @@
-# X-Vada Overview
+# XVada Overview
 
-X-Vada infers context-free grammar from example programs. It has only black-box access to the language parser (an oracle) during the learning process. X-Vada follows the parse tree recovery principle from Arvada/TreeVada for grammar inference. X-Vada's tree building technique is more powerful with GPT-4o and it produces human-readable grammars with semantically meaningful nonterminal names.
+XVada infers context-free grammar from example programs. It has only black-box access to the language parser (an oracle) during the learning process. XVada follows the parse tree recovery principle from Arvada/TreeVada for grammar inference. XVada's tree building technique is more powerful with GPT-4o and it produces human-readable grammars with semantically meaningful nonterminal names.
 
 The inferred grammars are intended to be easy to inspect and use in downstream tooling.
 
@@ -10,7 +10,7 @@ Key features
 - Generates grammar in ANTLR4 format, which is directly compatible with popular grammar-based fuzzers (i.e. [Grammarinator](https://github.com/renatahodovan/grammarinator))
 
 
-X-Vada is built on Arvada/TreeVada's approach for grammar inference and aims to make inferred grammars easier to inspect and use in downstream tooling.
+XVada is built on Arvada/TreeVada's approach for grammar inference and aims to make inferred grammars easier to inspect and use in downstream tooling.
 
 ## Requirements
 
@@ -25,7 +25,7 @@ pip3 install antlr4-python3-runtime==4.9.2
 
 ## Quickstart
 
-X-Vada takes a directory of example programs (TRAIN_DIR) and an oracle command (ORACLE_CMD). The oracle must be invocable as:
+XVada takes a directory of example programs (TRAIN_DIR) and an oracle command (ORACLE_CMD). The oracle must be invocable as:
 
 - `ORACLE_CMD filename` — runs the oracle on the file `filename`
 - return 0 for valid examples, non‑zero for invalid examples
