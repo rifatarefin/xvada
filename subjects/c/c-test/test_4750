@@ -1,0 +1,1 @@
+__inline__ _Alignas ( _Atomic __m128 ^ _Atomic _Atomic _Atomic restrict _Atomic * ) enum h { s , a , w6 , } ; _Atomic qz [ static 1 ] { restrict ; } ;

@@ -1,0 +1,1 @@
+module K { opens yield . opens to var ; uses sealed . opens ; }

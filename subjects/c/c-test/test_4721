@@ -1,0 +1,4 @@
+( ( int * * _Atomic restrict U0 [ _Atomic * ] ) [ static const const volatile L"" ( ) ^= 99 ] [ volatile * ] __asm ( "" ) __asm ( L"" u"" "" ) ) [ _Atomic static 29 ] __asm ( u8"\
+\
+" ) __asm ( "\
+" ) { while ( 5148808 ) { } }

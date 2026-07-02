@@ -1,0 +1,19 @@
+{%- liquid
+  assign fruits = "apple, banana, cherry, grape, mango" | split: ", "
+  for fruit in fruits
+    assign letter = fruit | slice: 0
+    case letter
+      when "a"
+        echo fruit | upcase
+      when "b"
+        echo fruit | capitalize
+      when "c"
+        echo fruit | append: "!"
+      else
+        echo fruit | prepend: "*" | append: "*"
+    endcase
+    unless forloop.last
+      echo " | "
+    endunless
+  endfor
+-%}

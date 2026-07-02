@@ -1,0 +1,1 @@
+@ permits . module yield . @ module yield . @ provides ( ) package J . uses . transitive . yield . exports . var . opens . open ; ; public static non-sealed enum requires { yield ( ) { } , @ open . transitive . opens @ var ( { , } ) record { ; } , ; }

@@ -1,0 +1,6 @@
+; static ^ const _Atomic ^ const ( Q0 [ * ] __asm ( L"\
+\
+" u"\
+" ) ) [ ! 52 %= ++ && k = 9 ] __asm ( "" "\
+" u"\
+" ) { }

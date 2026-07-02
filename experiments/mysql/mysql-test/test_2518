@@ -1,0 +1,1 @@
+; EXECUTE `b` -- XA PREPARE `` CACHE INDEX `&` .CB , `PL` . `SWE7` , `q"` ( HOUR ) PARTITION ( ALL ) IN `SWE7` -- ; ; INSTALL PLUGIN `TIS620` SONAME '''\K' ; --

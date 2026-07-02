@@ -1,0 +1,1 @@
+; ; int * _Atomic * _Alignas ( __extension__ ( __m128 ) ^ ) ;

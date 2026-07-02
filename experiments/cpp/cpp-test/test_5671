@@ -1,0 +1,1 @@
+enum class alignas ( union { } const union { } [ [ ] ] ) alignas ( const * ) [ [ ] ] G7I : const union { } enum class [ [ ] ] [ [ ] ] [ [ ] ] { N2s } [ [ ] ] ;

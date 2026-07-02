@@ -1,0 +1,1 @@
+package permits . provides . open ; import static K . * ; ; ; final interface to < module > permits module < ? , ? , ? > , byte sealed . open . @ with ( { } ) [ ] @ yield ( { } ) [ ] , @ J @ exports short record . @ transitive [ ] , open [ ] { }

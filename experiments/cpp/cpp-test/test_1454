@@ -1,0 +1,1 @@
+extern template [ [ ] ] ; alignas ( sizeof ... ( wu ) && sizeof ... ( A ) > > sizeof ... ( B ) ->* this / this ( ) ++ ... ) ;

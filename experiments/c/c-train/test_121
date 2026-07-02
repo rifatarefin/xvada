@@ -1,0 +1,1 @@
+__declspec ( c ) ( __extension__ ( __m128 ) * * const Y3v ) [ static _Atomic const 77 ] __asm ( "" ) { return ; { } } _Alignas ( volatile volatile ) _Atomic ; signed _Alignas ( V3 ) ; _Atomic ( enum k * ^ const restrict struct o const short ^ const ) ;

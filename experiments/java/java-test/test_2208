@@ -1,0 +1,1 @@
+module transitive . permits { opens with . open to b ; uses to ; }

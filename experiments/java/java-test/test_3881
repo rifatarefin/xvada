@@ -1,0 +1,1 @@
+open module permits . to { requires requires . record ; }

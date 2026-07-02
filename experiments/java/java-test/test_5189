@@ -1,0 +1,1 @@
+sealed . @ open ( ( @ exports . record . exports . provides . requires ( { } ) with . open [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] ) super ) package provides ; ; @ interface permits { }

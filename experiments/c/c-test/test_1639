@@ -1,0 +1,1 @@
+; ; N ( _Thread_local ^ volatile , short register signed restrict _Thread_local ) [ const * ] ( ) { }

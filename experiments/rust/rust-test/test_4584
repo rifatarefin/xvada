@@ -1,0 +1,1 @@
+pub ( super ) enum macro_rules where 'static : '_ , { }

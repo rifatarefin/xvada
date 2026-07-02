@@ -1,0 +1,3 @@
+__extension__ ( __m128d ) ^ const ( * ( vb4 __asm ( "\
+" u8"" ) ) ) __asm ( U"\
+" ) _Alignas ( struct A5 ) int restrict const const restrict _Atomic ; { ; }

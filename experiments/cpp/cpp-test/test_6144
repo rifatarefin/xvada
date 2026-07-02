@@ -1,0 +1,1 @@
+; alignas ( this -- >= sizeof ... ( J ) ? throw : throw ... ) ;

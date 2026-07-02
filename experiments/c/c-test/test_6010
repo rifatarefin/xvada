@@ -1,0 +1,4 @@
+register * restrict ( ^ restrict ^ _Atomic ( s4k __asm ( "\
+" "\
+" "\
+" ) ) [ const _Atomic restrict ] ( ) __attribute__ ( ( ) ) __asm ( "" "\r" u"" U"" ) __attribute__ ( ( ) ) ) const ; { } ; ;

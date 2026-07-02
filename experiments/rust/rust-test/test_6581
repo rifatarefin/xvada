@@ -1,0 +1,1 @@
+# ! [ self :: crate :: super :: crate :: crate ] # ! [ $crate ] # ! [ :: super { } ] # ! [ :: crate :: $crate :: super :: $crate :: super ( ) ] pub trait macro_rules < # [ :: self ] # [ self :: crate ( ) ] const r#_aQt : '_ + , const macro_rules : dyn '_ , > { # ! [ :: macro_rules = r#"~"# ] pub ( self ) type r#_E where ! : '_ , '_i : ; }

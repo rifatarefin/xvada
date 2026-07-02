@@ -1,0 +1,1 @@
+open module requires { requires static var . transitive ; exports uses to var ; requires provides ; }

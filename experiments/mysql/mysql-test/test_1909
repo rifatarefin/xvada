@@ -1,0 +1,1 @@
+LOCK TABLES `X` . `P` LOW_PRIORITY WRITE -- ; --

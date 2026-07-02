@@ -1,0 +1,1 @@
+# ! [ self { } ] pub ( in :: $crate ) unsafe extern { # ! [ :: crate = b"" ] pub ( super ) static _o : dyn '_ + 'static ; }

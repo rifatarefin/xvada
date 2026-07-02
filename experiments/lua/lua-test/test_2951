@@ -1,0 +1,1 @@
+( nil ) : F ( ) break if nil .. true .. ... then do end repeat until ... else while false do end end local function ert ( ) return end return true .. false , false ~= nil

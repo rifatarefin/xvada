@@ -1,0 +1,1 @@
+@ transitive . uses @ exports ( ) @ module @ module . record . opens package provides ; ; ; import static provides . record . * ; import with ; protected private strictfp enum requires { module ( ) { ; } ; } ; ;

@@ -1,0 +1,1 @@
+_Noreturn _Alignas ( union c5 { const ; restrict ; _Atomic ; } ) ^ ( * _Atomic const ^ * * ( ^ vg ) [ * ] ( ) [ _Atomic static 533 ] [ volatile const * ] ) { }

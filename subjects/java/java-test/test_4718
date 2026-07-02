@@ -1,0 +1,1 @@
+module record . uses . provides { exports record to opens . record ; }

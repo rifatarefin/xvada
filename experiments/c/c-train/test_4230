@@ -1,0 +1,1 @@
+_Atomic __attribute__ ( ( goto ( ) ) ) enum _ register _Alignas ( const _Atomic ( volatile ^ [ ] __asm ( "" ) __asm ( "" ) __asm ( "" ) ) ) ;

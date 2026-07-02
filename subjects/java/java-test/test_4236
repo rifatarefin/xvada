@@ -1,0 +1,1 @@
+open module S { opens opens . open . exports . open . record to transitive . to ; uses transitive . n0 . var . permits ; }

@@ -1,0 +1,2 @@
+; __attribute__ ( ( , . , B , ) ) _Alignas ( _Atomic _Atomic ( __m128i * ) ^ _Atomic restrict ( * * ^ restrict restrict const restrict volatile volatile restrict restrict _Atomic restrict restrict volatile volatile ( [ * ] ) __asm ( u8"\
+" "" ) ) __attribute__ ( ( , ) ) [ static const ++ ( { } ) /= "" "" ++ <<= 1 ] ) _Alignas ( union { __extension__ ( __m128d ) ; } a ) ;

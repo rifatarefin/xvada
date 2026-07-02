@@ -1,0 +1,1 @@
+template < > template < > extern u8"f\n" { asm ( "W" ) ; }

@@ -1,0 +1,1 @@
+_Alignas ( _Atomic ( _Atomic * ) restrict enum h _Atomic ) __attribute__ ( ( __m128 , |= ) ) ;

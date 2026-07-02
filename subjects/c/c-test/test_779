@@ -1,0 +1,6 @@
+register __extension__ ( __m128 ) * const * volatile _Atomic ( D [ static const restrict restrict 6 ] [ static restrict sizeof ( _Atomic ) += 4 ] ) __attribute__ ( ( % ( ) ) ) __asm ( U"\76\
+\
+\
+" ) __asm ( U"\
+\
+" u"G" "\f" ) ; extern ;

@@ -1,0 +1,5 @@
+<header class="site-header">
+  <a href="/" class="logo">{{ shop.name }}</a>
+  <nav>{% for link in navigation %}<a href="{{ link.url }}">{{ link.title }}</a>{% endfor %}</nav>
+  <a href="/cart">Cart ({{ cart_count }})</a>
+</header>

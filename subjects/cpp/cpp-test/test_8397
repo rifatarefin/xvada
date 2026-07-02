@@ -1,0 +1,1 @@
+alignas ( struct { } auto ... ) [ [ ] ] alignas ( sizeof ... ( i ) ) ;

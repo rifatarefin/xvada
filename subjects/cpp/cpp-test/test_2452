@@ -1,0 +1,1 @@
+extern template template < template < typename , typename , typename ... , typename ... > class ... X00 > extern uR"$(k)\(\)" template < > ; inline namespace y { extern template ; } template inline namespace { }

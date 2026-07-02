@@ -1,0 +1,1 @@
+for Ish = true and false ^ false , ... ^ { } , ... >> true .. nil do end return

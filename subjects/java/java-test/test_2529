@@ -1,0 +1,1 @@
+@ module . requires ( { } ) @ uses ( open = super , transitive = transitive . with . @ record ( ) , to = @ sealed ( { } ) ) package BUv ; import to ;

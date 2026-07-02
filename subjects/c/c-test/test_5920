@@ -1,0 +1,10 @@
+static ( * _Atomic _Atomic volatile z [ ] __asm ( L"" u8"\
+\
+" u"O" ) __asm ( u8"" ) __asm ( u8"" "" "" U"`\
+" ) ) [ static const 3 ] [ restrict _Atomic ++ & 7 ^= 5 ] [ static sizeof ( volatile * * restrict restrict [ static 3 ] [ _Atomic static 52 ] __asm ( U"" ) __asm ( u"" "ct" u"" "d" "\
+" u"" "\
+\
+\
+\
+\
+" ) __attribute__ ( ( d ) ) ) /= 0 ] ( ) { __asm __volatile__ ( ) ; } ;

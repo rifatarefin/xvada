@@ -1,0 +1,1 @@
+pub struct macro_rules < # [ $crate { } ] # [ macro_rules :: macro_rules = "" ] 'X : '_ + 'static + , const macro_rules : _ > { # [ $crate :: super ] pub ( crate ) f : dyn '_ }

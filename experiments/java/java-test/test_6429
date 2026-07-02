@@ -1,0 +1,1 @@
+module requires . provides { opens L to uses . module ; provides opens . to with uses . requires ; }

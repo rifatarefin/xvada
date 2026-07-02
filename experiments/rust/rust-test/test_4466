@@ -1,0 +1,1 @@
+pub ( self ) struct jPL < > where for < > ( ) : 'static + 'static { r#_1 : ( ) }

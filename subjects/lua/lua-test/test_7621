@@ -1,0 +1,1 @@
+local function Tu ( ... ) end return { } , true ^ true ;

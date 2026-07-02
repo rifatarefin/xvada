@@ -1,0 +1,20 @@
+{% comment %}Reusable product card — receives 'product' parameter{% endcomment %}
+<div class="product-card">
+  <a href="/products/{{ product.handle }}">
+    <div class="product-card__image">
+      <img src="/images/{{ product.featured_image }}" alt="{{ product.title | escape }}" loading="lazy">
+    </div>
+    <div class="product-card__info">
+      <h3 class="product-card__title">{{ product.title | truncate: 40 }}</h3>
+      {% assign pc_dollars = product.price | divided_by: 100 %}{% assign pc_cents = product.price | modulo: 100 %}
+      {% if product.compare_at_price and product.compare_at_price > product.price %}
+        {% assign pcc_dollars = product.compare_at_price | divided_by: 100 %}{% assign pcc_cents = product.compare_at_price | modulo: 100 %}
+        <span class="product-card__price--sale">${{ pc_dollars }}.{% if pc_cents < 10 %}0{% endif %}{{ pc_cents }}</span>
+        <span class="product-card__price--compare"><s>${{ pcc_dollars }}.{% if pcc_cents < 10 %}0{% endif %}{{ pcc_cents }}</s></span>
+      {% else %}
+        <span class="product-card__price">${{ pc_dollars }}.{% if pc_cents < 10 %}0{% endif %}{{ pc_cents }}</span>
+      {% endif %}
+      {% if product.available == false %}<span class="badge badge--soldout">Sold out</span>{% endif %}
+    </div>
+  </a>
+</div>

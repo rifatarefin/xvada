@@ -1,0 +1,1 @@
+enum { T6 , } ; const static volatile _Noreturn restrict _Atomic _Alignas ( _Atomic ( volatile short * * ) ) ;

@@ -1,0 +1,1 @@
+open module uses . permits . record . provides . transitive . record . opens . opens { exports K4e to yield ; exports provides ; uses var ; requires sealed . uses . A . with ; exports permits ; uses to ; provides module with opens ; }

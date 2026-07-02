@@ -1,0 +1,1 @@
+@ record @ e package var ; import transitive . * ; ; import static requires . open . provides . record . J8 . sealed . H . * ; @ sealed @ interface module { } @ interface permits { ; } ;

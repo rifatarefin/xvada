@@ -1,0 +1,5 @@
+_Atomic ( enum W { x558 } * ^ restrict const ^ const * ( p7x * ( ( ^ restrict volatile o0 ) __asm ( U"\
+\
+" u"\
+\
+jW" L"" u8"" U"" ) ) [ * ] ) ) [ _Atomic volatile volatile static 82 ] __attribute__ ( ( , ) ) __asm ( U"" ) __asm ( U"" ) { __extension__ ( __m128i ) _Alignas ( double ) enum ftZ b7 __asm ( "" ) ; }

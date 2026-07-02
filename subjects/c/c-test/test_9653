@@ -1,0 +1,1 @@
+volatile ^ _Atomic restrict volatile _Atomic ^ const _Atomic const i : 08 __attribute__ ( ( ) ) __asm ( u"" "" ) { _Alignas ( volatile restrict ( ) [ ] __attribute__ ( ( ) ) ) enum I0F7 * const ; _Thread_local W98LX [ _Atomic * ] __attribute__ ( ( ) ) = 98 ; } ;

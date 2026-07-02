@@ -1,0 +1,6 @@
+auto ( * const fE0K ( __extension__ ( __m128 ) , __stdcall , volatile extern __m128d extern , ... ) ( s , t ) __attribute__ ( ( f , union , ) ) __asm ( "\bx\
+\
+\
+" ) __asm ( U"k" ) ) __asm ( L"\
+\
+w" ) { }

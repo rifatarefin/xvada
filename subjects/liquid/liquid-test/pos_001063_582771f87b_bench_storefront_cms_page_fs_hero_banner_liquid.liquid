@@ -1,0 +1,7 @@
+<div class="hero" style="background-image: url('{{ section.background | escape }}')">
+  <h2>{{ section.heading | escape }}</h2>
+  <p>{{ section.subheading | escape }}</p>
+  {% if section.cta_text %}
+    <a href="{{ section.cta_url }}" class="button">{{ section.cta_text }}</a>
+  {% endif %}
+</div>

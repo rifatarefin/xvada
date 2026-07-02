@@ -1,0 +1,22 @@
+{%- liquid
+  assign csv = "name:age:city,Alice:30:NYC,Bob:25:LA,Carol:35:Chicago" | split: ","
+  assign count = 0
+  for row in csv
+    if forloop.first
+      continue
+    endif
+    assign fields = row | split: ":"
+    assign age = fields[1] | plus: 0
+    if age >= 30
+      assign count = count | plus: 1
+      echo fields[0]
+      echo " ("
+      echo fields[2]
+      echo ")"
+      unless forloop.last
+        echo ", "
+      endunless
+    endif
+  endfor
+  echo " [" | append: count | append: " found]"
+-%}

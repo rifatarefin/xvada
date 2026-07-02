@@ -1,0 +1,1 @@
+{% assign filtered = items | where: 'stock', true %}{{ filtered | map: 'name' | sort | first | default: 'None in stock' }}

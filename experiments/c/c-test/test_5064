@@ -1,0 +1,1 @@
+__attribute__ ( ( auto ( ) , _Noreturn ( ) , *= ( ) , return ) ) _Atomic ( struct q restrict ^ restrict restrict ) union TcP { __m128d _Atomic ; } * ^ ^ XH { _Alignas ( __extension__ ( __m128i ) restrict ) _Atomic __stdcall _Thread_local ; } ;

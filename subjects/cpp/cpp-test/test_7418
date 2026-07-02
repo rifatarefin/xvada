@@ -1,0 +1,1 @@
+alignas ( struct { } volatile [ [ ] ] ... ( ) [ ] [ ] ( ) and ( ) && ( ) & [ ] [ [ ] ] ... ) alignas ( volatile ... ) ;

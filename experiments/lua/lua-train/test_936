@@ -1,0 +1,1 @@
+H6 = true .. nil , nil // ... , nil , ... // false , ... or nil , ... , true and false return nil <= false ;

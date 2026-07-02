@@ -1,0 +1,1 @@
+record . @ sealed ( ) package uses . opens ; import static to . var . exports . * ; ; ;

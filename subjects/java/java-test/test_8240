@@ -1,0 +1,1 @@
+open module provides { exports module to module ; uses open . transitive ; }

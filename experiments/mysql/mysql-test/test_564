@@ -1,0 +1,1 @@
+STOP SLAVE ; XA PREPARE ```\z\IP` , `\b=` --

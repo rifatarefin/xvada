@@ -1,0 +1,1 @@
+import static permits ; ; interface yield extends @ transitive ( ) @ opens double sealed . permits . @ record ( ) [ ] permits float , @ permits . opens . to . var . yield requires . requires < ? , ? > . opens . transitive . exports < ? > . open < ? , ? , ? > [ ] { }

@@ -1,0 +1,1 @@
+interface OMB < record , record extends requires , var > extends boolean [ ] [ ] , long permits permits < ? , ? , ? > . $37B07DF2 < ? , ? > , with . @ var @ var int , opens < ? > { } ; public @ interface provides { } ;

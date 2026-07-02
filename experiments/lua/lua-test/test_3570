@@ -1,0 +1,1 @@
+for T in true , nil < true , nil or nil , ">" , nil .. nil do return ; end return

@@ -1,0 +1,1 @@
+@ uses . permits ( { super } ) @ requires . with module . uses . yield . @ provides ( ) package yield ; ; import with . * ; import var . * ;

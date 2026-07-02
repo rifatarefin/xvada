@@ -1,0 +1,1 @@
+template < enum class { } [ [ ] ] ... ~ decltype ( auto ) ( ) & -> auto auto [ [ ] ] [ [ ] ] = { { } ... , throw ... } > template < class ... > [ [ ] ] ;

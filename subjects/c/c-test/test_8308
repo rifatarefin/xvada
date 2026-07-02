@@ -1,0 +1,6 @@
+extern _Alignas ( union xR { __extension__ ( __m128 ) ; } ) ^ Q [ restrict const restrict * ] [ static restrict const _Atomic + ( restrict ) __extension__ ( __extension__ ( __m128d ) ^ volatile const ^ _Atomic restrict * ) 0329 ^= -- sizeof sizeof _Alignof ( volatile __extension__ ( __m128d ) ^ const restrict restrict [ volatile 0 ] [ * ] __asm ( "\
+\
+\
+\
+y" ) ) %= -- sizeof ( _Bool ^ ( ) __attribute__ ( ( ) ) __asm ( "\
+" ) __attribute__ ( ( ) ) ) <<= 2 ] { ++ -- ++ ++ sizeof ( __extension__ ( __m128 ) ( ) __asm ( "" ) __asm ( "" ) __asm ( "" "" "" ) __asm ( "" "" "" "" "" ) __asm ( "" "" "" ) __asm ( "" "" "" ) ) ^= 2253 ; }

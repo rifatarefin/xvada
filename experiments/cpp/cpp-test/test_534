@@ -1,0 +1,1 @@
+inline namespace { inline namespace R { } ; template < > extern template ; }

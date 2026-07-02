@@ -1,0 +1,1 @@
+module var . open { opens uses . provides ; uses provides . requires . open ; }

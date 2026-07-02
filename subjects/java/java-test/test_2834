@@ -1,0 +1,1 @@
+@ requires . sealed . module ( provides = to . @ open ( { , } ) ) @ record package uses . sealed ; ; import var . open ; ; import static opens ; import static uses . * ;

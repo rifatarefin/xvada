@@ -1,0 +1,1 @@
+open module transitive { requires requires ; requires provides . module . var . var . sealed . exports ; provides provides . yield . transitive with permits . g . transitive ; }

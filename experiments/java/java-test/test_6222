@@ -1,0 +1,1 @@
+module record { opens yield . module . opens . requires to yield ; uses uses ; }

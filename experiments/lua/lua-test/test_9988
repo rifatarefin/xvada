@@ -1,0 +1,1 @@
+if true then return ; elseif ... or true ~= false or false then :: E :: :: RS :: return ; elseif { } then goto rf while false do end break else break end while nil ^ false .. nil do end :: v :: ; return false >= true , true - false ;

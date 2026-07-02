@@ -1,0 +1,1 @@
+inline namespace { } template < > namespace { template < class > extern LR"()" extern "" { } } extern template ;

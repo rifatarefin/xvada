@@ -1,0 +1,1 @@
+DROP EVENT `J` .BJ_TX -- PREPARE `UTF8MB3` FROM "" -- HANDLER `@r` CLOSE -- ; --

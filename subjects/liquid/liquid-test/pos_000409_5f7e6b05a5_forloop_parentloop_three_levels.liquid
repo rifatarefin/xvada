@@ -1,0 +1,1 @@
+{% for i in (1..2) %}{% for j in (1..2) %}{% for k in (1..2) %}{{ forloop.parentloop.parentloop.index }}.{{ forloop.parentloop.index }}.{{ forloop.index }} {% endfor %}{% endfor %}{% endfor %}

@@ -1,0 +1,1 @@
+record open < @ i . provides @ exports . with ( ) requires extends @ requires ( ) double [ ] [ ] , @ with @ transitive @ uses open > ( ) { static volatile transient with { return ; } ; native transient yield { break with ; } ; exports { ; } }

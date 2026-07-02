@@ -1,0 +1,1 @@
+local i = false .. nil , false , ... >> false , true .. ... return true or false ;

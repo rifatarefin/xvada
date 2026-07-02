@@ -1,0 +1,1 @@
+@ sealed ( ) @ provides . exports . sealed @ provides ( opens = @ permits , exports = @ yield ( { , } ) ) @ module package exports . provides . permits ; enum requires implements boolean [ ] { @ record provides ( ) { ; ; } ; }

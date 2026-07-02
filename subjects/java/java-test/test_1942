@@ -1,0 +1,1 @@
+@ transitive ( super . new transitive ( ) { } ) package provides ; ; import static record ; import with ;

@@ -1,0 +1,124 @@
+{%- comment -%}Shopping cart — heavy math and filter chain usage{%- endcomment -%}
+<!DOCTYPE html>
+<html>
+<head><title>Your Cart — {{ shop.name }}</title></head>
+<body>
+  {% render 'header', shop: shop, navigation: navigation, cart_count: cart.item_count %}
+
+  <main class="cart-page">
+    <h1>Your Cart</h1>
+
+    {% if cart.items.size > 0 %}
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% assign subtotal = 0 %}
+          {% for item in cart.items %}
+            {% assign line_total = item.price | times: item.quantity %}
+            {% assign subtotal = subtotal | plus: line_total %}
+            <tr class="cart-item {% cycle 'cart-row-odd', 'cart-row-even' %}">
+              <td class="cart-item__product">
+                <img src="/images/{{ item.image }}" alt="{{ item.title | escape }}" width="80">
+                <div>
+                  <a href="/products/{{ item.handle }}">{{ item.product_title | escape }}</a>
+                  {% if item.variant_title %}<small>{{ item.variant_title }}</small>{% endif %}
+                  {% if item.properties.size > 0 %}
+                    <ul class="cart-item__properties">
+                      {% for prop in item.properties %}
+                        <li><em>{{ prop.name }}:</em> {{ prop.value | escape }}</li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </div>
+              </td>
+              <td class="cart-item__price">
+                {% assign d = item.price | divided_by: 100 %}{% assign c = item.price | modulo: 100 %}
+                ${{ d }}.{% if c < 10 %}0{% endif %}{{ c }}
+                {% if item.original_price and item.original_price > item.price %}
+                  {% assign od = item.original_price | divided_by: 100 %}{% assign oc = item.original_price | modulo: 100 %}
+                  <s class="compare-price">${{ od }}.{% if oc < 10 %}0{% endif %}{{ oc }}</s>
+                {% endif %}
+              </td>
+              <td class="cart-item__qty">
+                <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" data-line="{{ forloop.index }}">
+              </td>
+              <td class="cart-item__total">
+                {% assign td = line_total | divided_by: 100 %}{% assign tc = line_total | modulo: 100 %}
+                ${{ td }}.{% if tc < 10 %}0{% endif %}{{ tc }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {%- comment -%}Cart summary with discount, tax, shipping{%- endcomment -%}
+      <div class="cart-summary">
+        {% assign sd = subtotal | divided_by: 100 %}{% assign sc = subtotal | modulo: 100 %}
+        <div class="cart-summary__row">
+          <span>Subtotal ({{ cart.item_count }} items)</span>
+          <span>${{ sd }}.{% if sc < 10 %}0{% endif %}{{ sc }}</span>
+        </div>
+
+        {% if cart.discount_code %}
+          {% assign discount_amount = subtotal | times: cart.discount_percent | divided_by: 100 %}
+          {% assign subtotal = subtotal | minus: discount_amount %}
+          {% assign dd = discount_amount | divided_by: 100 %}{% assign dc = discount_amount | modulo: 100 %}
+          <div class="cart-summary__row cart-summary__discount">
+            <span>Discount ({{ cart.discount_code }}, {{ cart.discount_percent }}% off)</span>
+            <span>-${{ dd }}.{% if dc < 10 %}0{% endif %}{{ dc }}</span>
+          </div>
+        {% endif %}
+
+        {% if subtotal >= 10000 %}
+          {% assign shipping = 0 %}
+          <div class="cart-summary__row"><span>Shipping</span><span>FREE</span></div>
+        {% else %}
+          {% assign shipping = 999 %}
+          <div class="cart-summary__row"><span>Shipping</span><span>$9.99</span></div>
+        {% endif %}
+
+        {% assign tax = subtotal | times: 8 | divided_by: 100 %}
+        {% assign txd = tax | divided_by: 100 %}{% assign txc = tax | modulo: 100 %}
+        <div class="cart-summary__row">
+          <span>Tax (8%)</span>
+          <span>${{ txd }}.{% if txc < 10 %}0{% endif %}{{ txc }}</span>
+        </div>
+
+        {% assign grand_total = subtotal | plus: shipping | plus: tax %}
+        {% assign gtd = grand_total | divided_by: 100 %}{% assign gtc = grand_total | modulo: 100 %}
+        <div class="cart-summary__row cart-summary__total">
+          <span>Total</span>
+          <span>${{ gtd }}.{% if gtc < 10 %}0{% endif %}{{ gtc }}</span>
+        </div>
+
+        <button type="submit" class="button button--primary button--full">Checkout</button>
+      </div>
+
+      {%- comment -%}Upsell section — render product cards for suggestions{%- endcomment -%}
+      {% if cart.upsell_products.size > 0 %}
+        <section class="cart-upsells">
+          <h2>Complete Your Order</h2>
+          <div class="product-grid product-grid--3">
+            {% render 'product-card' for cart.upsell_products as product %}
+          </div>
+        </section>
+      {% endif %}
+
+    {% else %}
+      <div class="cart-empty">
+        <p>Your cart is empty.</p>
+        <a href="/collections/all" class="button">Start Shopping</a>
+      </div>
+    {% endif %}
+  </main>
+
+  {% render 'footer', shop: shop, footer_links: footer_links %}
+</body>
+</html>

@@ -1,0 +1,1 @@
+__inline__ restrict static * const * const * c ( const P ) __asm ( L"" U"" ) = 8 ;

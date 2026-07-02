@@ -1,0 +1,1 @@
+extern _Alignas ( __extension__ ( __m128i ) * ^ ^ ^ * restrict _Atomic ^ const restrict ) ;

@@ -1,0 +1,9 @@
+<div class="faq">
+  <h2>{{ section.heading }}</h2>
+  {% for item in section.items %}
+    <details class="faq__item"{% if forloop.first %} open{% endif %}>
+      <summary>{{ item.question | escape }}</summary>
+      <div class="faq__answer">{{ item.answer }}</div>
+    </details>
+  {% endfor %}
+</div>

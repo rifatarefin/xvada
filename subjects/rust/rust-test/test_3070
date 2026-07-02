@@ -1,0 +1,1 @@
+# ! [ crate :: super = b'@' ] # [ self :: $crate :: crate ( ) ] pub trait r#_XDS < > where for < macro_rules : > 'static : { self ! { } type r#_C < > where ! : , ( ) : ; }

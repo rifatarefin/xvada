@@ -1,0 +1,8 @@
+<div class="product-card">
+  <a href="/products/{{ product.handle }}">
+    <img src="/images/{{ product.featured_image }}" alt="{{ product.title | escape }}" loading="lazy">
+    <h3>{{ product.title | truncate: 40 }}</h3>
+    {% assign d = product.price | divided_by: 100 %}{% assign c = product.price | modulo: 100 %}
+    <span class="price">${{ d }}.{% if c < 10 %}0{% endif %}{{ c }}</span>
+  </a>
+</div>

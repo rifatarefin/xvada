@@ -1,0 +1,1 @@
+; extern template static_assert ( this ? throw : throw , R"\)u\)V()" ) ;

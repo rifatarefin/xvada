@@ -1,0 +1,5 @@
+( _Atomic ( enum Q ^ [ * ] [ static _Atomic const _Atomic 33 ] [ * ] __asm ( L"7\n" u8"" "" L"" ) ) * _Atomic ( __extension__ ( __m128d ) * f [ ] [ restrict static "" "" "" ++ -- ^= 9 ] [ _Atomic static 2 ] [ * ] [ static _Atomic volatile 9 ] ) ) __asm ( u"" u8"" u"" U"" ) __asm ( "\
+\
+\
+\
+R\U5c9cd0cD_" ) { } ;

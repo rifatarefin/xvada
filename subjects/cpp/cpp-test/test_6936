@@ -1,0 +1,1 @@
+alignas ( enum struct { } enum class { } volatile && ) [ [ B ( ) ... ] ] ;

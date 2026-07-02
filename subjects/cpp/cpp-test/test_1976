@@ -1,0 +1,1 @@
+* ... decltype ( auto ) :: ~ decltype ( auto ) try { } catch ( ... ) { }

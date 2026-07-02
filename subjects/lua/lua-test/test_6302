@@ -1,0 +1,1 @@
+for ai = nil or ... .. not nil , { } - ... ^ false do end local function n ( ) end

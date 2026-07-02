@@ -1,0 +1,1 @@
+return nil ^ ... , true ~ nil , true > false , true >> false , nil , nil .. false ;

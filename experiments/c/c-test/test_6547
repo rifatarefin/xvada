@@ -1,0 +1,2 @@
+( struct O * restrict const * * volatile * _Atomic volatile I [ 085 ] ) [ volatile static 51 ] [ * ] __asm ( "\xE\
+" U"\n" ) __attribute__ ( ( , { ( ) , , -- , , , , else ( ) , A ( 1 , 8 ) , ) ) __attribute__ ( ( , ? ( ) ) ) __attribute__ ( ( ) ) _Alignas ( restrict unsigned ) ; { }

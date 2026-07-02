@@ -1,0 +1,1 @@
+for i in nil and nil , true , '' do break return ; end return ... , false + nil

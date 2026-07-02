@@ -1,0 +1,1 @@
+PREPARE `CP852` FROM @"" ;

@@ -1,0 +1,1 @@
+_Alignas ( __extension__ ( __m128d ) ^ _Atomic ^ restrict ^ [ const ] [ static _Atomic sizeof -- sizeof ( unsigned ^ ^ ^ ) ^= -- & 3 -= 9 ] ) _Noreturn ;

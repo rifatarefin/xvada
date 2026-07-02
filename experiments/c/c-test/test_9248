@@ -1,0 +1,1 @@
+; r9 __attribute__ ( ( 0b110 ( ) , ) ) c [ restrict volatile static 4 ] [ _Atomic const restrict * ] [ static 848 ] [ static sizeof * __extension__ ( const * ^ ^ ) 9 <<= 96 ] [ ] __attribute__ ( ( , 0Xep-87f ( ) , , + ( ) , _Alignof ( 2 ) , , ) ) = { { && a = 6 , } , } ;

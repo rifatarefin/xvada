@@ -1,0 +1,1 @@
+_Atomic volatile _Alignas ( _Atomic * restrict const ) ; ;

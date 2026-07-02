@@ -1,0 +1,1 @@
+open module open . record . module { requires transitive transitive module . provides . provides . var . permits . to . with ; exports Z ; }

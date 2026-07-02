@@ -1,0 +1,5 @@
+_Alignas ( _Atomic ( double __extension__ ( __m128i ) * ) int ) ; __declspec ( Sor ) _Atomic ^ ( * * Y ) __asm ( L"\t" u"" ) __asm ( u"\
+\25\
+" L"" "" "\
+\107\
+" "" ) __attribute__ ( ( ) ) = { 1 , } ; ;

@@ -1,0 +1,1 @@
+macro_rules ! D { [ ] => [ ] ; ( $ ( $ macro_rules : macro_rules ) + ) => ( ) } struct _4Ulu3 < > where 'static : '_ + '_ + , 'static : '_CA + , for < > ( ) : , '_ : ;

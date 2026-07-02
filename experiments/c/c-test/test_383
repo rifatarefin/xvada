@@ -1,0 +1,1 @@
+__m128d ^ Q __asm ( U"" ) extern __inline__ __extension__ ( __m128d ) _Atomic _X [ const ] __asm ( "" ) ; __attribute__ ( ( , , ) ) __inline__ __declspec ( k3_ ) ; { }

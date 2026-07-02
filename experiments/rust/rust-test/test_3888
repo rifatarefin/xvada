@@ -1,0 +1,1 @@
+pub ( super ) union r#n < > where dyn 'static + 'static + '_ + : , { # [ :: crate :: macro_rules ] # [ super ] # [ :: crate ] pub _C : '_ + , }

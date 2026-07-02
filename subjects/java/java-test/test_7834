@@ -1,0 +1,1 @@
+package permits ; import static var . * ; protected enum yield { @ transitive requires { } } @ record ( ) non-sealed non-sealed abstract strictfp @ interface with { }

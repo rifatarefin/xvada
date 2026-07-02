@@ -1,0 +1,7 @@
+{%- liquid
+  assign x = 10
+  # assign x = 99
+  # This line is ignored
+  assign y = x | plus: 5
+  echo y
+-%}

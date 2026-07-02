@@ -1,0 +1,1 @@
+{{ users | map: 'profile' | map: 'bio' | compact | first | upcase | default: 'NO BIO' }}

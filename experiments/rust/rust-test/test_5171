@@ -1,0 +1,1 @@
+# ! [ self ] # [ $crate :: crate :: crate ] pub struct C4 where '_a : '_ + 'static + , '_ : '_ ;

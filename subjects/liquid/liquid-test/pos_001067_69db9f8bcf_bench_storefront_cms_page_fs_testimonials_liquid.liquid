@@ -1,0 +1,15 @@
+<div class="testimonials">
+  <h2>{{ section.heading }}</h2>
+  <div class="testimonials__grid">
+    {% for testimonial in section.items %}
+      <blockquote class="testimonial {% cycle 'bg-light', 'bg-white', 'bg-light' %}">
+        <p>"{{ testimonial.quote | escape }}"</p>
+        <cite>
+          {{ testimonial.author }}
+          {% if testimonial.title %}<span>{{ testimonial.title }}</span>{% endif %}
+        </cite>
+        <div class="rating">{% for i in (1..5) %}{% if i <= testimonial.rating %}★{% else %}☆{% endif %}{% endfor %}</div>
+      </blockquote>
+    {% endfor %}
+  </div>
+</div>

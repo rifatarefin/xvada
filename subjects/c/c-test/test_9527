@@ -1,0 +1,1 @@
+( _Atomic ( __extension__ ( __m128d ) ^ const ^ _Atomic const ) ^ restrict _Atomic restrict ( * * restrict volatile UXd ) ) restrict short _Alignas ( enum b ) * ( signed * _Atomic const volatile restrict _Atomic D ) [ * ] [ * ] ; { NX : { } }

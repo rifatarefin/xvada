@@ -1,0 +1,1 @@
+_Atomic ( restrict volatile restrict const __extension__ ( __m128d ) ) ; ;

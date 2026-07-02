@@ -1,0 +1,1 @@
+open module with . uses { opens yield . transitive to sealed . with . with . transitive ; requires static transitive static provides . requires ; exports opens . transitive . transitive . with ; exports permits . sealed to provides . provides ; provides d with open . module ; }

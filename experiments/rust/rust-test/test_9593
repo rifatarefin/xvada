@@ -1,0 +1,1 @@
+# ! [ self = b'g' ] # [ self = false ] # [ :: self ] pub trait macro_rules : { }

@@ -1,0 +1,1 @@
+# [ crate ] # [ self ] # [ :: super = b"\"\\" ] # [ :: crate :: crate :: S ] # [ :: self :: self :: macro_rules ] # [ :: crate ] # [ hfS ] # [ crate :: macro_rules :: super :: crate = true ] # [ super [ ] ] unsafe mod a ;

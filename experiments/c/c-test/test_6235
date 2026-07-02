@@ -1,0 +1,6 @@
+; _Alignas ( restrict * const [ _Atomic const ] ) ^ const restrict const * _Atomic const const * * const _Atomic const ( ^ XU __asm ( u"\
+" ) __asm ( U"=\
+\
+" "" ) __asm ( "\
+\
+" ) ) [ ] [ static 9 ] [ static _Atomic 4 ] [ volatile * ] [ restrict * ] { { restrict register ; } }

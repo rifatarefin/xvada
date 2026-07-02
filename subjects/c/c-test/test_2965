@@ -1,0 +1,1 @@
+_Atomic ( __extension__ ( __m128i ) * _Atomic [ * ] ) ^ const _Atomic * ^ _Atomic volatile ^ * ^ * const const * ;

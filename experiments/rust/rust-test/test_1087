@@ -1,0 +1,1 @@
+# ! [ r#F ] # ! [ self :: crate ] # [ :: crate :: r#__r ] extern crate macro_rules ; # [ :: $crate = br"" ] # [ :: self ] # [ :: $crate :: crate ( { } - == + ) ] # [ r#_e :: self [ { } ( .. { { } } { } * macro_rules ) ] ] macro_rules ! E6 [ [ $ ch0 : wa5Y $ macro_rules : macro_rules ] => { [ ] } ; ] ;

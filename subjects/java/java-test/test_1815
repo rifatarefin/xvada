@@ -1,0 +1,1 @@
+module yield . transitive . with . provides . var . module { opens opens . record to transitive ; }

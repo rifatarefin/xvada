@@ -1,0 +1,18 @@
+{%- liquid
+  assign words = "the quick brown fox jumps over the lazy dog" | split: " "
+  assign unique_count = 0
+  assign seen = ""
+  for word in words
+    assign lower = word | downcase
+    assign check = seen | split: "," | where: lower
+    if check.size == 0
+      assign unique_count = unique_count | plus: 1
+      if seen != ""
+        assign seen = seen | append: ","
+      endif
+      assign seen = seen | append: lower
+    endif
+  endfor
+  assign sorted_unique = seen | split: "," | sort | join: ", "
+  echo unique_count | append: " unique: " | append: sorted_unique
+-%}

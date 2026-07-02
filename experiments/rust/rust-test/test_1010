@@ -1,0 +1,1 @@
+pub struct macro_rules < > where 'Cd : , { r#_Vtc : impl 'static + '_ + , pub ( self ) r#__5D : impl '_ + , }

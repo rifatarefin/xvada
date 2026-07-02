@@ -1,0 +1,1 @@
+; __extension__ ( __m128i ) _Alignas ( const ^ ) __attribute__ ( ( _Noreturn ) ) __attribute__ ( ( != ) ) ;

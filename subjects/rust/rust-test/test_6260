@@ -1,0 +1,1 @@
+# ! [ :: self :: crate :: crate ] # [ :: self = b'e' ] # [ :: $crate :: self :: macro_rules = "" ] crate ! { yield } # [ :: $crate ] :: $crate ! [ ] ;

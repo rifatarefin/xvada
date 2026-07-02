@@ -1,0 +1,1 @@
+@ transitive . module package sealed ; import static var . sealed . to . record . provides . requires . * ; ; import open ; ; ; ; module . with . open . record . @ uses record var ( double to ) { } ;

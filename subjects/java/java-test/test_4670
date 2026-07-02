@@ -1,0 +1,1 @@
+; class exports { native transient class sealed { ; ; ; } } non-sealed non-sealed record with ( transitive [ ] with , open . to sealed , boolean [ ] [ ] [ ] module , sealed [ ] module , module record , requires [ ] [ ] [ ] [ ] var , exports yield ) { opens { } native transitive { { } } }

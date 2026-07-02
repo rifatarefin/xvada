@@ -1,0 +1,7 @@
+_Alignas ( volatile * ^ ) * ^ ( ^ _Atomic ( __extension__ ( __m128 ) ^ ( i2 [ _Atomic static 8 ] ( i49 ) __asm ( "\"\
+" "S\
+\
+" ) __asm ( "\
+" ) __asm ( U"" U"" U"#\
+]\
+" ) ) ) [ static 244 ] ) int ; { } __inline__ __attribute__ ( ( ) ) __stdcall _Noreturn ( long * volatile * y [ const * ] ) ( ) [ _Atomic static ( { } ) = 0 ] [ restrict volatile _Atomic volatile * ] = { { { 8 , 4267 , } , . H = && T &= 884 } , 0 , 27 , } ;

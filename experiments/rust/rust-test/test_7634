@@ -1,0 +1,1 @@
+# ! [ :: self :: macro_rules :: super ] # [ self :: r#_B { ( macro_rules { $ } ) [ { $ $ $ $ } ] ? b"" + $ r#C } ] # [ $crate :: self ] pub ( self ) type macro_rules ; union r#u { pub ( in self ) macro_rules : ! }

@@ -1,0 +1,1 @@
+# [ :: crate :: self ] # [ crate = 0o_543 ] # [ :: self :: super :: $crate :: self :: crate ] # [ self ( ) ] pub ( in crate :: _P ) const async fn r#D ( # [ super :: crate ] # [ S0 = b'k' ] # [ :: super :: crate :: macro_rules ] self , ) where impl '_ : '_ ;

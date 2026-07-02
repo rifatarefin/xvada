@@ -1,0 +1,1 @@
+__extension__ ( __m128 ) gk [ const volatile restrict const * ] [ const * ] __attribute__ ( ( else ) ) __asm ( U"" U"\x7AF" ) ;

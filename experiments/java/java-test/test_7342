@@ -1,0 +1,1 @@
+package opens . opens . exports . nm . transitive . requires ; ; ; interface transitive < opens extends double & float [ ] [ ] [ ] & char [ ] [ ] [ ] [ ] & byte , module . yield . @ sealed @ opens ( { } ) open extends @ opens var . @ requires ( { , } ) to & float , yield , module > permits byte @ permits ( { } ) [ ] { transient record open ( ) { ; } }

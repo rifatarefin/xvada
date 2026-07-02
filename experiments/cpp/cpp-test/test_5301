@@ -1,0 +1,1 @@
+namespace oo87 { template < > template < typename ... , typename ... , class ... > extern "^" ; }

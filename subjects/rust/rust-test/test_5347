@@ -1,0 +1,1 @@
+# [ :: super { } ] unsafe extern { pub const async fn W1 ( # [ crate = b'(' ] ... , ) { # ! [ :: crate :: super ] :: super ! [ ] ; } }

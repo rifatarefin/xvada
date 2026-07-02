@@ -1,0 +1,1 @@
+# [ :: crate :: self :: super = 'n' ] # [ self ( ; $ ) ] unsafe extern { # ! [ $crate [ ] ] # [ $crate = "" ] # [ super :: w_ :: $crate ] # [ self ] extern r"" fn r#u < const r#l : ! , 'T : 'static + 'static + 'static + '_ + > ( # [ super ] # [ :: super :: self :: super = b"" ] & self , # [ crate = false ] ... ) ; }

@@ -1,0 +1,1 @@
+module T2 . record { uses uses ; opens with to var . opens . module ; }

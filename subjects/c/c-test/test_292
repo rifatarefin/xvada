@@ -1,0 +1,1 @@
+_Atomic ( enum e1 * volatile * ) ^ f __declspec ( K ) __declspec ( R ) union _ ; ;

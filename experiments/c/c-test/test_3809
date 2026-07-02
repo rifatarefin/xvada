@@ -1,0 +1,1 @@
+int volatile volatile _Alignas ( _Atomic ( __m128 const ^ [ * ] __asm ( u8"" "" "" ) ) volatile __extension__ ( __m128 ) _Bool __extension__ ( __m128i ) const ) ;

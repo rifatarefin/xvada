@@ -1,0 +1,7 @@
+unsigned ^ restrict _Alignas ( _Atomic ( __extension__ ( __m128i ) ^ [ ] ) _Atomic ( const ^ ( ) ) ( ^ _Atomic ^ restrict const _Atomic [ 00 ] ( ) __asm ( u"5\
+v" u8"\
+\
+" ) __asm ( U"\
+" ) __asm ( "\
+\
+" ) ) __attribute__ ( ( /= ) ) ) ; ;

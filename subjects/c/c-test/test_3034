@@ -1,0 +1,4 @@
+; ; volatile ( _Atomic ( volatile ^ * * ) ^ * A ( ) [ const ] ) [ ] [ _Atomic volatile volatile _Atomic restrict restrict static -- -- ( __extension__ ( __m128 ) __extension__ ( __m128i ) ) { 47 , } ( ) = 8798 ] __asm ( L"v" "\
+\
+\
+" ) = 66 ; register ;

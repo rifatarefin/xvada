@@ -1,0 +1,1 @@
+^ restrict YUP [ const volatile _Atomic static 4 ] __inline__ _Alignas ( volatile _Atomic const ) ; register _Atomic ( const restrict ) ; { } _Atomic ;

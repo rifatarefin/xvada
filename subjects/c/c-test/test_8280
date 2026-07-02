@@ -1,0 +1,3 @@
+_Atomic extern register ^ * * const const _Atomic VB __asm ( u"" ) _Alignas ( restrict restrict _Atomic ) volatile _Alignas ( restrict [ * ] ( ) __asm ( "" "" ) [ static restrict 4 ] [ * ] __asm ( u8"\
+Nc" ) __attribute__ ( ( + ) ) ) ^ volatile _Atomic eSf [ 3 ] __asm ( L"\
+" ) = { . v2m = sizeof "" "" "" "" "" += 0 } ; { union _6 __attribute__ ( ( ) ) ; }

@@ -1,0 +1,1 @@
+asm ( u8"" ) ; template inline namespace { }

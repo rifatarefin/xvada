@@ -1,0 +1,1 @@
+alignas ( const [ [ ] ] ( * * * ) ) alignas ( sizeof ... ( EO ) | this -- ++ ++ ) alignas ( enum class { } enum class { } enum struct { } union { } [ [ ] ] ) alignas ( decltype ( auto ) int & [ [ ] ] [ [ ] ] ... [ ] ) [ [ ] ] [ [ ] ] alignas ( enum struct { } enum { } ... ) ;

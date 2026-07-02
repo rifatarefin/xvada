@@ -1,0 +1,1 @@
+; namespace B { ~ decltype ( auto ) [ [ ] ] ( ) const throw ( ) [ [ ] ] -> short [ [ ] ] = delete ; }

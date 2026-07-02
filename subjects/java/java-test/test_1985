@@ -1,0 +1,1 @@
+package yield ; final non-sealed private record with ( ) { } interface uses { ; } private class uses implements yield . requires < ? , ? > @ yield @ permits ( { } ) @ sealed . with [ ] , short [ ] @ exports ( { } ) @ record @ record [ ] permits . provides . uses . @ I ( ) [ ] @ var . sealed [ ] @ j2 . sealed . requires @ requires ( { , } ) [ ] , boolean { }

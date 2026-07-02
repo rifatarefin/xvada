@@ -1,0 +1,1 @@
+; _Atomic struct Z { volatile ; } register ;

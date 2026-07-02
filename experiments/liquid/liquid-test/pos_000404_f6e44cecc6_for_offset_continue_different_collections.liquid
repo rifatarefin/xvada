@@ -1,0 +1,1 @@
+{% for i in a limit:2 %}{{ i }}{% endfor %}|{% for i in b limit:2 %}{{ i }}{% endfor %}|{% for i in a offset:continue %}{{ i }}{% endfor %}

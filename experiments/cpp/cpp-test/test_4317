@@ -1,0 +1,1 @@
+alignas ( void volatile ) ; inline namespace { } alignas ( decltype ( auto ) [ [ ] ] [ [ ] ] [ [ ] ] ( ) noexcept -> volatile [ [ ] ] [ [ ] ] [ [ ] ] ) ;

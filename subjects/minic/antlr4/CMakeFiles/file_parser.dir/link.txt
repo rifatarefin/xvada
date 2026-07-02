@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/file_parser.dir/file_parser.cpp.o CMakeFiles/file_parser.dir/minicLexer.cpp.o CMakeFiles/file_parser.dir/minicParser.cpp.o -o file_parser  /home/mxa7262xx/Downloads/antlr4/runtime/Cpp/dist/libantlr4-runtime.a

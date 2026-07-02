@@ -1,0 +1,1 @@
+module var { opens with to record ; requires opens ; uses B . with ; exports transitive to Zt1 . yield . uses ; exports var ; }

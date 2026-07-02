@@ -1,0 +1,2 @@
+; _Alignas ( const [ static 5 ] __asm ( "" ) __attribute__ ( ( short ( ) ) ) __asm ( "\
+{" ) __asm ( L"" "" "" u8"" ) ) ;

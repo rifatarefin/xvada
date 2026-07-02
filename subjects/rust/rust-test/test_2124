@@ -1,0 +1,1 @@
+# ! [ :: crate :: crate ] # [ :: $crate = 'p' ] macro_rules ! _GBpk { { } => ( [ ] { } ) }

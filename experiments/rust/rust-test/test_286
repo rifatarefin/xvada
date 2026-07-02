@@ -1,0 +1,1 @@
+# ! [ :: crate :: self ] macro_rules ! M ( ( ) => [ + %= ? ( ) [ ] ( ) ( ) ] ) ; macro_rules ! r#_OM { { $ ( ( ) ) '_ ? } => { } ; [ $ r#b : macro_rules $ r#_Z : F ( ( ) { } { } [ ] [ ] ) ] => [ ] ; }

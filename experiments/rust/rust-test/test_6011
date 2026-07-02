@@ -1,0 +1,1 @@
+# [ :: self ] extern crate self ; macro_rules ! macro_rules ( { b"" async $ ( [ ] ) ? ( [ ] [ ] ) } => [ ? '_ ] ; ) ;

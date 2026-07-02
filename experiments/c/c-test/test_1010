@@ -1,0 +1,8 @@
+^ ^ I volatile ; _Alignas ( __extension__ ( __m128d ) * _Atomic ( * ^ ) __attribute__ ( ( ) ) __asm ( "\
+\
+\
+" U"\
+" ) __asm ( u"" ) __asm ( u"\
+" ) __asm ( L"\
+\
+A" u8"" ) ) __extension__ ( __m128 ) __attribute__ ( ( ) ) M ; { ++ sizeof ++ __extension__ ( { } ) ++ = 4 , 54 , && p >>= sizeof && v6167r += 4 , 6 ; switch ( 3 ) if ( 458 , 7 , 3 , 326 ) __asm volatile ( ) ; else __asm volatile ( : ) ; }

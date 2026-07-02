@@ -1,0 +1,1 @@
+local function k ( ... ) ; end return # nil , nil ^ false , false .. false , nil , false .. true , ... or nil

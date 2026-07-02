@@ -1,0 +1,1 @@
+static_assert ( ~ decltype ( auto ) -- ? throw : [ ] ( ) mutable { } [ { } ] & sizeof sizeof ... ( Hnl ) <<= { } , U"\x61\U7aaBDE00\b" ) ; template inline namespace { }

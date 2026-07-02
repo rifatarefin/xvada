@@ -1,0 +1,1 @@
+# ! [ :: crate ] # ! [ $crate [ != ] ] # ! [ :: $crate = 0x_B ] # ! [ :: crate ] # ! [ :: macro_rules :: macro_rules ] # ! [ self ] # ! [ :: self :: self ] # ! [ :: self :: $crate :: crate { } ] # ! [ :: _b :: super ] # ! [ :: self :: super = br"" ] macro_rules ! macro_rules ( { } => { } ; ( ) => { } ; ( ) => { ( ) + $ } ; ( ) => { } ) ;

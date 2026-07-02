@@ -1,0 +1,3 @@
+_Alignas ( enum u8 ( ) __asm ( u8"" ) __asm ( "\
+," u"\
+" ) ( ) __attribute__ ( ( ) ) [ volatile const _Atomic restrict const volatile _Atomic const static 838 ] __attribute__ ( ( ) ) ) _Noreturn ;

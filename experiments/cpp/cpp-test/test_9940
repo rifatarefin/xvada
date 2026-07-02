@@ -1,0 +1,1 @@
+alignas ( sizeof ... ( X ) ? throw : throw ... ) ; ;

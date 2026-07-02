@@ -1,0 +1,1 @@
+module opens { uses module . var ; }

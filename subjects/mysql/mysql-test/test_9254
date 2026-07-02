@@ -1,0 +1,1 @@
+; REVOKE `TIS620` , `LATIN2` FROM ````@"" , `a` , `` -- ;

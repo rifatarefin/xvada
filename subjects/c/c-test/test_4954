@@ -1,0 +1,1 @@
+; ; ^ restrict f [ _Atomic _Atomic const restrict _Atomic const static 6 ] ( _Complex short * restrict ) [ static const volatile const 0 ] { } _Alignas ( __m128d ) register ;

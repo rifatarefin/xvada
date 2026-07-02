@@ -1,0 +1,1 @@
+package requires ; import var ; import static with . requires . * ; ; class transitive < transitive > extends short { interface module { } }

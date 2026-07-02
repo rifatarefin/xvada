@@ -1,0 +1,1 @@
+template < > [ [ ] ] ... ~ decltype ( auto ) [ ] ( ) and -> volatile [ [ ] ] * [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] const volatile volatile & [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] & [ [ ] ] & [ [ ] ] [ [ ] ] && decltype ( auto ) :: * [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] volatile && [ [ ] ] [ [ ] ] && [ [ ] ] and [ [ ] ] ... try { } catch ( ... ) { }

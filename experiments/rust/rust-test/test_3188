@@ -1,0 +1,1 @@
+# ! [ crate = false ] # [ :: super :: macro_rules :: $crate :: self ] macro_rules ! r#iB [ [ ] => ( ) ; ] ; # [ self ] macro_rules ! macro_rules ( [ ] => [ ( ) ] ; ) ; self ! [ { '_Znu '_ [ [ ( ) ] ] } ] ;

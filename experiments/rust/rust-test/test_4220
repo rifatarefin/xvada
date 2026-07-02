@@ -1,0 +1,1 @@
+# ! [ super = r#""# ] macro_rules ! O { ( ) => { [ ] } ; [ ( ( ) ) ] => ( ..= { } { } { } ) ; } # [ :: crate :: $crate :: crate :: crate :: macro_rules :: crate [ $ "" '_ $ $ <<= $ ] ] macro_rules ! r#_C [ [ + ] => [ $crate macro_rules * $ { } * ] ; { } => { ( ) { } } ; { $ self : _9 } => [ ] ; ] ;

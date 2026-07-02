@@ -1,0 +1,1 @@
+# ! [ :: super :: self ] macro_rules ! macro_rules [ ( ) => [ ? * $crate { } ] ; { $ ( ^= * %= $crate ) do ? } => [ ? macro_rules '_ ] ; ( ( ) $ ( $ self : macro_rules ) + ) => [ $ [ ] ] ; [ %= ( ( ) ) ] => [ [ ] + ( ) ] ; ] ;

@@ -1,0 +1,1 @@
+package exports . transitive ; ; @ interface sealed { } ; strictfp @ provides . exports sealed @ interface opens { }

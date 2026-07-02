@@ -1,0 +1,1 @@
+transitive . @ provides ( u4U3R = super , module = this , record = this ) @ yield sealed . @ provides package record ; import requires . yield . opens . * ;

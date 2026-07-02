@@ -1,0 +1,1 @@
+( ( ( * _Atomic D7 [ _Atomic restrict static 49 ] ) ) ( a , _ , a ) __attribute__ ( ( = ( ) , ) ) __asm ( L"" u8"" ) ) { dc __extension__ ( __m128d ) const ; } const __extension__ ( __m128d ) ; __declspec ( l ) __attribute__ ( ( , 0x0c8d ( ) , static ) ) ;

@@ -1,0 +1,1 @@
+package transitive ; ; ; ; sealed non-sealed non-sealed @ interface module { interface requires { ; } ; enum L { } ; ; ; ; } class r2_3H { enum uses { , ; ; } }

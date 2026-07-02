@@ -1,0 +1,1 @@
+import static permits . yield . module . * ; ; interface open extends requires . @ provides @ open . opens short [ ] { non-sealed sealed enum exports { , ; } } ;

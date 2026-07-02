@@ -1,0 +1,1 @@
+module yield { exports var to opens ; uses module ; }

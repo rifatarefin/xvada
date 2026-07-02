@@ -1,0 +1,1 @@
+if nil and false + false or nil then elseif # false << ... then do end else end ; goto d local function lV ( ) break return end return ... - ... ;

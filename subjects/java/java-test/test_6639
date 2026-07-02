@@ -1,0 +1,1 @@
+@ opens ( ) @ open ( sealed = { , } , provides = { { } , { , } , { , } , { , } , { } , { } } ) package module ; import exports . record . * ;

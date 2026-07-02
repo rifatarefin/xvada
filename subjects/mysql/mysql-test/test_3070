@@ -1,0 +1,1 @@
+INSERT HIGH_PRIORITY IGNORE `N` .T02_88A6 PARTITION ( MINUTE , `+//` ) ( COMMITTED ) SELECT SQL_CALC_FOUND_ROWS * , `Ed$?` . `O6X` . * , `w` . `r` . * -- ; ; DEALLOCATE PREPARE `#5` -- ; ; ;

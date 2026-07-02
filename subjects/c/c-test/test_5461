@@ -1,0 +1,12 @@
+( ^ volatile restrict ( * j4 ) ( R0H , zI ) [ static sizeof ( const [ * ] __asm ( "w" U"" U"" u8"g\
+\
+" ) __attribute__ ( ( , , ) ) __attribute__ ( ( ) ) __attribute__ ( ( ) ) __asm ( L"U\
+\
+" ) __asm ( "" "\
+<\
+" "" "\
+\
+&\
+" ) __asm ( "m" "" ) __asm ( L"V" L"\
+f\
+" "" "" "" ) ) = -- -- -- -- -- + __extension__ ( _Atomic ) 6 += 3 ] ( __declspec ( D ) , __attribute__ ( ( ) ) __extension__ ( __m128 ) __extension__ ( __m128i ) * g , __declspec ( a ) * restrict * const _Atomic , ... ) ) restrict _Atomic const * j ( ) [ _Atomic volatile volatile restrict const && z94 &= ++ && j >>= 267 ] = { . M_px15 = { 452 } } , ( ^ volatile const _Atomic _Atomic h ) [ restrict _Atomic volatile static 0 ] [ static const _Alignof ( __extension__ ( __m128d ) ( ) ) %= 7 ] __attribute__ ( ( typedef , , default ( ) ) ) , ^ _Atomic _ [ volatile static 69 ] [ static 1 ] [ const _Atomic static 3 ] = { 6 , } , k [ _Atomic restrict static 7 ] [ ] [ restrict 1 ] = { ++ ++ ! 02 = 7 , } ; { __inline__ __attribute__ ( ( ) ) _Thread_local wK5s [ restrict static 5 ] __asm ( U"" ) __attribute__ ( ( inline , > ( ) , __attribute__ ( ) , %= ) ) = -- ++ "" "" "" ( ) /= 1 ; }

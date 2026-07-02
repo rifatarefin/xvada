@@ -1,0 +1,1 @@
+open module opens . module { uses open . to ; opens module ; provides with with open . module . uses . transitive . sealed ; }

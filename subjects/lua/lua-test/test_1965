@@ -1,0 +1,1 @@
+while nil > ... // false ^ ... do ; ; return end return true ;

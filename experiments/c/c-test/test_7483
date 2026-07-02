@@ -1,0 +1,1 @@
+^ ^ const volatile _Atomic s [ static 5 ] [ _Atomic * ] [ static volatile & -- ++ -- -- -- + 56306 %= _Alignof ( long __extension__ ( __m128d ) float ) &= ++ * ++ ! 3 |= -- -- "" |= "" = 2 ] [ _Atomic restrict volatile restrict * ] typedef _Atomic ; { } ;

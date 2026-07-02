@@ -1,0 +1,1 @@
+; for Js = .64 , false > nil and "" , nil do return ; end return

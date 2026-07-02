@@ -1,0 +1,1 @@
+* ( _Atomic ( __extension__ ( __m128d ) __extension__ ( __m128i ) ^ * * * ^ volatile ^ const ^ restrict restrict * ) * * restrict ^ restrict M ) { { __asm__ volatile ( ) ; } 4 , ++ -- -- sizeof ( const ) = 78 ; }

@@ -1,0 +1,1 @@
+alignas ( this and this ... ) [ [ C ... ] ] alignas ( struct { ; } ... ) [ [ ] ] ;

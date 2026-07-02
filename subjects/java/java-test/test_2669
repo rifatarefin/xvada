@@ -1,0 +1,1 @@
+module open { provides requires with transitive ; opens module . requires to open ; provides with with sealed . to . open ; }

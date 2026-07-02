@@ -1,0 +1,3 @@
+pub trait macro_rules < const r#Zu : impl '_ + '_ + 'static + 'static , > : ( :: $crate :: ) + '_ { # [ :: super :: $crate = br"iR" ] # [ :: super :: _g0 :: super :: super ] # [ $crate [ { } ] ] # [ crate ( $ $ * $ | -> * ( ) ) ] pub ( in :: _H ) const r#_5 : ! = continue .. ..= .. ; # [ :: self { [ ] { } [ ] } ] # [ crate ] :: macro_rules ! { ( ) "\
+\
+" } }

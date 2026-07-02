@@ -1,0 +1,1 @@
+alignas ( union { } union { } volatile union { } union { } [ [ ] ] [ [ ] ] [ [ ] ] && ... ) alignas ( union { } [ [ ] ] ) ... ~ decltype ( auto ) [ [ ] ] ( ) [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] -> const void const [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] ( ) ( ) , ~ decltype ( auto ) [ [ ] ] ( ) -> double int [ [ ] ] ... ;

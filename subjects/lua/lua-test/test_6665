@@ -1,0 +1,1 @@
+for s = false < true + nil ^ false , true , 4 do if false then elseif ... then end do end end

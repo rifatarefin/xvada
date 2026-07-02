@@ -1,0 +1,1 @@
+volatile _Alignas ( _Atomic ( __extension__ ( __m128i ) ) * _Atomic volatile volatile restrict restrict ) ;

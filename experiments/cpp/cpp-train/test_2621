@@ -1,0 +1,1 @@
+template < > inline namespace vX { template [ [ ] ] [ [ ] ] ; [ [ ] ] ; } alignas ( this != sizeof ... ( J ) .* this ... ) ; template < > ;

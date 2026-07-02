@@ -1,0 +1,1 @@
+goto kIN ; repeat if nil then elseif true then else end until true + true - true if ... ^ nil then elseif false then elseif false << nil ^ false then else end

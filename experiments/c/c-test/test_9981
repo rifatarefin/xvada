@@ -1,0 +1,1 @@
+_Alignas ( volatile ^ _Atomic restrict ( ) ) __declspec ( A5 ) __attribute__ ( ( ) ) _Alignas ( restrict __extension__ ( __m128i ) ) _Alignas ( restrict enum x5 restrict void * __extension__ ( __m128i ) ^ float ( ^ const * ^ [ restrict static 80 ] ) ) __declspec ( R57u ) _Atomic ; ;

@@ -1,0 +1,1 @@
+inline ( ... ~ decltype ( auto ) ) [ sizeof this ++ ( ) .* [ ] ( ) mutable { } ] ( ) throw ( ) -> typename decltype ( auto ) :: VM enum u enum :: D class nW < > final override try { } catch ( ... ) { } catch ( [ [ ] ] [ [ ] ] const ) { [ [ ] ] { } } catch ( ... ) { }

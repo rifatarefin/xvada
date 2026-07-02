@@ -1,0 +1,1 @@
+_Alignas ( _Atomic ( const __extension__ ( __m128d ) ) ) __inline__ __declspec ( z6 ) ;

@@ -1,0 +1,2 @@
+; __extension__ ( __m128 ) * ( int ^ volatile volatile Z [ _Atomic static 2 ] [ * ] ) [ static ( { } ) /= ++ && C00z %= 7 ] [ _Atomic static 09 ] __asm ( u"" ) __asm ( "\
+" ) = 54 ; ; inline _Thread_local _Alignas ( restrict ) volatile _Alignas ( __extension__ ( __m128 ) * restrict const * ^ restrict restrict _Atomic _Atomic ) ;

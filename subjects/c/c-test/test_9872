@@ -1,0 +1,1 @@
+( ^ _Atomic ( * * * ( ^ volatile restrict volatile ( ^ _Atomic T ) [ volatile volatile restrict * ] ) [ volatile static ++ && r *= 8 ] ) ) auto __declspec ( O ) __inline__ union T { __extension__ ( __m128d ) restrict ; } struct b ; { }

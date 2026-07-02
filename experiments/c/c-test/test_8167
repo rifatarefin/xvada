@@ -1,0 +1,4 @@
+volatile ( ^ Z __asm ( "" ) __asm ( "\
+\
+\
+" ) ) [ volatile const 68 ] [ _Atomic volatile const ] [ volatile 9 ] ;

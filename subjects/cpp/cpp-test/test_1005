@@ -1,0 +1,1 @@
+alignas ( short enum class { } enum struct { } const const [ [ ] ] ) ;

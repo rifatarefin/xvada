@@ -1,0 +1,1 @@
+module opens . provides { requires static sealed ; }

@@ -1,0 +1,13 @@
+^ volatile const ( * volatile const _Atomic HN __asm ( "l\
+\
+\
+\
+\
+\
+H" ) __asm ( "" ) __attribute__ ( ( _Static_assert , ) ) __asm ( u"\
+" "S" ) __asm ( u"" U"" ) ) ( ) ( restrict __attribute__ ( ( ) ) v , restrict ^ volatile [ * ] [ * ] [ static 9 ] __asm ( u"\
+\
+" "\
+\
+\
+" ) __attribute__ ( ( , , , , ) ) ) [ const _Atomic ] [ static 5 ] __attribute__ ( ( { ( 8 ) ) ) { _Alignas ( _Atomic ) ; return ; } const _Thread_local restrict struct e ^ ; union K { struct P __extension__ ( __m128d ) ; } ;

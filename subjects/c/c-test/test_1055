@@ -1,0 +1,10 @@
+T [ const static 4 ] ( _Thread_local * * restrict volatile * * volatile * ( __extension__ ( __m128d ) * volatile * _Atomic G ) __asm ( "" u"" "" u8"" "\
+" ) ) __asm ( U"" "" "\
+" u8"" "\Ue213bEBa\
+\
+\
+\
+\b" "" u8"" "\
+\
+\
+" "" ) { }

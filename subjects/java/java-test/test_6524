@@ -1,0 +1,1 @@
+open module permits . requires { uses open . provides . requires ; }

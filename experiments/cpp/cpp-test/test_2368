@@ -1,0 +1,1 @@
+template < > template < template < typename ... > class ... > extern template ;

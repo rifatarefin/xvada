@@ -1,0 +1,8 @@
+restrict ( ^ volatile ( * volatile restrict T ) ( ) [ * ] __attribute__ ( ( ~ ( 26 , 9 , 6 ) ) ) ) __asm ( U"" "" "" "w" "\
+" u8"\
+\UBE5BdB20" "\
+E\
+\
+" u8"\u8DAf\b\
+" u"\U5f5bcBC9\
+" ) union { short ; __extension__ ( __m128d ) ^ * ^ ^ __extension__ ( __m128d ) ; } const * volatile ^ ^ ( * _Atomic _Atomic restrict _Atomic ^ ^ restrict qKW ) ( R4 ) = { . Hu . z9c = { 0 , 36 , 183 , 4 , } , . l . g4m . f446 . E = { 1 } , & 96 &= 67 , . f5Zt . Au29 = "" <<= 98 , 38 , } ; { ; }

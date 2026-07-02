@@ -1,0 +1,1 @@
+UPDATE ( `?` PARTITION ( `Z1"` ) FORCE INDEX ( `pe` ) , USE INDEX ( `P>` , `w` ) ) SET `LATIN2` = @L --

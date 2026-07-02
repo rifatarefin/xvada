@@ -1,0 +1,1 @@
+register __declspec ( r ) U [ * ] ( __extension__ ( __m128d ) volatile , auto , ... ) __asm ( u8"" ) { } ;

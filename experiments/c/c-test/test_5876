@@ -1,0 +1,1 @@
+union T _Alignas ( _Atomic ) restrict restrict _Alignas ( const ) struct B { restrict ; } __declspec ( P ) ; ;

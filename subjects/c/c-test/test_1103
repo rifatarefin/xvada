@@ -1,0 +1,2 @@
+( Z2 [ static 7 ] [ const volatile _Atomic ] __attribute__ ( ( | , extern ) ) __attribute__ ( ( , ) ) __attribute__ ( ( , __m128 , static ) ) ) __attribute__ ( ( _Generic ) ) __asm ( u"\
+" "" ) dd ; { }

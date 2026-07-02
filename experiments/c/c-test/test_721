@@ -1,0 +1,1 @@
+_Alignas ( enum q [ -- ++ ++ sizeof ++ sizeof ++ ++ - 07 ^= -- "" "" ++ ++ ++ >>= 87 ] __attribute__ ( ( , , %= ,   ) ) ) double ;

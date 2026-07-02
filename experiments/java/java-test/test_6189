@@ -1,0 +1,1 @@
+open module transitive { provides transitive . permits . provides . opens . requires with provides . exports ; exports to . t2 . var . sealed . provides ; }

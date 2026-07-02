@@ -1,0 +1,1 @@
+for F = false + false + false , "\\n" do local function o ( ) end ; return ; end local function r ( ) break break return end return

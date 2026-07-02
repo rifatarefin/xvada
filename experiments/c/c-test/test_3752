@@ -1,0 +1,1 @@
+; WT __extension__ ( __m128d ) * * restrict ^ * ^ const * * volatile ^ const * * volatile volatile ;

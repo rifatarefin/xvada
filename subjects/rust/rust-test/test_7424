@@ -1,0 +1,1 @@
+pub ( self ) unsafe impl < # [ $crate = true ] macro_rules , > self :: ( ! , ) for dyn 'static + 'static where { } macro_rules ! _0 [ ( # [ ] ) => { $crate [ ] } ; ] ;

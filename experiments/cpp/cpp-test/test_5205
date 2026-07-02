@@ -1,0 +1,1 @@
+; extern R"()" { ; [ [ t0 ( ) , O ( ) , G ... ] ] ; } template < class = struct { } struct { } [ [ ] ] , class , class = volatile class { } enum { } union { } > ;

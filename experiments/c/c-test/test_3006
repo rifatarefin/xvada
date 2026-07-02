@@ -1,0 +1,3 @@
+Xw __asm ( u8"\
++\
+" "" ) __attribute__ ( ( ) ) const ; { }

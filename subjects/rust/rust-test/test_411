@@ -1,0 +1,1 @@
+# [ crate :: self ] # [ :: super :: macro_rules :: self :: super :: macro_rules { ; { } } ] pub ( in $crate :: r#p :: $crate :: super ) extern crate r#Q as _ ; macro_rules ! macro_rules { { } => ( ( ) ) ; }

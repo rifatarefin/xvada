@@ -1,0 +1,1 @@
+i _Atomic ( GT _Atomic ^ * volatile [ static 8 ] [ * ] ) ( * xz ( f , L8 , Si ) [ ] [ * ] ) ;

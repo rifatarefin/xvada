@@ -1,0 +1,1 @@
+type macro_rules where for < > & _ : '_t7 + , impl 'static + 'static : 'static + '_ + = & mut ! ; pub unsafe mod macro_rules { $crate ! { * $crate br"=" } # [ crate ] macro_rules ! HI { ( ) => [ ] ; ( ) => { } ; { } => ( ) ; ( ) => { } ; [ ] => [ ] } } super :: self ! { }

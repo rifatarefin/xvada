@@ -1,0 +1,2 @@
+register _Alignas ( const ( * ^ * restrict ) __asm ( u"\
+" ) ) const _Atomic ;

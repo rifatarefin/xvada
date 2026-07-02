@@ -1,0 +1,1 @@
+module transitive { opens requires . sealed to opens ; exports uses . opens . tB . U to open ; }

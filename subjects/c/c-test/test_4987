@@ -1,0 +1,2 @@
+__declspec ( XY5 ) ^ _Atomic ^ * restrict const const c __asm ( u8"\
+" ) ;

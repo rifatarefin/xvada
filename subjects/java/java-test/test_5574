@@ -1,0 +1,1 @@
+@ record ( super % super ) @ sealed ( ) package var . provides ; ; import static module . * ;

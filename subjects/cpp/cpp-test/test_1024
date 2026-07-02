@@ -1,0 +1,1 @@
+extern "\'" using V [ [ ] ] = enum struct { } ;

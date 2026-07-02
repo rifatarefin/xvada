@@ -1,0 +1,1 @@
+package opens . opens ; ; sealed interface open < opens , w extends short [ ] [ ] [ ] [ ] , exports extends short & long [ ] > { ; }

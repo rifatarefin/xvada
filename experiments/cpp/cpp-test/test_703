@@ -1,0 +1,1 @@
+inline namespace { template < > extern "" { inline namespace { } } ; } ; ;

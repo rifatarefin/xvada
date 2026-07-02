@@ -1,0 +1,1 @@
+alignas ( int [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] ) ; alignas ( const [ [ ] ] ... ) [ [ w ... ] ] alignas ( void volatile ( ) const const const const & noexcept [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] -> wchar_t const [ [ ] ] * ... ) ;

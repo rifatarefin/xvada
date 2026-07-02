@@ -1,0 +1,1 @@
+import with . permits . * ; ; ; ; @ exports . record public class provides < @ sealed ( ) to extends provides [ ] & transitive , @ to ( ) @ sealed ( { , } ) @ with . opens . yield ( ) var > implements @ opens ( { , } ) @ open ( ) @ exports ( ) boolean permits @ requires @ transitive ( { } ) provides . @ requires ( ) int { }

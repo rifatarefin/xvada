@@ -1,0 +1,1 @@
+module var . open { requires static record ; exports sealed . module ; uses opens . open ; }

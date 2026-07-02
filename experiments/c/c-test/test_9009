@@ -1,0 +1,1 @@
+struct { __extension__ ( __m128i ) * * ; } * volatile ;

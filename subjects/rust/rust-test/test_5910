@@ -1,0 +1,1 @@
+# ! [ super ] # ! [ self :: super :: self = r"87_" ] # ! [ $crate ] # ! [ :: macro_rules :: crate ( $ [ ] ) ] # [ :: crate ] pub ( in super :: self ) impl < > 'static + '_S where 'static : '_ , for < > ( ) : 'static , for < > ( ) : '_ + , { # ! [ self ] :: super :: self :: crate ! [ ] ; } # [ crate [ ] ] # [ super :: macro_rules [ ] ] const _ : impl 'static + ;

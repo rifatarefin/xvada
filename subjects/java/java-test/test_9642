@@ -1,0 +1,1 @@
+package module ; ; ; ; import static g . transitive . * ; ; ; public non-sealed final interface to permits byte , double @ uses @ sealed ( { , } ) @ transitive [ ] [ ] , @ record boolean { ; } ; ; record provides < opens extends @ transitive ( ) @ provides ( ) yield . uses . @ open ( ) int > ( var . provides . permits provides , byte [ ] opens ) { }

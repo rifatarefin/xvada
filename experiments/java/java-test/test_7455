@@ -1,0 +1,1 @@
+non-sealed record sealed ( permits [ ] Lh , record . exports . opens provides , short uses , provides record , uses [ ] yield ) { ; ; ; }

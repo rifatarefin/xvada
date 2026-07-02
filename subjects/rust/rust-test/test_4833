@@ -1,0 +1,1 @@
+# ! [ :: macro_rules :: _Afs ] const async fn macro_rules ( ) -> * const fn ( ) { # ! [ :: $crate :: crate ] # ! [ super :: $crate ] # ! [ $crate ( ) ] # ! [ self ] # ! [ self = b'3' ] }

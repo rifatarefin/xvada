@@ -1,0 +1,1 @@
+for gkN = 'T' .. ... , false , ... ~ ... << false do return ; end

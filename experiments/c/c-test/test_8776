@@ -1,0 +1,3 @@
+_Alignas ( struct { __extension__ ( __m128i ) ; restrict ; } ) ( enum { m , pf } ^ ( union j ^ _Atomic volatile volatile ^ * volatile ( int * ^ volatile ^ restrict restrict z ) [ 8 ] [ 742 ] [ static volatile _Atomic 4 ] ) [ * ] ) __asm ( U"\n^]\xfDE" L"" "\
+\U94Ee46d3\
+" ) { }

@@ -1,0 +1,196 @@
+{%- comment -%}Full product page — standard Liquid only{%- endcomment -%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{{ product.title | escape }} — {{ shop.name | escape }}</title>
+  <meta name="description" content="{{ product.description | strip_html | strip_newlines | truncate: 160 }}">
+  <link rel="canonical" href="{{ shop.url | append: '/products/' | append: product.handle }}">
+</head>
+<body>
+  {% render 'header', shop: shop, navigation: navigation, cart_count: cart.item_count %}
+
+  <main class="product-page">
+    {%- comment -%}Breadcrumbs{%- endcomment -%}
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        {% if collection %}<li><a href="{{ collection.url }}">{{ collection.title | escape }}</a></li>{% endif %}
+        <li aria-current="page">{{ product.title | escape }}</li>
+      </ol>
+    </nav>
+
+    <div class="product" itemscope itemtype="https://schema.org/Product">
+      {%- comment -%}Image gallery{%- endcomment -%}
+      <div class="product__gallery">
+        {% for image in product.images %}
+          <{% if forloop.first %}div class="product__main-image"{% else %}div class="product__thumb"{% endif %}>
+            <img src="{{ image.src | prepend: '/images/' }}"
+                 alt="{{ image.alt | default: product.title | escape }}"
+                 width="{{ image.width }}" height="{{ image.height }}"
+                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="product__details">
+        <h1 class="product__title" itemprop="name">{{ product.title }}</h1>
+
+        {% if product.vendor %}
+          <p class="product__vendor">By <a href="/vendors/{{ product.vendor | downcase | replace: ' ', '-' }}">{{ product.vendor }}</a></p>
+        {% endif %}
+
+        {%- comment -%}Price with sale badge{%- endcomment -%}
+        <div class="product__price" itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+          {% assign price_dollars = product.price | divided_by: 100 %}{% assign price_cents = product.price | modulo: 100 %}{% capture formatted_price %}${{ price_dollars }}.{% if price_cents < 10 %}0{% endif %}{{ price_cents }}{% endcapture %}
+          {% if product.compare_at_price and product.compare_at_price > product.price %}
+            {% assign compare_dollars = product.compare_at_price | divided_by: 100 %}{% assign compare_cents = product.compare_at_price | modulo: 100 %}{% capture formatted_compare %}${{ compare_dollars }}.{% if compare_cents < 10 %}0{% endif %}{{ compare_cents }}{% endcapture %}
+            {% assign discount_amount = product.compare_at_price | minus: product.price %}
+            {% assign discount_pct = discount_amount | times: 100 | divided_by: product.compare_at_price %}
+            <span class="price price--sale" itemprop="price">{{ formatted_price }}</span>
+            <span class="price price--compare"><s>{{ formatted_compare }}</s></span>
+            <span class="badge badge--sale">-{{ discount_pct }}%</span>
+          {% else %}
+            <span class="price" itemprop="price">{{ formatted_price }}</span>
+          {% endif %}
+          <meta itemprop="priceCurrency" content="USD">
+          <meta itemprop="availability" content="{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+        </div>
+
+        {%- comment -%}Variant selector with option groups{%- endcomment -%}
+        <form method="post" action="/cart/add" class="product-form" id="product-form-{{ product.id }}">
+          {% unless product.has_only_default_variant %}
+            {% for option in product.options_with_values %}
+              <div class="product-form__option">
+                <label for="option-{{ option.name | downcase | replace: ' ', '-' }}">{{ option.name }}</label>
+                <select name="option-{{ forloop.index }}" id="option-{{ option.name | downcase | replace: ' ', '-' }}">
+                  {% for value in option.values %}
+                    <option value="{{ value | escape }}" {% if forloop.first %}selected{% endif %}>{{ value }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endfor %}
+
+            <select name="id" id="variant-select" class="product-form__variant-select">
+              {% for variant in product.variants %}
+                <option value="{{ variant.id }}"
+                        {% unless variant.available %}disabled{% endunless %}
+                        data-price="{{ variant.price }}">
+                  {{ variant.title }}
+                  {%- assign v_dollars = variant.price | divided_by: 100 -%}
+                  {%- assign v_cents = variant.price | modulo: 100 -%}
+                   — ${{ v_dollars }}.{% if v_cents < 10 %}0{% endif %}{{ v_cents }}
+                  {%- unless variant.available %} — Sold out{% endunless -%}
+                </option>
+              {% endfor %}
+            </select>
+          {% else %}
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+          {% endunless %}
+
+          <div class="product-form__quantity">
+            <label for="qty">Quantity</label>
+            <input type="number" id="qty" name="quantity" value="1" min="1">
+          </div>
+
+          <button type="submit" class="button button--primary button--full"
+                  {% unless product.available %}disabled{% endunless %}>
+            {% if product.available %}Add to Cart{% else %}Sold Out{% endif %}
+          </button>
+        </form>
+
+        {%- comment -%}Product description{%- endcomment -%}
+        <div class="product__description" itemprop="description">
+          {{ product.description }}
+        </div>
+
+        {%- comment -%}Product meta — vendor, type, tags with links{%- endcomment -%}
+        <div class="product__meta">
+          {% if product.vendor %}<div class="product__meta-item">Vendor: {{ product.vendor }}</div>{% endif %}
+          {% if product.type %}<div class="product__meta-item">Type: {{ product.type }}</div>{% endif %}
+          {% if product.tags.size > 0 %}
+            <div class="product__tags">
+              <span>Tags:</span>
+              <ul class="tag-list">
+                {% for tag in product.tags %}
+                  <li><a href="/tags/{{ tag | downcase | replace: ' ', '-' | url_encode }}">{{ tag | capitalize }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        </div>
+
+        {%- comment -%}Options details table using tablerow{%- endcomment -%}
+        <table class="product__specs">
+          <caption>Specifications</caption>
+          {% for option in product.options_with_values %}
+            <tr>
+              <th>{{ option.name }}</th>
+              <td>{{ option.values | join: ", " }}</td>
+            </tr>
+          {% endfor %}
+          {% if product.weight %}
+            <tr><th>Weight</th><td>{% assign kg = product.weight | divided_by: 1000.0 %}{{ kg }} kg</td></tr>
+          {% endif %}
+        </table>
+
+        {%- comment -%}Shipping & returns info using capture and raw{%- endcomment -%}
+        {% capture shipping_info %}
+          <div class="product__policy">
+            <strong>Free shipping</strong> on orders over $100.
+            <br>Standard delivery: 3–7 business days.
+          </div>
+        {% endcapture %}
+        {{ shipping_info }}
+      </div>
+    </div>
+
+    {%- comment -%}Product reviews section using cycle{%- endcomment -%}
+    {% if product.reviews.size > 0 %}
+      <section class="reviews">
+        <h2>Customer Reviews ({{ product.reviews | size }})</h2>
+        {% assign avg_rating = 0 %}
+        {% for review in product.reviews %}
+          {% assign avg_rating = avg_rating | plus: review.rating %}
+        {% endfor %}
+        {% assign avg_rating = avg_rating | divided_by: product.reviews.size %}
+        <div class="reviews__summary">Average: {{ avg_rating }} / 5</div>
+        {% for review in product.reviews %}
+          <div class="review {% cycle 'odd', 'even' %}">
+            <div class="review__header">
+              <strong>{{ review.author | escape }}</strong>
+              <span class="review__rating">{% for i in (1..5) %}{% if i <= review.rating %}★{% else %}☆{% endif %}{% endfor %}</span>
+              <time>{{ review.date }}</time>
+            </div>
+            <p class="review__body">{{ review.body | escape | truncatewords: 50 }}</p>
+          </div>
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    {%- comment -%}Related products using render with for{%- endcomment -%}
+    {% if related_products.size > 0 %}
+      <section class="related-products">
+        <h2>You Might Also Like</h2>
+        <div class="product-grid product-grid--4">
+          {% render 'product-card' for related_products as product %}
+        </div>
+      </section>
+    {% endif %}
+
+    {%- comment -%}Recently viewed — dynamic include{%- endcomment -%}
+    {% if recently_viewed.size > 0 %}
+      <section class="recently-viewed">
+        <h2>Recently Viewed</h2>
+        <div class="product-grid product-grid--6">
+          {% for item in recently_viewed limit: 6 %}
+            {% include item.card_template, product: item %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </main>
+
+  {% render 'footer', shop: shop, footer_links: footer_links %}
+</body>
+</html>

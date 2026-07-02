@@ -1,0 +1,1 @@
+open module record . record { opens open . var . provides . requires . opens to sealed . uses ; }

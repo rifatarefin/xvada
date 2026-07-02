@@ -1,0 +1,1 @@
+inline namespace { template < > namespace { extern R"(d%){" { } } } ;

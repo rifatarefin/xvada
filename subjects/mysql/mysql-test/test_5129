@@ -1,0 +1,1 @@
+DELETE FROM FILE USING `?N` `KOI8U` , `z%` PARTITION ( `>19` ) -- ; --

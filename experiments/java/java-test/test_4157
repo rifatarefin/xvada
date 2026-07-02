@@ -1,0 +1,1 @@
+@ sealed @ requires . requires . with . uses ( { @ yield ( { , } ) , { { , } , { } , { , } } , } ) @ module ( ) @ uses package sealed ; static final @ transitive private private non-sealed non-sealed @ interface open { }

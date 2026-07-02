@@ -1,0 +1,5 @@
+_Alignas ( volatile restrict __m128d ^ __extension__ ( __m128d ) * [ static 29 ] ( ) __attribute__ ( ( , , ? ( ) , / ( ) , ) ) __attribute__ ( ( ) ) [ * ] __attribute__ ( ( , /*G*/ ) ) __attribute__ ( ( , ) ) __asm ( "\xF\
+" ) __asm ( u"\
+" ) __attribute__ ( ( ++ ( ) , U ( ) ) ) __attribute__ ( ( ) ) ) _Alignas ( union { restrict ; } * ^ restrict * * const [ * ] ( ) __attribute__ ( ( ) ) [ volatile ] __asm ( "\
+" ) __asm ( L"" u8"\
+\56" ) ) restrict ; ;

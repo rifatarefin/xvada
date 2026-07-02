@@ -1,0 +1,1 @@
+open module permits . to { requires transitive static permits . to . to . open ; exports provides to transitive ; opens transitive ; uses record . to . qrs5 . opens ; }

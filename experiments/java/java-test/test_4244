@@ -1,0 +1,1 @@
+open module opens { requires provides ; provides record . transitive with yield . var ; provides opens with with . s ; }

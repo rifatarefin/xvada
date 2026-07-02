@@ -1,0 +1,4 @@
+_Atomic ( t ( G3boh2 , i0 ) ) [ restrict -- u"\
+" U"" ^= _Alignof ( restrict volatile ) |= sizeof ( __extension__ ( __m128i ) ) ^= "" "" "" "" *= 46 ] ; ( ^ volatile ^ d : 09 [ const _Atomic restrict static 4 ] __asm ( L"" L"\
+\U9B9A4Dab\
+" ) __asm ( u"" ) __attribute__ ( ( union ) ) ) [ const * ] __asm ( "" ) { restrict _Atomic ; } o enum k8 extern enum K { Z04 , } enum I { Yi } ;

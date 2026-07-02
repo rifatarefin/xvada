@@ -1,0 +1,2 @@
+( T ^ ^ a ) __asm ( "/p\
+" ) { int ; default : goto m ; volatile ; }

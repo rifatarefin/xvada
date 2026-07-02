@@ -1,0 +1,1 @@
+; _Alignas ( _Atomic ) ( ^ ^ restrict m [ static volatile 1 ] ) [ const restrict _Atomic volatile ] [ * ] ( G ) [ const ] [ * ] register __extension__ ( __m128i ) const ^ restrict ( enum O86X ^ volatile const s ( ) ) [ * ] __attribute__ ( ( ) ) = 378 ; { __attribute__ ( ( , ) ) ; }

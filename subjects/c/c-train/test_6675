@@ -1,0 +1,1 @@
+char __attribute__ ( ( ) ) ^ ( * restrict j [ volatile const const volatile const static 5 ] __asm ( "" ) ) ( _Atomic _Noreturn , _Noreturn , ... ) ( _Thread_local volatile * _Atomic const volatile _Atomic * volatile [ ] [ ] , ... ) __attribute__ ( ( __inline__ ( ) , ) ) ;

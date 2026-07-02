@@ -1,0 +1,6 @@
+__declspec ( o ) struct B ^ const volatile ^ _Atomic ( double ^ * ( _Atomic ( restrict [ * ] [ * ] __asm ( "" ) ) ^ _Atomic const _Atomic * ^ volatile _Atomic restrict _Atomic ( M __asm ( "#" L"\
+\
+" U"" ) __attribute__ ( ( , , , ) ) __asm ( L"\
+" u"" u8"" U"\
+" L"\
+" ) __asm ( "" ) ) [ restrict restrict restrict static 1744 ] [ _Atomic restrict const * ] ) [ static __extension__ ( _Atomic ) { 86 , } = _Alignof ( restrict ) ^= ++ * 80058 %= && p9 /= sizeof sizeof ++ -- && r21 += 3 ] ) { extern ; if ( u"" "" u"" >>= 1 , "" *= ++ ~ 29 >>= 48 , && i29 >>= 4 , 95 , 826 ) __asm __volatile__ ( ) ; else pp : __asm volatile ( ) ; }

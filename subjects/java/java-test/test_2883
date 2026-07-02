@@ -1,0 +1,1 @@
+package requires . transitive ; import static with ; import static transitive . sealed . module ; ; ; record open ( ) implements @ var @ uses . module . yield . permits with . ek3 < ? , ? , ? > . to { } ;

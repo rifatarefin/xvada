@@ -1,0 +1,1 @@
+# ! [ self :: self :: crate :: self ] # [ $crate :: self ] # [ $crate :: $crate ] const async fn p ( & 'static self ) -> [ fn ( ) ; ( ) .. ] where '_ : , for < macro_rules , > impl '_ : , for < macro_rules , > ( ) : , 'static : '_ ; # [ self :: crate ] :: self ! [ [ '\'' $ ] ] ;

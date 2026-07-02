@@ -1,0 +1,1 @@
+EXECUTE GEOMETRYCOLLECTIONFROMWKB USING @6 , @'' , @```` , @'' , @`+\{``!`

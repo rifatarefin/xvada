@@ -1,0 +1,1 @@
+extern template template < > namespace FBx = decltype ( auto ) :: template t < > :: G7 ; extern "" ;

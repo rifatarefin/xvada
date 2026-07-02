@@ -1,0 +1,1 @@
+open module var . record { requires static QlD . module . No6 ; opens opens . var to provides . yield . record . requires . var ; }

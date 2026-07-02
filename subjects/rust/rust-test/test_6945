@@ -1,0 +1,1 @@
+# ! [ :: self ] macro_rules ! E { ( ) => [ ] ; { } => { ( ) += } ; } pub union macro_rules { # [ :: crate :: $crate :: super { } ] pub Y : dyn 'static + , # [ :: $crate ( { } ) ] # [ :: crate ] pub macro_rules : [ fn ( ) ; continue ] , } extern crate self ; :: self ! ( { ( ) } ) ;

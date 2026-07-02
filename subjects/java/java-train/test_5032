@@ -1,0 +1,1 @@
+open module n . provides { opens to . with to sealed . requires . permits ; exports transitive . record to opens . requires ; }

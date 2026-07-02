@@ -1,0 +1,1 @@
+static ; ( _Atomic ( _Atomic __m128i ^ ^ ^ [ ] [ ] ) * q [ * ] [ const ] [ _Atomic const static 52 ] ) [ restrict ] [ static _Atomic const volatile _Atomic volatile 40 ] [ const _Atomic static 7 ] { goto z ; _Alignas ( volatile * ^ ( ) [ * ] ) ; } ;

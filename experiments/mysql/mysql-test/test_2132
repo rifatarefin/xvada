@@ -1,0 +1,1 @@
+PREPARE RESOURCE_GROUP_USER FROM @E1T6 -- ; SAVEPOINT HFU -- REVOKE PROXY ON ''@50:E6 FROM `` , `` ; EXECUTE `_` USING @'' , @`` , @"\&" , @"""""\G" , @'\&' --

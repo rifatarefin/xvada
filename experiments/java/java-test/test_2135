@@ -1,0 +1,1 @@
+requires . @ uses package with . module ; ; ; import static transitive . * ; ; ;

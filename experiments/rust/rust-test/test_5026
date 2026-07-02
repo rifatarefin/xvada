@@ -1,0 +1,1 @@
+# ! [ self :: crate :: crate ] struct macro_rules < > { } # [ :: r#_1 ] :: super :: self ! ( ) ; # [ crate = r"yn" ] # [ :: crate ] macro_rules ! r#_K { { } => ( ) ; ( $ r#_ak : macro_rules ) => { } ; }

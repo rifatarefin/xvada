@@ -1,0 +1,1 @@
+volatile _Alignas ( restrict long short * const restrict volatile volatile ^ _Atomic volatile volatile volatile restrict restrict restrict const const restrict ) ;

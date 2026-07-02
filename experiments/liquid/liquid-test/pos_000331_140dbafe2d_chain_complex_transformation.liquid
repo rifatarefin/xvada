@@ -1,0 +1,1 @@
+{{ products | where: 'available' | sort: 'price' | map: 'name' | first | default: 'No products' | append: ' is cheapest' }}

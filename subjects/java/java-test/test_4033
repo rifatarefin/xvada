@@ -1,0 +1,1 @@
+module with { opens A . to . module . module . provides . module . sealed . with to provides . record . sealed . provides . with . permits ; opens var ; requires transitive record ; opens exports ; }

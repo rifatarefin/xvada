@@ -1,0 +1,1 @@
+; volatile _Alignas ( b ^ _Atomic ) static ;

@@ -1,0 +1,1 @@
+# ! [ $crate ] # [ super :: super = b"G\'\'" ] static mut macro_rules : & '_ ( ( ) ) ; extern crate _0L ; # [ :: $crate [ ] ] # [ macro_rules :: crate :: $crate = 'c' ] static mut macro_rules : :: Self :: :: $crate :: + ;

@@ -1,0 +1,3 @@
+restrict _Alignas ( restrict _Atomic __extension__ ( __m128 ) ) ( ( * _Atomic g [ volatile 88 ] ) ( ) ( ) ) [ volatile volatile _Generic ( 849 , default : 6 ) . G %= ++ -- && F ^= ++ ++ __extension__ ( volatile ) { 5 } /= 0 [ 3208224 ] ^= 8 ] { r d __asm ( u8"" "" "\
+=\
+" u"" ) = { 313 , } ; }

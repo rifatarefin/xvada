@@ -1,0 +1,3 @@
+( * ^ volatile ^ ^ _Atomic _Atomic * * ^ _Atomic const const const restrict restrict ^ ^ ^ restrict _Atomic const volatile _Atomic ^ ^ * H ( m9 ) ( ) [ _Atomic ] [ const static "\
+" L"" "" u"\
+T" u8"" "" &= 275 ] [ const -- sizeof -- ++ ++ sizeof -- ++ sizeof ( volatile __extension__ ( __m128d ) _Atomic ) *= 92 ] __attribute__ ( ( , __builtin_offsetof , _Complex ( ) , _Complex , , , _Noreturn ( 82 , 0 , 7 , 2 , 95 ) ) ) ) { }

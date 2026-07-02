@@ -1,0 +1,1 @@
+extern R"P(Of7)" template < > template < typename B , constexpr > [ [ ] ] [ [ ] ] using namespace :: s ;

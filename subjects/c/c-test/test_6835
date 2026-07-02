@@ -1,0 +1,1 @@
+inline _Alignas ( _Atomic ( __extension__ ( __m128i ) * ) * [ _Atomic _Atomic restrict volatile static ++ * 5 %= 7 ] [ restrict const ] __attribute__ ( ( case , , ) ) ) ;

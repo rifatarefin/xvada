@@ -1,0 +1,2 @@
+_Alignas ( volatile volatile _Atomic ) * * const ( struct i1ge ^ ^ ^ ^ ( _Complex ^ restrict const ^ _Atomic h [ restrict volatile volatile _Atomic static 5 ] ) ) [ * ] [ _Atomic const _Atomic * ] __asm ( L"\7" u8"" L"\
+" ) = 81 ;

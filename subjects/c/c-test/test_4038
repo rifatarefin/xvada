@@ -1,0 +1,1 @@
+_Alignas ( volatile _Atomic ( __extension__ ( __m128i ) ) volatile _Atomic __m128i * ) typedef _Alignas ( restrict ( * const ) __attribute__ ( ( ) ) __asm ( "" ) ) ;

@@ -1,0 +1,1 @@
+_Thread_local union { long ^ _Atomic ; } volatile restrict ; typedef extern ; ;

@@ -1,0 +1,1 @@
+; ; import q . var . sealed ; ; ; static @ to ( this ) class $ < requires > extends byte @ to open . @ exports ( ) @ permits . transitive . open ( ) [ ] @ uses [ ] [ ] @ uses . sealed . exports ( super ) [ ] permits exports . @ yield ( ) module . requires . @ requires ( { } ) long { } ; strictfp @ interface exports { ; ; } ;

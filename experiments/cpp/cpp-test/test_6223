@@ -1,0 +1,1 @@
+template < > template extern template [ [ ] ] ; template < > extern template extern LR"()" template < class > ; extern template template < > asm ( "" ) ; template < > using :: ~ B < > ; template < > template < class ... B > [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] ;

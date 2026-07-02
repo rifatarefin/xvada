@@ -1,0 +1,1 @@
+module var { provides opens . provides . permits with sealed . requires . uses . yield ; uses sealed . exports ; requires transitive permits . opens . open ; }

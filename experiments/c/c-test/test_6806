@@ -1,0 +1,1 @@
+_Alignas ( struct { restrict ; _Atomic ; _Atomic ; } ) _Noreturn extern __extension__ ( __m128i ) ;

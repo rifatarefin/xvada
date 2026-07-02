@@ -1,0 +1,1 @@
+type macro_rules where 'static : '_ + , = dyn ( for < > :: macro_rules :: ( ) :: crate :: ) ;

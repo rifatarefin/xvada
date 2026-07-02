@@ -1,0 +1,1 @@
+; namespace H { } template < > extern template template < > template < > inline namespace { }

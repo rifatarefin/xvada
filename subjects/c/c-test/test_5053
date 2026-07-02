@@ -1,0 +1,3 @@
+restrict ( ^ * volatile volatile * ( B0v7 __asm ( "\
+\
+" ) ) [ restrict ] ) [ * ] ;

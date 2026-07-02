@@ -1,0 +1,17 @@
+{%- liquid
+  assign values = "15, 8, 23, 4, 42, 16, 7, 31" | split: ", "
+  assign sum = 0
+  assign count = 0
+  assign max = 0
+  for v in values
+    assign n = v | plus: 0
+    assign sum = sum | plus: n
+    assign count = count | plus: 1
+    if n > max
+      assign max = n
+    endif
+  endfor
+  assign avg = sum | divided_by: count
+  assign remainder = sum | modulo: count
+  echo "sum=" | append: sum | append: " count=" | append: count | append: " avg=" | append: avg | append: " max=" | append: max | append: " mod=" | append: remainder
+-%}

@@ -1,0 +1,1 @@
+_Atomic ( const restrict [ static 36 ] ( ) __attribute__ ( ( short ) ) __attribute__ ( ( , void , , %= ) ) ) ; union hJ union { _Atomic ; } ;

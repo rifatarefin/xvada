@@ -1,0 +1,5 @@
+^ ^ ^ ( _Atomic ( volatile ) * ( X7H __attribute__ ( ( r ) ) __asm ( "\
+" U"\
+\
+" u8"\
+8\f" L"" ) __asm ( "" "" u8"" ) ) [ const volatile restrict * ] ) volatile inline extern ; { 8 , 31 ; } ; restrict ^ ( * * restrict ( t [ volatile static ++ + 7953 += 7128 ] ( ) ) ) { }

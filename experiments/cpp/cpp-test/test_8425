@@ -1,0 +1,1 @@
+extern template template template < typename S > template < typename ... , class ... , class > inline namespace { } asm ( "" ) ;

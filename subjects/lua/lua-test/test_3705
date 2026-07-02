@@ -1,0 +1,1 @@
+for qr = ... // nil .. ... / true , false & nil ^ nil .. true , ... * false and ... ^ nil do return ; end return

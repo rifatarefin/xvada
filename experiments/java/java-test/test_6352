@@ -1,0 +1,1 @@
+@ provides package with ; strictfp non-sealed final public @ interface yield { }

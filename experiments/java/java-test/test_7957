@@ -1,0 +1,1 @@
+open module record { exports with . open ; exports yield . provides to requires . module ; exports permits to open . exports ; uses record ; }

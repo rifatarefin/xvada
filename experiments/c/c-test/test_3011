@@ -1,0 +1,2 @@
+_Alignas ( __m128i const ^ * restrict const ^ ( ) __asm ( L"" "\
+@" U"d" ) __asm ( U"" ) ) ;

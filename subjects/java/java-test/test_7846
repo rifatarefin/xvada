@@ -1,0 +1,1 @@
+open module transitive . exports . record . module . c . to . record . opens { exports var . uses . provides ; requires static provides ; }

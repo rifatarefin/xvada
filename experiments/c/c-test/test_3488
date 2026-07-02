@@ -1,0 +1,10 @@
+; * const ( B __asm ( "" ) __attribute__ ( ( 0 , char ( ) , _Atomic ( ) , ) ) __asm ( u"" ) __asm ( "\
+<\
+\
+\
+M" "\t\
+" ) __attribute__ ( ( 3 , for , ll ( ) ) ) ) ( chu ) [ volatile restrict _Atomic ] ( _Alignas ( restrict ) ^ restrict const ^ ^ , static [ static const 24 ] ) __attribute__ ( ( ! , , , _Alignas ( ) , j ( ) , ) ) _Atomic static _Atomic ( __extension__ ( __m128i ) _Complex * ) ^ const volatile sfS30 [ static ++ && F >>= "" += 1 ] __attribute__ ( ( ) ) __asm ( u"\x6E\
+" "" U"\
+\xac" "q" u8"" U"\
+\
+" "" ) = 6 ; { Lxl4 : goto F ; _Bool ^ ^ X ( ) ; typedef ; V12R3 : ; } ;

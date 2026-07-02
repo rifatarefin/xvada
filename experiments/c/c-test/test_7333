@@ -1,0 +1,1 @@
+restrict C [ _Atomic const restrict _Atomic static 06 ] ( n , Ed ) __attribute__ ( ( ) ) ;

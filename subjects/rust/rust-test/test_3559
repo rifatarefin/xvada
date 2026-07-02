@@ -1,0 +1,1 @@
+extern crate macro_rules ; # [ :: crate = 28_. ] # [ :: F = r"6sio8" ] trait _e : ( super :: Self :: < 'static , '_ , '_ , 'static > ) + { # ! [ :: super :: self { } ] :: crate ! { [ ( ) ] } }

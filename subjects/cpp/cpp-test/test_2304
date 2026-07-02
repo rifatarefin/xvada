@@ -1,0 +1,1 @@
+alignas ( enum struct { } enum { } struct { ; ; } and & [ [ ] ] :: * && [ [ ] ] and [ [ ] ] & [ [ ] ] decltype ( auto ) :: * ... ) alignas ( enum struct { } enum struct { } enum struct { } [ [ ] ] ) [ [ j ( ) ] ] ;

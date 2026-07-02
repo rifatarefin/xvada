@@ -1,0 +1,1 @@
+using rx [ [ R :: fs , R7P ( not U -- char ) ... ] ] = enum :: H enum class decltype ( auto ) :: m { } [ [ s0 ( ) ] ] [ [ ] ] [ [ i :: x ( ) ... ] ] ( [ [ ] ] typedef = { } , constexpr = { } , ... ) [ [ ] ] -> const [ [ ] ] [ [ ] ] ;

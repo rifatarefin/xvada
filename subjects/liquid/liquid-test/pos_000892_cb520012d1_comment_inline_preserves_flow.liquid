@@ -1,0 +1,5 @@
+{%- for i in (1..5) -%}
+  {%- # Skip even numbers explanation -%}
+  {%- assign mod = i | modulo: 2 -%}
+  {%- if mod != 0 -%}{{ i }}{%- endif -%}
+{%- endfor -%}

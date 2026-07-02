@@ -1,0 +1,1 @@
+import permits ; import static with . * ; @ interface D { ; } record with ( ) { synchronized with { opens : break ; } ; } ;

@@ -1,0 +1,1 @@
+macro_rules ! EM3 ( [ ] => ( '_ ) ) ; :: crate :: $crate ! ( ) ;
