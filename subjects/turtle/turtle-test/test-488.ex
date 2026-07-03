@@ -1,1 +1,0 @@
-c Gnpk fill {fill {r1 b8 } c Ukgfj }

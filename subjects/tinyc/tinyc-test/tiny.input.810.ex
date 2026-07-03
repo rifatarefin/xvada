@@ -1,1 +1,0 @@
-while ( t = g = r = p = x = e )if ( y = b = j < w ){ if ( u < h )do do do ; while ( u );while ( c );while ( o < u );if ( t < r ){ ; ; }}else  p - l -6-4< z ;

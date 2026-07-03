@@ -1,1 +1,0 @@
-repeat 7 {c Zhl Qyf f7 } c Qe

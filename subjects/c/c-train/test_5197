@@ -1,9 +1,0 @@
-__declspec ( Jg7 ) ; ; _Alignas ( const __extension__ ( __m128d ) * ^ ( ) [ const restrict ] __attribute__ ( ( for ( ) ) ) __asm ( L"" "W8\
-" "" "\
-(\
-\
-" u8"\
-\30k" U"\
-D\
-\
-\x2E*\032" ) __attribute__ ( ( E3 ( ) , , , ) ) __asm ( u8"" ) ) ;

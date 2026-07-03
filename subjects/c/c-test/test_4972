@@ -1,1 +1,0 @@
-register _Alignas ( const ^ volatile ^ ) ; static _Noreturn ; _Thread_local ; ;

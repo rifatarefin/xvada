@@ -1,8 +1,0 @@
-register nIGw [ static 99 ] __asm ( L"" ) __asm ( "\
-\
-\
-\43\10)" "\
-\v" "\
-\
-" u8"" L"" ) __asm ( "" U"\
-" "" ) __attribute__ ( ( , , ) ) __declspec ( Q ) ; { do ; while ( 63953 , 8 ) ; }

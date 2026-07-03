@@ -1,4 +1,0 @@
-restrict V [ static restrict const -- sizeof ! 95582 += __extension__ ( { } ) -= ++ "" %= 81 ] [ static 4 ] ( _Atomic __attribute__ ( ( , , , , ) ) M [ volatile static 1 ] ) [ * ] __asm ( L"t\
-%\U72CaD5Ef\
-e\
-" ) { { } }

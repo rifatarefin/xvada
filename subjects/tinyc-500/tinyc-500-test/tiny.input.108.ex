@@ -1,1 +1,0 @@
-do ; while ( w = z =4< o - i -( c ));

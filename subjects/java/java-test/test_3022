@@ -1,1 +1,0 @@
-open module requires { provides to . uses . to with transitive ; }

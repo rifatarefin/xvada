@@ -1,1 +1,0 @@
-_Alignas ( union { _Atomic ; __extension__ ( __m128 ) ; } _Atomic ( long ^ * [ ] ) _Atomic ) restrict ;

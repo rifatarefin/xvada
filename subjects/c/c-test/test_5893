@@ -1,2 +1,0 @@
-restrict * * volatile ^ volatile const restrict * _Atomic ^ w __asm ( U"\
-\655" ) { }

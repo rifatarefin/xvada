@@ -1,1 +1,0 @@
-bool a ( int a ) { if ( a < a ) { } else { } }

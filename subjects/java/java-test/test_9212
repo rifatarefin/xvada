@@ -1,1 +1,0 @@
-open module exports . var . with . transitive { opens var . module to permits . permits . permits ; exports provides to exports ; }

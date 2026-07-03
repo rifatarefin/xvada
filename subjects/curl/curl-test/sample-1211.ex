@@ -1,1 +1,0 @@
-telnet://Lr.z-A.O:7/

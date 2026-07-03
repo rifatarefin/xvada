@@ -1,1 +1,0 @@
-PREPARE `EUCJPMS` FROM '' ; XA COMMIT B'11' , X'C0CC' , 1 --

@@ -1,1 +1,0 @@
-alignas ( const enum class { } ... ) ; extern template template < > template < > ;

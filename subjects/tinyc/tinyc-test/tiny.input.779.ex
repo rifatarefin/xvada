@@ -1,1 +1,0 @@
-{ if ( v = q = y = s ){ { ; }while ( u < p )while ( h ); }{ ; }}

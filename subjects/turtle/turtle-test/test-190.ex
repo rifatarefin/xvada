@@ -1,1 +1,0 @@
-repeat 7 {fill {b4 } } repeat 6 {l8 }

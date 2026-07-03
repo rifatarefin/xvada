@@ -1,1 +1,0 @@
-if false .. nil | nil then ; repeat until false for C = ... , true do end elseif true then return elseif function ( ) end then return end local function j6 ( ... ) end break do return end

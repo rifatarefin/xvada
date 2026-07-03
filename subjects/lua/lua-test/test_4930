@@ -1,1 +1,0 @@
-for R = nil and true , false or false , ... and nil & true + ... do return ; end return nil // false ;

@@ -1,1 +1,0 @@
-if ( c < f +8+ d +( l = t < y ))if (( d )< i +( p < q )+ i )while ( j +9){ { if ( b ); else ; ; ; }}else ; 

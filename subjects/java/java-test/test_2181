@@ -1,1 +1,0 @@
-open module permits { requires module . record . uses . transitive ; exports sealed to module . yield ; provides provides with exports ; }

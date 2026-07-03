@@ -1,2 +1,0 @@
-typedef _Alignas ( restrict ( ) [ ] [ * ] ) ^ ( d1 __attribute__ ( ( return ( 1626 , 18 , 277 ) , ) ) __asm ( u"A" ) __asm ( L"}" "\1" u8"L\'\x2B\
-" ) ) { }

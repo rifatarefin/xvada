@@ -1,1 +1,0 @@
-repeat 7 {c Tb repeat 2 {r8 repeat 8 {f9 } c El c Oy Loz } } c Lpb

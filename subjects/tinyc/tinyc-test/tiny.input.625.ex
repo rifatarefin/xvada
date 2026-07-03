@@ -1,1 +1,0 @@
-do { while ( t = l = q )do while ( i < k ) a < x ;while ( z = a < w );}while (( p )- i );

@@ -1,1 +1,0 @@
-static mut macro_rules : 'static + '_ ;

@@ -1,1 +1,0 @@
-c Qz Gnnt

@@ -1,1 +1,0 @@
-do {  b = b ;}while ( m = l - r <59);

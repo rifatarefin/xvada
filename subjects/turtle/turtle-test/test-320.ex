@@ -1,1 +1,0 @@
-l2 repeat 8 {r0 l0 } repeat 8 {l0 }

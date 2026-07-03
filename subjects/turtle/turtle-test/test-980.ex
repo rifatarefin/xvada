@@ -1,1 +1,0 @@
-l4 repeat 3 {repeat 0 {fill {r1 c Zgt Vhb } repeat 9 {fill {r5 } fill {l8 } r6 } } } fill {repeat 9 {b8 } } fill {c Uw Ix }

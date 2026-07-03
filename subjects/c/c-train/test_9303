@@ -1,2 +1,0 @@
-volatile ; __declspec ( t9 ) __declspec ( Q ) * volatile restrict _Atomic restrict restrict f2 [ _Atomic * ] [ _Atomic static 3393569 ] __attribute__ ( ( ) ) __asm ( u"" L"" "" "\
-\0" ) ;

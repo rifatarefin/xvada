@@ -1,1 +1,0 @@
-if ( a < t )do ; while ( u =( n )<( y < o ));else if ( g = a < g - r +6){ do while ( q = r ){ ; }while ( h = f = e < y );}

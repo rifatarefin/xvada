@@ -1,1 +1,0 @@
-{ if ( w = n < f + t ){ while ( o ); if ( f < r )if ( u < n ); else if ( k ); else ; { ; }; ; }}

@@ -1,1 +1,0 @@
-{ { { if ( r < a )while ( w ); }}do ; while ( l - l < e - e );}

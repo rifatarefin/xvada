@@ -1,1 +1,0 @@
-module sealed . yield . var { provides uses . yield with record ; provides sealed . to . yield with to . T . requires ; }

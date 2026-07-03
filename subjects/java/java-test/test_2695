@@ -1,1 +1,0 @@
-open module sealed { opens transitive to yield . var . permits ; }

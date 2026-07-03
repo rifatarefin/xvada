@@ -1,1 +1,0 @@
-pub ( self ) extern crate _A ; macro_rules ! macro_rules [ ( $ self : _jn ) => [ ] ; [ ] => [ ] ; ] ;

@@ -1,7 +1,0 @@
-mR [ * ] ( M2 ) __asm ( "" "c\
-" L"" ) _Alignas ( volatile ^ ^ volatile ) ; { } _Atomic _Atomic _Alignas ( const struct s6H * ^ restrict volatile _Atomic ^ volatile ^ restrict volatile const volatile ) __inline__ const __attribute__ ( ( [ , ? , ) ) _Alignas ( const [ * ] __asm ( u"\
-" ) __asm ( U"[\
-\
-\
-\n" "\
-" "" ) __attribute__ ( ( ) ) __attribute__ ( ( , static , ) ) ) const a __attribute__ ( ( __m128d ) ) = { -- ! __extension__ ( volatile ^ * ) 2 /= && s2 ^= 3 } , * restrict volatile V7 = { { ++ sizeof && b *= 017 , } , } ;

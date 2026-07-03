@@ -1,1 +1,0 @@
-w480 . sealed . sealed . @ module ( { , } ) package requires ; non-sealed static @ interface permits { } interface open permits boolean [ ] { } ; @ interface record { record module ( ) { } ; record opens ( ) { ; } ; }

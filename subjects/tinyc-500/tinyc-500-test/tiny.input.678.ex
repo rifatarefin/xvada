@@ -1,1 +1,0 @@
-do while ( r -( p )< d +( i < y )){ while ( u = q = k ){  n < r ;; }}while ( i = r +29< t + n - i );

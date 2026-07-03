@@ -1,1 +1,0 @@
-do if (66)if ( s = y = c ); else ; while ( m - m + t + x +( d ));

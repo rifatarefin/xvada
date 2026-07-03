@@ -1,1 +1,0 @@
-# ! [ super ] # ! [ super :: $crate :: macro_rules ( * | "" ) ] unsafe extern { } # [ :: $crate = false ] :: crate ! { } # [ $crate :: macro_rules :: self :: _S ] struct r#_G ( ) ;

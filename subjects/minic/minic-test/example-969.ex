@@ -1,1 +1,0 @@
-float a ( bool a , float a , float a ) { if ( a < a ) a = a ( a = 0 + a < a + a - a ( a = a = a ( a = a = a = a = a < a ) ) ) ; }

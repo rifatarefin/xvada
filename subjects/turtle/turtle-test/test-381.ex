@@ -1,1 +1,0 @@
-repeat 8 {c Oswr c Nwalo Gx repeat 7 {fill {f3 } repeat 6 {b1 } c Pa } } repeat 4 {fill {l2 l6 c Lz } r9 } c Hw Tmk

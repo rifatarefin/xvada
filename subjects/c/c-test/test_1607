@@ -1,1 +1,0 @@
-register ; static _Atomic auto _Alignas ( union r { const ; } __extension__ ( __m128i ) signed volatile ^ const * ^ restrict restrict * volatile restrict ) _Atomic ; ;

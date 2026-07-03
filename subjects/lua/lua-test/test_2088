@@ -1,1 +1,0 @@
-if nil ^ ... - { } then return else return end :: L :: goto w1OS

@@ -1,1 +1,0 @@
-__declspec ( r ) volatile _Thread_local w2 { g0 * ^ * _Atomic ; } _Alignas ( const union d * restrict volatile const ^ volatile [ ] __attribute__ ( ( , |= , ) ) ) _Alignas ( __extension__ ( __m128d ) volatile ^ const * ) ;

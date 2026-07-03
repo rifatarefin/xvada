@@ -1,1 +1,0 @@
-repeat 5 {l4 c Su } c Tgr Cw fill {l8 }

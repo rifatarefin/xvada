@@ -1,1 +1,0 @@
-do while ( f - e < a +27)if ( r = i = f < m )if ( q = i )while ( u < o )if ( g < g )while ( n < l ); else  h - w < n ;while ( w =47);

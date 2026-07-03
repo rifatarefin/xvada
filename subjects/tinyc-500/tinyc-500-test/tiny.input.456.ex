@@ -1,1 +1,0 @@
-if (8- a )while ( s - y + c -46)do 4<( f < f );while (( a ));

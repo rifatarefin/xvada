@@ -1,2 +1,0 @@
-__declspec ( U1c ) ; _Alignas ( const ) ^ ( ( __extension__ ( __m128d ) * ^ volatile * B7u [ restrict ] [ const const ] ) __attribute__ ( ( goto ( 936 , 9 , 5 , 645957 ) ) ) __asm ( u"" u8"\
-\655" ) ) ( G ) __asm ( u8"" ) { return ; do __asm volatile ( ) ; while ( 8 , 9 ) ; ; }

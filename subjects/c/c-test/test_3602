@@ -1,1 +1,0 @@
-; union { _Atomic volatile __extension__ ( __m128d ) ; } * volatile * ;

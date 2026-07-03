@@ -1,1 +1,0 @@
-if function ( ) end then return elseif false then return elseif false // ... .. ~ nil then return ; elseif - false or true then return ; else end break

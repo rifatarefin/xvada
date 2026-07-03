@@ -1,1 +1,0 @@
-union fD { _Atomic restrict _Complex restrict ; struct DP ; } __attribute__ ( ( , ) ) ;

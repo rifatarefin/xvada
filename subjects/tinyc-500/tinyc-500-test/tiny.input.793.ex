@@ -1,1 +1,0 @@
-while ( s =( z < l ))while ( m = f = p = f ){  z < s - t ;; if ( d )while ( f ); { ; }; }

@@ -1,1 +1,0 @@
-( ( ^ * ( __extension__ ( __m128d ) ^ _Atomic k5 ) [ volatile static && CGdD |= 9 ] __attribute__ ( ( if ) ) ) [ static const 4 ] __asm ( "" ) ) { _Alignas ( int * * ) v9 [ volatile _Atomic 6 ] __asm ( "" ) = { 23 } , * O [ restrict * ] __attribute__ ( ( enum ) ) ; }

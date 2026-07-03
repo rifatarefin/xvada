@@ -1,3 +1,0 @@
-/home/mxa7262xx/Downloads/tmp/lua/CMakeFiles/file_parser.dir
-/home/mxa7262xx/Downloads/tmp/lua/CMakeFiles/edit_cache.dir
-/home/mxa7262xx/Downloads/tmp/lua/CMakeFiles/rebuild_cache.dir

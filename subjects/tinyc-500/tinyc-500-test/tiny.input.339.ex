@@ -1,1 +1,0 @@
-do 178;while ( e = o = i = e - c );

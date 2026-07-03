@@ -1,1 +1,0 @@
-while ( m = o = j = h < y )if (6-( s < f ))while ( f ); 

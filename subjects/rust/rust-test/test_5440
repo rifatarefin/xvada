@@ -1,1 +1,0 @@
-# [ :: $crate :: super ] pub extern crate macro_rules as macro_rules ; macro_rules ! r#_R { { } => [ ] ; { $ ( $ self : macro_rules ) , ? } => { $crate { } macro_rules ? ( ) [ ] } }

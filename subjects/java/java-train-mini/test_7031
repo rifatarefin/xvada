@@ -1,1 +1,0 @@
-module sealed { uses permits . transitive . opens ; }

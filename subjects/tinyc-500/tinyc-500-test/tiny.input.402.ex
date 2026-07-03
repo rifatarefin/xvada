@@ -1,1 +1,0 @@
-do while ( a = f -( i )< b -4); while ( j + r +( q )- h +( l ));

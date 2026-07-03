@@ -1,1 +1,0 @@
-open module sealed { provides to with transitive ; opens with . with to open . uses ; }

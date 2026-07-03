@@ -1,1 +1,0 @@
-@ permits ( opens = this , requires = @ record ( { } ) , yield = super ) package exports ; ; import opens . * ;

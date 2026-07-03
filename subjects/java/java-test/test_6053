@@ -1,1 +1,0 @@
-module uses { opens var to exports . yield ; opens $ to provides . module . k6 . to ; provides with with transitive ; }

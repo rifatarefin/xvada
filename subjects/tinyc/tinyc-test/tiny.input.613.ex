@@ -1,1 +1,0 @@
-if ( r = p = a -( h < e )< p +( c )); else ; 

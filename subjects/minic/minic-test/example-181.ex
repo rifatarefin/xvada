@@ -1,1 +1,0 @@
-int a ( int a , float a , bool a , int a ) { do ; while ( a - ( a < 0 ) - a - a ( a = a = ( ( a = a = 0 ) ) < 0 ) + a ( a = a ( a = a = a ( ( a ) - a ( a < a ) , ( a < a ) , a = a < a , a = a < a ) < 0 , a = a = ( a ( a , a < a ) < a ( a < a , a < a ) ) < 0 ) ) < a ) ; }

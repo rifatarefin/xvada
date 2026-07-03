@@ -1,1 +1,0 @@
-c Dz Rsj c Nwnyf Djekwau repeat 8 {c Cb c Tt Urfi }

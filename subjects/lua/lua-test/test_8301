@@ -1,1 +1,0 @@
-local function EK ( d , FR , ... ) return ; end goto f

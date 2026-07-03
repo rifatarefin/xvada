@@ -1,1 +1,0 @@
-if ( n - w + b -7+ p ); else ; 

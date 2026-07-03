@@ -1,1 +1,0 @@
-:: F :: if true then local H repeat until nil return ; elseif ... ~= ... and true + false then return else return end

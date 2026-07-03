@@ -1,1 +1,0 @@
-extern template ; alignas ( union { } char16_t ) alignas ( volatile [ [ ] ] ... ) [ [ J ... ] ] alignas ( volatile union { } [ [ ] ] ... ) using namespace OBd ;

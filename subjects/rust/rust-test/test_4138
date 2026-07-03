@@ -1,1 +1,0 @@
-static mut macro_rules : impl ( ? Self :: super ( ) :: self :: < > ) + ; # [ :: crate { } ] macro_rules ! macro_rules { { { [ ] [ ] } } => [ ] ; }

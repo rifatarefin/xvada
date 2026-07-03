@@ -1,1 +1,0 @@
-module with . record { provides var with provides . module ; requires transitive static static permits . requires ; }

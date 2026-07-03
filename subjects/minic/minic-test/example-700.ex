@@ -1,1 +1,0 @@
-char a ( char a ) { if ( a = 0 ) bool a , a , a , a , a , a , a ; else ; }

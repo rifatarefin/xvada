@@ -1,1 +1,0 @@
-if ( a + i - d -7-17)while ( n = v - g +( w < w ))while ( s -1); 

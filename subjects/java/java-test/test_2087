@@ -1,1 +1,0 @@
-package N ; @ open ( sealed = { } , permits = { } , provides = { } , record = { } ) static non-sealed sealed enum yield { } abstract class provides < opens extends provides . to . with [ ] [ ] & sealed . requires & module > { }

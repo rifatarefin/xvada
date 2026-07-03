@@ -1,1 +1,0 @@
-do  i = k + g + z -7;while ( a = x =5< g -6);

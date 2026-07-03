@@ -1,1 +1,0 @@
-module sealed { requires transitive var . requires ; opens k . record ; exports to . uses to transitive ; }

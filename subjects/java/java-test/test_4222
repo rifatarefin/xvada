@@ -1,1 +1,0 @@
-non-sealed @ with . hi5 ( provides :: < ? > new ) static @ interface exports { record yield ( ) { } transient @ interface uses { } ; }

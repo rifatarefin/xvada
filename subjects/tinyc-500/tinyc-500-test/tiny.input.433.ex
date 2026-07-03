@@ -1,1 +1,0 @@
-while ( j = i + i +7+( s < q ))while ( b = a +6< w + d -7)while (2<2); 

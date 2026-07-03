@@ -1,5 +1,0 @@
-_Alignas ( const q ^ ) ; restrict ( ^ const ^ * ( ^ const const Xb __asm ( u8"\
-" "\
-\
-" "" ) ) __attribute__ ( ( ) ) __asm ( L"\
-" ) ) [ static _Atomic 8631 ] [ static volatile restrict 40 ] [ static volatile 6626 ] { }

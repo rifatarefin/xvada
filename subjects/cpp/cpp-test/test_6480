@@ -1,1 +1,0 @@
-template < > ~ decltype ( auto ) [ [ ] ] override try { } catch ( ... ) { }

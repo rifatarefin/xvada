@@ -1,1 +1,0 @@
-module provides { opens module ; opens exports . provides to opens . with ; }

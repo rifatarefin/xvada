@@ -1,1 +1,0 @@
-if (( z )<( a < z )+ y )if (8+6)do  s = e = t ;while ( n = e = g = q = r );else if ( j - d +( t )-1<( e )+( y < p ))if ( e = m = i < g ); 

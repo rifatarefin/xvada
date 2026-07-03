@@ -1,7 +1,0 @@
-^ restrict i ( ) [ static ++ ++ ++ ++ ++ + 44 = 7 ] [ const _Atomic restrict * ] [ volatile 2 ] ( Vr ) ( B ) ( _Alignas ( _Complex ) restrict __attribute__ ( ( ) ) , ... ) __attribute__ ( ( ) ) __attribute__ ( ( * ( 338 ) , __builtin_offsetof ) ) * restrict ( m __asm ( "" "\
-u" u"7\
-\
-" "\
-z" L"\
-\
-" ) ) = { { 37 , 5 , 62 } , . Ql6781 . W0 = { 2 , } } ; volatile __declspec ( T ) ; __declspec ( b ) ^ W [ * ] = { & 6104383 *= 7 , 8904 , 592 } ; { __asm __volatile__ ( : : : ) ; { __asm__ volatile ( ) ; char ; for ( ; ; ) return ; ; __asm __volatile__ ( ) ; ; __asm __volatile__ ( : ) ; } }

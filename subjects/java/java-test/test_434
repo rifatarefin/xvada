@@ -1,1 +1,0 @@
-open module transitive { exports yield . opens . opens . module . transitive ; requires module . provides ; }

@@ -1,1 +1,0 @@
-if ( k = d + r -2-( q < q )< h -7- w )if ( w -( k )<0){ ; while ( u = b )while ( i < q ); }

@@ -1,1 +1,0 @@
-b2 fill {fill {repeat 5 {repeat 1 {l8 } c Jy Ai } } c Ki Ki c Nfm Bci }

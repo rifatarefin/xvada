@@ -1,1 +1,0 @@
-static_assert ( ( void [ [ ] ] ) sizeof ... ( S ) > > ( union { } [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] & * ) "" , "" ) ;

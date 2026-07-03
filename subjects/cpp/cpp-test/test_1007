@@ -1,1 +1,0 @@
-namespace { } template < > using namespace decltype ( auto ) :: O :: V ; ;

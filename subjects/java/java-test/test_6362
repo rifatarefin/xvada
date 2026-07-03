@@ -1,1 +1,0 @@
-open module transitive . record { provides var . requires . yield . to with var . record . record . requires . var ; }

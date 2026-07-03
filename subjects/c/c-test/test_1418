@@ -1,2 +1,0 @@
-C_X [ * ] [ restrict static 9736 ] __attribute__ ( ( > ( ) ) ) __asm ( U"" u8"" ) { } ^ ^ _Atomic ( O ) [ static restrict volatile _Atomic 1 ] ( _Atomic typedef __extension__ ( __m128 ) ^ volatile restrict , ... ) [ restrict _Atomic _Atomic ] __attribute__ ( ( , -> ) ) __asm ( "\
-" ) { while ( 291 , 4 ) N : default : __asm volatile ( : : : ) ; register ; switch ( -- && V >>= 86 ) while ( 993 ) default : { } }

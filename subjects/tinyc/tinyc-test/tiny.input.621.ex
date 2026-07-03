@@ -1,1 +1,0 @@
-{ do ; while ( l < x + e + i );if ( n = h = t = a )if ( s = p < l ); else while ( t )while ( h = b )while ( l < u )while ( v < o ); }

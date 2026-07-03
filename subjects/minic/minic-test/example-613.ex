@@ -1,1 +1,0 @@
-void a ( bool a , int a , char a , int a ) { if ( 0 ) while ( a = ( ( 0 < a ( a = a , a = a = a = a = a ( a < a ) ) + a - a ( a = a ) ) ) - a ( 0 - a ( a , a = 0 ) + a ( 0 , a , ( a = a = a = a < a ) + ( a = a = a < a ) + 0 < ( 0 ) + a ( a < a , a < a ) - a - a + a ( a < a ) - 0 ) ) - a ) ; else ; }

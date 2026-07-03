@@ -1,1 +1,0 @@
-c Ftt c Fej Lwd l3 repeat 3 {f3 }

@@ -1,1 +1,0 @@
-# ! [ :: crate ] # ! [ $crate ] # [ :: super ] # [ self ] # [ $crate :: super :: crate ( &= ) ] # [ :: Fo [ $ ( ) != * ... ? false ] ] macro_rules ! r#r14 { { # [ ] } => [ ] ; ( ) => { + >>= $ } ; }

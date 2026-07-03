@@ -1,1 +1,0 @@
-enum { Q , } ; _Alignas ( restrict ) ^ const ( __m128d * restrict const ^ const volatile _Atomic _Atomic ^ v [ const * ] [ _Atomic static 19 ] ) { }

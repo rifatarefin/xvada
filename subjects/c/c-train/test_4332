@@ -1,2 +1,0 @@
-enum R register ; P __asm ( "" "\
-" ) { goto -- sizeof ++ sizeof sizeof -- ++ && l ; struct h5 _Alignas ( __m128i _Atomic ) ; } static ;

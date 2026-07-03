@@ -1,1 +1,0 @@
-if ( j - q -7-( a )< r )do  w = u = k = k ;while ( m = u + d );

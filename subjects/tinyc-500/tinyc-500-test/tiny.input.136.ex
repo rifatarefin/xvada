@@ -1,1 +1,0 @@
-{ while ( b - l +( x < d ))do  z = e = g < n ;while ( w + p );}

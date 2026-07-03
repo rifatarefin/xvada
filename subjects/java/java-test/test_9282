@@ -1,1 +1,0 @@
-open module opens { requires static transitive transitive transitive yield ; }

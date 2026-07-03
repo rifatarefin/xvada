@@ -1,1 +1,0 @@
-do while (1)if ( q = t = t )do  g = w ;while ( l );while ( g = y = d = c = q = b = y );

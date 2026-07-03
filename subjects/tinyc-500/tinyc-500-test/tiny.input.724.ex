@@ -1,1 +1,0 @@
-{ while (( f < j )< z - f + y ){ if ( g = s < c )if ( d )if ( c < v ); else ; else  q < h ;do if ( e < e ); else ; while ( k < c );}}

@@ -1,1 +1,0 @@
-repeat 0 {fill {r0 } repeat 5 {repeat 0 {f3 l4 } } }

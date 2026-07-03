@@ -1,1 +1,0 @@
-alignas ( const [ [ ] ] ( ) [ [ ] ] -> unsigned [ [ ] ] * ) ; alignas ( sizeof ... ( F ) or sizeof ... ( P6 ) ? throw : throw ) alignas ( struct { public : } ... ) ;

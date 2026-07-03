@@ -1,1 +1,0 @@
-; _Alignas ( union { __m128d ; } ^ ) const ;

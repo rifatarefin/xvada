@@ -1,1 +1,0 @@
-c He repeat 8 {l2 } c Gif fill {repeat 2 {l4 } } fill {b0 c St Xf c Ov }

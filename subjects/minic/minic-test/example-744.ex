@@ -1,1 +1,0 @@
-void a ( float a , bool a , float a ) { a ( a - a ) < a ; }

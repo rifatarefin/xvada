@@ -1,1 +1,0 @@
-open module with . sealed { opens opens . module ; exports opens . uses to uses . sealed . exports ; exports permits to opens ; uses module . module . to . transitive . to ; requires var . opens . opens . exports ; exports de . var ; }

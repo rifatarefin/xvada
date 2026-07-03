@@ -1,1 +1,0 @@
-_Alignas ( _Atomic const * ) __extension__ ( __m128 ) _Noreturn _Alignas ( restrict volatile restrict const * ( * restrict const * * restrict volatile ) __attribute__ ( ( ) ) ) ;

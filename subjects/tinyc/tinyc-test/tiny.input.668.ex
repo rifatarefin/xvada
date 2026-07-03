@@ -1,1 +1,0 @@
-do if ( g ); while ( z );

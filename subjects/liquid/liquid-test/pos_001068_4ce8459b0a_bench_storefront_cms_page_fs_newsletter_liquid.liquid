@@ -1,8 +1,0 @@
-<div class="newsletter" style="background: {{ section.bg_color | default: '#f7fafc' }};">
-  <h2>{{ section.heading }}</h2>
-  <p>{{ section.description }}</p>
-  <form action="/subscribe" method="post" class="newsletter__form">
-    <input type="email" name="email" placeholder="{{ section.placeholder | default: 'Enter your email' }}" required>
-    <button type="submit">{{ section.button_text | default: "Subscribe" }}</button>
-  </form>
-</div>

@@ -1,1 +1,0 @@
-_Alignas ( short * volatile restrict ^ const _Atomic ) ; _Atomic ( restrict volatile const __m128 restrict ^ [ * ] ) const ;

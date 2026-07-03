@@ -1,1 +1,0 @@
-W ( ) if ... ^ { } then goto Hd do end ; return elseif ... << ... then return elseif true then if nil then elseif nil then else end elseif { } | false or true then return else goto h2 return ; end

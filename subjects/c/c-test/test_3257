@@ -1,1 +1,0 @@
-const * S __asm ( "A)" ) __inline__ _Alignas ( const ) _Thread_local __attribute__ ( ( ) ) ; { do return ; while ( 2798 ) ; }

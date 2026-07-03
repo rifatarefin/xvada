@@ -1,1 +1,0 @@
-fill {r9 c Oqwjy Npng fill {f0 fill {f3 } repeat 4 {f8 } c Cg Sy } } fill {l8 } c Nhwu l6 c Jow Ro

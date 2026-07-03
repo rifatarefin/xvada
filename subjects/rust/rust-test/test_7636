@@ -1,1 +1,0 @@
-# [ :: $crate :: super :: self ] # [ :: $crate :: super :: macro_rules :: _O = b"\\\'" ] macro_rules ! _XN [ { $ ( += .. $ ( [ ] ) $ + $ ( { } ) ? ) virtual ? '_ } => ( [ ] ) ] ; # [ super :: self ] # [ crate ] # [ $crate = "" ] macro_rules ! macro_rules ( ( ) => [ $crate $ * ] ; ) ;

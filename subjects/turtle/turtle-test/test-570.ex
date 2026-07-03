@@ -1,1 +1,0 @@
-r5 l2 c Cv Kgial

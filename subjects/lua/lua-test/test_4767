@@ -1,1 +1,0 @@
-for P = { } , nil + ... , true .. false - ... do if ... then else end if false then elseif false then end while true do end end return true ^ false , ... + nil , "P" , ... , not true , ... | nil , ... >= nil

@@ -1,1 +1,0 @@
-int a ( int a , char a , float a ) { while ( a < a ) { } }

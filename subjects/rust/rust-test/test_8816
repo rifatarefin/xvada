@@ -1,1 +1,0 @@
-# ! [ $crate = 7. ] # [ self :: super ] macro_rules ! r#M ( { } => [ $ @ macro_rules * ] ) ;

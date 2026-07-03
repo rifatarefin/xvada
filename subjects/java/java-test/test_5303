@@ -1,1 +1,0 @@
-module uses . record { requires static static transitive static opens . opens ; }

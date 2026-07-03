@@ -1,1 +1,0 @@
-_Atomic ( volatile __extension__ ( __m128d ) ^ * restrict ^ _Atomic ^ restrict _Atomic volatile * _Atomic ^ ^ const _Atomic ^ ( ) __attribute__ ( ( extern , _Generic ( ) , ) ) ) _Alignas ( enum M19 * restrict _Atomic [ * ] __attribute__ ( ( , , ) ) __attribute__ ( ( ) ) __asm ( "" U"`" ) ) ;

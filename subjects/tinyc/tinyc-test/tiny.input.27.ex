@@ -1,1 +1,0 @@
-while ( i = b = u + p +8)do if ( l = a = x < t ); else  g = w - b ;while ( r = l = s = x < o );

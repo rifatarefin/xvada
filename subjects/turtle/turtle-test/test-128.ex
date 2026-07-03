@@ -1,1 +1,0 @@
-c Qy Dj c Zak

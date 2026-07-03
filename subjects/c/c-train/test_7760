@@ -1,7 +1,0 @@
-_Noreturn ( ^ const ^ volatile restrict ( T3 [ const static 2 ] __attribute__ ( ( ) ) ) ( ) ( static _ __attribute__ ( ( , ) ) __asm ( "" "" L"" "" ) __attribute__ ( ( ) ) , volatile restrict ^ volatile _Atomic restrict ^ restrict const const G , __attribute__ ( ( ) ) _Thread_local __extension__ ( __m128d ) D , ... ) [ volatile 72 ] ) __attribute__ ( ( -= ) ) __asm ( "\u7D83\
-\
-\"M\
-\xC\
-\
-" "$\
-" ) const ; { } ;

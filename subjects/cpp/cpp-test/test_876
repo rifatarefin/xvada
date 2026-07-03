@@ -1,1 +1,0 @@
-alignas ( union { } [ [ ] ] [ [ ] ] * ) using namespace R < ~ decltype ( auto ) ... , ~ decltype ( auto ) ... , ~ decltype ( auto ) > :: _ :: l ;

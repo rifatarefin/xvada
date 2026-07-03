@@ -1,1 +1,0 @@
-while "W" do if false then elseif false then else end end do return end return true

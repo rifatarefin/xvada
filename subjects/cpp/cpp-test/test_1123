@@ -1,1 +1,0 @@
-inline namespace { template < > ; template < class ... > extern UR"()\(" ; extern R"(v)\)\)" { } }

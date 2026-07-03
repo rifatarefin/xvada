@@ -1,1 +1,0 @@
-while ( k = x = e = r = y < t )if ( m ) f = t = t + n < y - e ;else if ( q = n = h ) p ;else while ( g - k < u - k )while ( t ){ if ( m < e ); ; ; }

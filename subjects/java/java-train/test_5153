@@ -1,1 +1,0 @@
-open module open . sealed { exports with . open to var . permits ; provides requires . uses with V . open . yield ; }

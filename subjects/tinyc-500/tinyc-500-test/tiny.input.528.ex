@@ -1,1 +1,0 @@
-if (19-27)do while ( b = l ); while ( k = d + k - g <( e ));else do ; while (( l )<61);

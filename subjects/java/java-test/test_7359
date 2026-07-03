@@ -1,1 +1,0 @@
-open module uses . uses { requires opens . module ; opens open . Sdu6 ; }

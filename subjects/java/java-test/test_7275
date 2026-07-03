@@ -1,1 +1,0 @@
-open module uses . opens . uses . record . to { requires transitive record . to . permits ; opens yield ; }

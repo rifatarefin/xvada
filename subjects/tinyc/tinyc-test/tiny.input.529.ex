@@ -1,1 +1,0 @@
-if (( f )+52)do  p +4+19< f + t +85;while ( q +2+8);else while ( c = w < i + u +( n )){ ; }

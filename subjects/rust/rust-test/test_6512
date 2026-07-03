@@ -1,1 +1,0 @@
-macro_rules ! macro_rules ( [ ] => [ ] ; ( $ ( ( ) $ _P : macro_rules ) ? [ ] $ ( $ ( { } [ ] ) '_ ? [ ] ) true * ) => [ ] ; [ ( [ ] [ ] ) ] => [ ] ; { } => ( ) ; ) ; pub type V7w = impl 'static + ( ? for < > :: self :: :: super < > ) ;

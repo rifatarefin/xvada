@@ -1,1 +1,0 @@
-struct { __extension__ ( __m128d ) __extension__ ( __m128d ) volatile ; } _Noreturn ( ^ restrict * const d [ static 9 ] ) __attribute__ ( ( __asm ) ) = { . OhyZP . i = 5 , } ;

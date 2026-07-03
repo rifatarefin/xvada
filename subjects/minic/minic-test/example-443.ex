@@ -1,1 +1,0 @@
-void a ( bool a , bool a , bool a , float a ) { 0 < 0 ; }

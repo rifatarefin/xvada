@@ -1,3 +1,0 @@
-_Atomic ( const ) __m128d vr __asm ( "" "" "\
--" "" u"\
-" u"" ) { }

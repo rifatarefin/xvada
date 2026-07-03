@@ -1,1 +1,0 @@
-_Atomic e __declspec ( S ) ; _Alignas ( const [ ] [ * ] ( ) __asm ( U"" u8"" "" "" ) __asm ( "" u8"" "" "" "" ) __asm ( U"" u"" u8"" ) __attribute__ ( ( ) ) __asm ( U"" "" L"" ) [ static volatile _Atomic const const const 7 ] ) ; { }

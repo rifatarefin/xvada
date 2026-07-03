@@ -1,1 +1,0 @@
-module permits . exports . opens . yield { requires static open . sealed ; requires static static c1 ; uses exports . uses ; uses exports ; uses transitive . yield . _0 . record . provides ; }

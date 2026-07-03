@@ -1,1 +1,0 @@
-c Cjcy Et fill {repeat 3 {fill {b7 } } } c Hkt Yw

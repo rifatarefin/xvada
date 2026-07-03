@@ -1,1 +1,0 @@
-while (8-( u < w )-( s = z < u )<( y < w )+( f )+ m )while ( n = s +( f )){ while ( q )while ( p = l ) a ;}

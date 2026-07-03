@@ -1,1 +1,0 @@
-# ! [ crate ] # ! [ self = b"" ] # [ :: macro_rules :: super ] # [ :: macro_rules :: $crate :: $crate = br"" ] macro_rules ! _XX ( ( $ ( < ) + ) => [ ( ) ] ) ;

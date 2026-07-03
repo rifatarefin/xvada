@@ -1,1 +1,0 @@
-while ( v = w + b -( x < y )< e - c -( q )+9); 

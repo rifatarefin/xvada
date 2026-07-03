@@ -1,1 +1,0 @@
-for KPe = nil , function ( ) end , 'w' - true .. nil do return ; end

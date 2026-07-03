@@ -1,1 +1,0 @@
-if ( m = c = e = d - e < y - w ){ do do { while ( a ); }while ( j < q );while ( y = j = f = i );if ( n = o )if ( e = f ){ ; }do if ( u ); else { ; }while ( h = s < v ); e = w ;}

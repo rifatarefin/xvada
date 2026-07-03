@@ -1,1 +1,0 @@
-; interface module permits @ requires ( { , } ) @ sealed ( { } ) provides . transitive . to < ? > . uses < ? > . record < ? > . uses . uses < ? , ? , ? , ? > [ ] { } ;

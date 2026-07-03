@@ -1,1 +1,0 @@
-if nil + false then goto w function VB ( ) end return elseif function ( ) end then if true then else end elseif 0 then return ; else return end return { } ;

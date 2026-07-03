@@ -1,1 +1,0 @@
-bool a ( int a , int a , int a , float a , bool a , float a , bool a , char a , float a ) { a ( a < a ) < 0 + 0 ; }

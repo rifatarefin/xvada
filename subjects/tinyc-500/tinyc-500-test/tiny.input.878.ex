@@ -1,1 +1,0 @@
-if ( v = w = h = v = n )if ( k = k ){ if ( a = b = g < v ); { do ; while ( r );}; { ; }; ; }

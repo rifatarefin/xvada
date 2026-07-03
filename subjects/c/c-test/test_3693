@@ -1,1 +1,0 @@
-; struct R4k9 { volatile ; __extension__ ( __m128d ) __extension__ ( __m128d ) const const ; signed __extension__ ( __m128i ) volatile ; _Atomic ; } _Thread_local ;

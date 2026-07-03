@@ -1,1 +1,0 @@
-module provides { provides requires with requires . module . requires . with . exports ; }

@@ -1,1 +1,0 @@
-{  y = x -0< r -8;while ( c + f < o - g ){  z < t ;if ( t ); else ; }}

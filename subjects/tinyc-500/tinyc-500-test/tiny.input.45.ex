@@ -1,1 +1,0 @@
-if ( a < u - l ); else if ( v = t = q = p < h ) e = z = g + p ;

@@ -1,1 +1,0 @@
-module permits { exports sealed to provides ; exports transitive . opens to requires . to . with ; uses opens . with . permits ; }

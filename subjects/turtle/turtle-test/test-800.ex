@@ -1,1 +1,0 @@
-f7 fill {c Rb fill {c Ki Trs b3 c Ssz Ss } fill {fill {fill {f0 } } } r9 } l1

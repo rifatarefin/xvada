@@ -1,1 +1,0 @@
-do if ( l = b = u + q ); while (4);

@@ -1,1 +1,0 @@
-c Om r3 fill {repeat 5 {l7 b9 f4 } } repeat 1 {fill {f9 b1 } } fill {r2 } l0 c Mi No

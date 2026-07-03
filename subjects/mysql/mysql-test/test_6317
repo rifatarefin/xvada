@@ -1,1 +1,0 @@
-EXECUTE `+` USING @`` , @"" , @"" , @`\n\G` , @'' , @"""" ; ; ; GET STACKED DIAGNOSTICS @@C = NUMBER -- ; PURGE BINARY LOGS BEFORE 'H'''

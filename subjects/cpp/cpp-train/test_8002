@@ -1,1 +1,0 @@
-union [ [ ] ] [ [ ] ] [ [ ] ] { } constexpr [ [ ] ] ~ decltype ( auto ) ( ) volatile const and noexcept -> wchar_t [ [ ] ] , ~ decltype ( auto ) ( ) [ [ ] ] [ [ ] ] -> char32_t , ... ~ decltype ( auto ) [ [ ] ] ( ) volatile volatile volatile const const volatile const & [ [ ] ] [ [ ] ] -> auto :: * ... ;

@@ -1,1 +1,0 @@
-fill {repeat 9 {c Ekow } }

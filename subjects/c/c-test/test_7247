@@ -1,4 +1,0 @@
-( ^ const ( * _Atomic d ) [ static ++ ! 5 += 2795 ] [ const _Atomic _Atomic * ] ) [ volatile _Atomic static 8 ] ( enum R5U ^ restrict * const volatile b [ restrict static 1 ] [ _Atomic * ] ) __asm ( u8"" L"\53" "\
-" u"" L"" "" "dv" "" U"\a\\\v\13\
-" "Ktk" ) __asm ( U"\xfb" ) __asm ( "\
-" U"" "" L"" ) { }

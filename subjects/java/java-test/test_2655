@@ -1,1 +1,0 @@
-open module opens { uses record . requires ; requires S91 ; uses open ; uses with ; }

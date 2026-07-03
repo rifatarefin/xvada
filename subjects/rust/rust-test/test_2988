@@ -1,1 +1,0 @@
-pub ( self ) const extern r"L<q7W" fn r#y ( self : dyn 'static + '_ + '_ + '_ + ) where '_ : 'static + '_ + { # ! [ :: crate :: super ] }

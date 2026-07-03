@@ -1,1 +1,0 @@
-# [ $crate :: crate ] # [ :: crate = r###"L"### ] # [ :: $crate = true ] # [ self :: $crate ] # [ :: r#x :: $crate :: self :: _f ] # [ $crate = true ] :: _2 :: $crate ! ( $ ^= '_ { [ ] move '_ >>= $crate } ) ; pub use :: { * , :: self as _ } ;

@@ -1,1 +1,0 @@
-do ; while ( p = u = i = l = y = e );

@@ -1,1 +1,0 @@
-{  z = c -( i < i );do  f < v + h ;while ( n = x < q );}

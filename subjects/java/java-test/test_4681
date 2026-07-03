@@ -1,1 +1,0 @@
-module uses . sealed { requires with . provides . uses ; }

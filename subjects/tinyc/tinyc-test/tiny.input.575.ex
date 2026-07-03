@@ -1,1 +1,0 @@
-do ( m )+ h < c + f + g + g - x ;while ( m = x =6);

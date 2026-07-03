@@ -1,3 +1,0 @@
-__m128 __attribute__ ( ( ) ) * _Atomic ( * _Atomic _Atomic _Atomic * * const * volatile i __asm ( "'\
-" ) ) ( e ) [ restrict restrict static 72 ] [ static ++ sizeof -- sizeof ( __extension__ ( __m128i ) ) >>= ++ ( { } ) &= ++ ++ sizeof -- sizeof ( restrict [ * ] ) |= 5 ] __asm ( "" u"" u8"\U4c1c2dfB" "\
-\xa8\?" "" "" ) __attribute__ ( ( ) ) __attribute__ ( ( E042 , >= ( ) ) ) ;

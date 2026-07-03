@@ -1,1 +1,0 @@
-open module var { opens open ; opens provides . requires . with to exports . record . sealed ; }

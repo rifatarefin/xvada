@@ -1,1 +1,0 @@
-while ( y +6+4+9< x ){ ; { while ( z )while ( e < h ); }}

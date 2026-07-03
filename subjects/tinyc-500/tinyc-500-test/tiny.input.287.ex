@@ -1,1 +1,0 @@
-if ( t = y = g + r +6< j - h -( t ))do ; while ( z = x - g - p <( l < e ));else do do while ( e = o ){ if ( s )if ( p < j );  r < s ;; ; }while ( p = s < u + b );while ( g = u +8< x - e +6);

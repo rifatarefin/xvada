@@ -1,1 +1,0 @@
-c Njis c Kp Cik repeat 4 {b3 }

@@ -1,1 +1,0 @@
-template < class > extern template template < class O > template < > ;

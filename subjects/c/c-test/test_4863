@@ -1,1 +1,0 @@
-auto _Atomic ( enum I91 _Atomic * [ * ] [ ] [ * ] [ _Atomic 91388 ] [ volatile ! 855518 = 37 ] ) p __asm ( "" ) __asm ( "\x3b!c" "" ) __attribute__ ( ( , -- ) ) { default : __asm__ __volatile__ ( : ) ; }

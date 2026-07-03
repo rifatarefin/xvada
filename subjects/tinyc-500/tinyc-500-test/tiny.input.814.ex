@@ -1,1 +1,0 @@
-if ( h = x = p -( o )) p = h = z = k = u < p ;else if ( i - k - b +14<( t < g )){ if ( k < k )while ( f < g ){ ; ; }else  x ;}else if ( n +8< d + b -1)while ( w = g ) u < c ;else while ( u < v + z )while ( j < e ); 

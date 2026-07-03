@@ -1,1 +1,0 @@
-c Vrh c Ma Jl

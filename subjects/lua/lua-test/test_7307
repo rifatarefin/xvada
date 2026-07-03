@@ -1,1 +1,0 @@
-repeat goto B7 local r , i , E return until { }

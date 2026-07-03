@@ -1,1 +1,0 @@
-for X = nil + false - true , true and "" , nil .. nil - false .. false do end

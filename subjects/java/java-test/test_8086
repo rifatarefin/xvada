@@ -1,1 +1,0 @@
-open module yield . transitive . open . yield { provides provides with transitive . module ; }

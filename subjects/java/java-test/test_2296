@@ -1,1 +1,0 @@
-open module var . with . record . var { requires uses ; }

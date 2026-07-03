@@ -1,1 +1,0 @@
-; ; ; restrict ; * _Atomic ^ c2 [ volatile restrict _Atomic * ] _Alignas ( restrict __extension__ ( __m128 ) * unsigned ) const auto * * _Atomic * restrict ^ restrict * * restrict ^ ( C __attribute__ ( ( , , ) ) __asm ( u8"" L"" ) ) ( ) __attribute__ ( ( , -> ) ) = && u >>= 3 ; volatile * const ( __extension__ ( __m128 ) * _Atomic D ) [ ] [ * ] ; { } _Thread_local ; ;

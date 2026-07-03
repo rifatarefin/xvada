@@ -1,1 +1,0 @@
-# ! [ $crate :: $crate :: self = 'f' ] # ! [ :: super ] # [ $crate ( ) ] extern crate self ; use :: i :: U :: R_Qu :: super :: self as macro_rules ; macro_rules ! macro_rules ( ( ) => ( [ ] $ $crate { } { } ) ; ) ;

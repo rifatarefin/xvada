@@ -1,1 +1,0 @@
-if (( h = i < t ))do  x <75;while ( y + v + z );

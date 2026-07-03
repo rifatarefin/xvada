@@ -1,1 +1,0 @@
-template extern L"b" { inline namespace X { } } alignas ( volatile ... ) [ [ ] ] alignas ( union { } union { } union { } [ [ ] ] ... ) alignas ( volatile union { } ... ) alignas ( union { } auto volatile [ [ ] ] ... ) static register typedef ~ decltype ( auto ) ( ) and noexcept -> const ;

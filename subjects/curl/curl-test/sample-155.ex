@@ -1,1 +1,0 @@
-telnet://@mz.xk:458

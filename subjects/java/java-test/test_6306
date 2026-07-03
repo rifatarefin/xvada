@@ -1,1 +1,0 @@
-open module $ { requires transitive static with . provides ; opens V . record . open to D ; exports exports . module . opens . uses ; }

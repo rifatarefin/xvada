@@ -1,1 +1,0 @@
-c Tgx Gti c Hbj Zor

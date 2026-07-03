@@ -1,3 +1,0 @@
-/home/mxa7262xx/Downloads/glade2 oracles/try/CMakeFiles/file_parser.dir
-/home/mxa7262xx/Downloads/glade2 oracles/try/CMakeFiles/edit_cache.dir
-/home/mxa7262xx/Downloads/glade2 oracles/try/CMakeFiles/rebuild_cache.dir

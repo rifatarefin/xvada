@@ -1,5 +1,0 @@
-volatile extern * restrict _Atomic x3 [ _Atomic * ] [ L"\
-,\a\
-\
-\x3\x8" ++ += 711 ] __asm ( L"\x5\
-" "\U4f20F1Be" "" u"" ) { }

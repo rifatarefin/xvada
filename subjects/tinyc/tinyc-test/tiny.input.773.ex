@@ -1,1 +1,0 @@
-if ( p = d = z = n = t = t = o < k )if ( d +4){ do if ( x < f )do if ( e ); while ( k < z );else ; while ( k = n = i );}else ; 

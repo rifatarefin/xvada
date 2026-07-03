@@ -1,1 +1,0 @@
-if ( j = e = n = w = d )if ( p = x = k + f )while ( i = t - o < b )do { ; }while ( y < o );

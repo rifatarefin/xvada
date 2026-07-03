@@ -1,1 +1,0 @@
-do while ( n = l = b - i < s + k )do  i = l - s ;while ( d + u - r <6);while ( a -9-1+ h );

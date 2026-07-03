@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-3e5653d997959d5c94db55236f12fb44 RustLexer.cpp

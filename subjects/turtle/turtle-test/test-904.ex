@@ -1,1 +1,0 @@
-repeat 1 {r0 fill {b3 } } repeat 1 {c Czl Zimgs }

@@ -1,1 +1,0 @@
-open module yield { provides module . yield . module with transitive ; uses record . u1X ; provides ys . requires with opens ; requires static yield ; }

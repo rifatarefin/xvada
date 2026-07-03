@@ -1,1 +1,0 @@
-if (( j )+( y < q )< q ); else if ( j - u - r -( p )<( h )+( k ))if ( s = u = b < c )do while ( j < m )while ( m < r )while ( n ); while ( z + x );else ; 

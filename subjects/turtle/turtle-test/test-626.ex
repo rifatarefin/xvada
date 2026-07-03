@@ -1,1 +1,0 @@
-c Dagzew Zlh repeat 8 {fill {b4 } c Vl Bjau fill {repeat 1 {b8 } c Wf } } c Rwy Rk

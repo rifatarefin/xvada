@@ -1,1 +1,0 @@
-do  n = w = s - i +7< u + r -( u );while ( j - x -( q )+24- i < d );

@@ -1,1 +1,0 @@
-; restrict __extension__ ( __m128i ) * _Atomic _Atomic ; ;

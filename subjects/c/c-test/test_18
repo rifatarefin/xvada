@@ -1,1 +1,0 @@
-double __attribute__ ( ( ) ) ; _Alignas ( _Atomic ) * volatile t7 ( ) __attribute__ ( ( , volatile , , 281967E+4151 ) ) __attribute__ ( ( , __builtin_offsetof ) ) __extension__ ( __m128 ) ; { }

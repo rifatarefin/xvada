@@ -1,5 +1,0 @@
-_Alignas ( _Atomic _Atomic [ static 24 ] [ static _Atomic volatile 00 ] ( ) __attribute__ ( ( , ) ) __attribute__ ( ( __m128i ) ) __asm ( L"" ) __asm ( u"V\
-" ) __attribute__ ( ( volatile ( ) , ) ) [ * ] ) inline * ^ ^ ^ ( ^ restrict volatile restrict volatile const _Atomic r6 ) ( restrict volatile volatile __attribute__ ( ( ) ) ^ _Atomic * const _Atomic restrict restrict F __attribute__ ( ( ) ) , ... ) [ volatile static ++ && HKg1 -= ++ sizeof sizeof ( _Atomic const [ ] [ ] [ * ] __attribute__ ( ( ) ) __asm ( "\
-\
-\
-" ) ) &= sizeof ( volatile volatile ) -= 1 ] [ restrict static 76 ] { if ( 51 ) switch ( 8 , 4581 , 28 , 35558921 ) __asm volatile ( : ) ; } _Alignas ( _Atomic ( __extension__ ( __m128d ) ) ) ; ;

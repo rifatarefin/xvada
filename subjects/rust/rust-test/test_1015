@@ -1,1 +1,0 @@
-union macro_rules < > where impl '_ + : 'static + , { # [ :: $crate { [ ] } ] pub ( self ) macro_rules : impl '_ + 'static , }

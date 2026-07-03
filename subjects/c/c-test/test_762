@@ -1,1 +1,0 @@
-; volatile ; _Atomic ( __extension__ ( __m128d ) ( [ ] ) [ * ] [ * ] __asm ( "" ) __attribute__ ( ( ) ) __attribute__ ( ( , ) ) ) register _Alignas ( const [ * ] ) * ^ ic0 [ static volatile const 7 ] = && M4H0q = 7 ;

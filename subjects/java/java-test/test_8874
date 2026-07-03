@@ -1,1 +1,0 @@
-open module to { opens yield ; uses with . record . exports ; uses transitive ; provides to . permits . uses . sealed . open with permits ; provides exports with provides . permits . uses ; }

@@ -1,1 +1,0 @@
-{ do if ( v = d < w ) q = f ;while ( g -4); k ;;  h = y < n ;if ( p < m )while ( p < p ); else if ( v ); else ; }

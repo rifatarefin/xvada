@@ -1,1 +1,0 @@
-inline namespace { } ; ; template < > template < > extern template ; static_assert ( noexcept ( throw , throw ) ? throw : throw throw , R"(i)" ) ;

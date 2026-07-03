@@ -1,1 +1,0 @@
-if ( s + m +2+( m )+( c < o ))do { while ( g = k = b )do ; while ( a = q < o );}while ( h -( i )+2);

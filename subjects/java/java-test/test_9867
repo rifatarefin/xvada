@@ -1,1 +1,0 @@
-module opens { provides permits with exports . exports . with ; provides opens . to with opens . permits ; exports yield to to ; uses var . var ; uses provides ; }

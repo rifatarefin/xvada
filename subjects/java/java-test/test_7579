@@ -1,1 +1,0 @@
-open module record . transitive { exports with . sealed ; exports uses to provides . open ; exports sealed to requires . uses ; uses var . with . yield ; provides uses . sealed with var ; }

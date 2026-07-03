@@ -1,1 +1,0 @@
-{ if ( s = t + n )do { if ( a )if ( e < k ); else ; else do ; while ( u < o );}while ( e - b < c - g );else if ( w = a = l < a );  m - u - r ;}

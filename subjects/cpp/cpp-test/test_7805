@@ -1,1 +1,0 @@
-alignas ( struct { private : } [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] & [ [ ] ] ... [ ] ... ) alignas ( float const const enum class { } ) [ [ ] ] & const & [ [ ] ] const * const volatile const & [ [ I ( ) ... ] ] const & ... :: template ~ decltype ( auto ) [ this ] = delete ;

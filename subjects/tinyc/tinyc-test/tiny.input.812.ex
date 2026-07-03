@@ -1,1 +1,0 @@
-{ while ( o + f < g + z + t ) l = j = b = q = e < s ;}

@@ -1,1 +1,0 @@
-do if ( g = l = x - l )if ( q - g -( y < i )){ if ( m ) g < r ;}else { if ( g = r ){ { ; }}}while (( q < d ));

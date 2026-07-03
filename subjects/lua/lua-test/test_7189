@@ -1,1 +1,0 @@
-for F in ... ^ true do return ; end ; local function QH ( Io , ... ) return ; end return true .. nil , true ^ false ;

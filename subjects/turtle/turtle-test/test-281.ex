@@ -1,1 +1,0 @@
-c Ty b6 fill {r7 } f8

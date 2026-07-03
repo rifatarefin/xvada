@@ -1,1 +1,0 @@
-import static provides . record . * ; ; import module . transitive . * ; import static to . provides . open . requires ; import transitive ;

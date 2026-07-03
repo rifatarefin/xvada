@@ -1,1 +1,0 @@
-while ( d = p - x + s +( g < a )); 

@@ -1,1 +1,0 @@
-unsafe extern r###"q"### { # [ self :: $crate :: $crate = r#""# ] super ! [ [ ] ] ; } struct macro_rules { # [ :: $crate ] # [ crate ] pub r#qw : ( ) } macro_rules ! P ( { $ ( { } ) %= + $ ( $ self : macro_rules ) $ * } => [ macro_rules $ ] ) ;

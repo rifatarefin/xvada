@@ -1,1 +1,0 @@
-module yield { uses permits . permits . sealed ; requires transitive static record ; uses open ; }

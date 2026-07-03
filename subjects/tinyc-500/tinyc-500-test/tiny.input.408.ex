@@ -1,1 +1,0 @@
-if ( h = v < o -7+ i ){ ; while ( c ) l < w ;}

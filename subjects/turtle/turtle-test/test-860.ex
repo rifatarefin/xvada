@@ -1,1 +1,0 @@
-repeat 0 {fill {c Norgs } repeat 8 {b5 c Uu } fill {fill {c Jy } } } r2

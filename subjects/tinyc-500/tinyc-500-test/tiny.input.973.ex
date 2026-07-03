@@ -1,1 +1,0 @@
-while ( w + j -00<( z )+( p < f )-2){ { if ( z < h )if ( t < i )while ( w < n ); else while ( o < k ); } c - n ;}

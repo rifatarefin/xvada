@@ -1,1 +1,0 @@
-do while ( l =( u < k ))do  c = c = z = n ;while ( d = u );while (( e < s )< u );

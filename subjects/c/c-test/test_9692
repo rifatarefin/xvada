@@ -1,1 +1,0 @@
-_Alignas ( struct eE [ volatile static 608 ] ) restrict _Atomic ( __m128i * ^ * _ ) [ volatile * ] [ volatile _Atomic * ] [ * ] { } f3 ( ) T ; volatile _Alignas ( __extension__ ( __m128 ) ^ restrict _Atomic ) unsigned ^ ; { }

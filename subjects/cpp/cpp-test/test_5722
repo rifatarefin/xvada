@@ -1,1 +1,0 @@
-extern template [ [ ] ] [ [ ] ] ; ; alignas ( enum { } struct { } const ... ) alignas ( this ++ -- ++ ? throw throw : throw throw ) ;

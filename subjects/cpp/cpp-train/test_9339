@@ -1,1 +1,0 @@
-template constexpr friend friend ~ decltype ( auto ) final = delete ;

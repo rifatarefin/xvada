@@ -1,1 +1,0 @@
-do ; while ( h = i =( e )< b );

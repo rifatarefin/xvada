@@ -1,1 +1,0 @@
-; __declspec ( T6 ) _Alignas ( __extension__ ( __m128d ) restrict __m128i * restrict restrict _Atomic volatile ^ _Atomic ) ;

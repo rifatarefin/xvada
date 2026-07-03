@@ -1,1 +1,0 @@
-fill {b4 c Gj Rp } fill {b2 b7 }

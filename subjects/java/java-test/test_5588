@@ -1,1 +1,0 @@
-module requires { exports with to record ; exports transitive . open ; }

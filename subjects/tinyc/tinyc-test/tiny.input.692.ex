@@ -1,1 +1,0 @@
-{ do while ( e - c ); while ( l - o -1< e + j -7);}

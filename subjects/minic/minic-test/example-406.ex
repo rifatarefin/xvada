@@ -1,1 +1,0 @@
-bool a ( float a , bool a ) { a - a < ( 0 ) - a ( a < ( a = a = 0 + 0 ) ) - a ; }

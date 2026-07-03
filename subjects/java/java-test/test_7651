@@ -1,1 +1,0 @@
-open module requires { provides yield . module . permits . opens . sealed . opens with provides . requires . open . uses ; }

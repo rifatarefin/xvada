@@ -1,4 +1,0 @@
-u * ( ^ restrict const ( ^ _Atomic restrict * _Atomic * _Atomic ^ const ( f ) __attribute__ ( ( ) ) __asm ( u8"" ) ) ) __asm ( "" ) __asm ( U"" "" ) , D7 [ 0 ] [ static ~ 5 -= 738727 ] [ 2 ] [ _Atomic static sizeof 0B010110 = 2 ] ( __attribute__ ( ( ) ) restrict _Noreturn __stdcall , _Atomic __attribute__ ( ( ) ) B9 , __extension__ ( __m128i ) ^ __extension__ ( __m128 ) ^ const int * __attribute__ ( ( ) ) , ... ) __attribute__ ( ( 0x5c ) ) __attribute__ ( ( double ( 97 , 828 , 803 ) ) ) __attribute__ ( ( = ) ) __attribute__ ( ( ) ) __asm ( "\
-" U"\
-2" ) __asm ( "\
-" ) ; volatile ; _Alignas ( restrict restrict ^ ^ * ) ;

@@ -1,1 +1,0 @@
-char a ( bool a , char a ) { a - a ; }

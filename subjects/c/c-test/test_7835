@@ -1,6 +1,0 @@
-* volatile const I9 _Alignas ( __extension__ ( __m128d ) [ ] __asm ( "\
-" U"\
-" ) __asm ( U"" " \
-8" "\
-K\
-" ) ) _Alignas ( union Y ^ ) ; { if ( -- -- sizeof sizeof sizeof _Alignof ( __extension__ ( __m128i ) ) += -- "" += 479 ) __asm volatile ( : ) ; }

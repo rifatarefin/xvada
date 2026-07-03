@@ -1,1 +1,0 @@
-for w9 = ... , nil and false .. nil do repeat until true return end

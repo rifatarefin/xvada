@@ -1,1 +1,0 @@
-open module record { requires uses . module ; requires transitive . permits ; }

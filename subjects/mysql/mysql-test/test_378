@@ -1,1 +1,0 @@
-PREPARE `BIG5` FROM @D DO @"""\?" := @@`5` -- ; --

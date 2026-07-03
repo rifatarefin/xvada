@@ -1,1 +1,0 @@
-char a ( char a ) { 0 ; }

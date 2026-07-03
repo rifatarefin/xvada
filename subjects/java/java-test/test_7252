@@ -1,1 +1,0 @@
-module requires { exports uses to uses . open . opens ; }

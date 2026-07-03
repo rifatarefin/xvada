@@ -1,1 +1,0 @@
-if true >= nil / nil then return else return ; end ( true ) . _SJ = true , ... == true

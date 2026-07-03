@@ -1,2 +1,0 @@
-const restrict ( ^ restrict S9P [ _Atomic * ] [ ] ) [ && t ^= 2 ] [ volatile const static 845 ] __asm ( u"" "\
-" u8"" ) __attribute__ ( ( ) ) const ; { __asm volatile ( ) ; } ;

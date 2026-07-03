@@ -1,1 +1,0 @@
-static_assert ( false false 0 , u8"\u7FAf" ) ;

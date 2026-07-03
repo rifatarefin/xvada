@@ -1,1 +1,0 @@
-^ volatile _Atomic restrict * const volatile ( R __attribute__ ( ( [ , short , ) ) __asm ( "" ) ) { }

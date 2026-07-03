@@ -1,4 +1,0 @@
-restrict _Alignas ( enum L * volatile * * ^ [ * ] ( ) __attribute__ ( ( ) ) __asm ( "" U"\x45\
-\
-?O" ) __asm ( u"\x4\
-" ) __asm ( "" ) ) _Alignas ( restrict ) auto ;

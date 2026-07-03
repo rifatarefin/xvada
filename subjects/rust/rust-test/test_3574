@@ -1,1 +1,0 @@
-# ! [ super :: crate ] # ! [ $crate :: macro_rules = true ] # ! [ super ] # [ _PhU :: super :: $crate :: super { } ] # [ super [ ] ] # [ :: self ( || ) ] # [ $crate ] macro_rules ! _6X [ ( ) => { * } ; { $ self : macro_rules } => [ ] ; [ ] => { ( ) [ ] == macro_rules ? } ; ] ;

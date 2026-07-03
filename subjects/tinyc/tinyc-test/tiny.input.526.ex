@@ -1,1 +1,0 @@
-while ( u - e +( d )+( w )+ s < j +1-( s < s )-8)while ( g = e = u = u = v = o < m ) s = w - i +( m )< w - y -( i );

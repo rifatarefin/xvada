@@ -1,1 +1,0 @@
-float a ( float a , char a ) { 0 < a - a ; }

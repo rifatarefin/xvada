@@ -1,1 +1,0 @@
-# ! [ crate = "" ] # [ :: self ] extern crate self as _ ; macro_rules ! macro_rules { { [ ( ) { } ] = ? } => { } ; }

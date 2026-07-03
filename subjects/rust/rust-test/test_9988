@@ -1,1 +1,0 @@
-macro_rules ! fGsd { [ $ self : macro_rules ] => ( macro_rules ? [ ] ( ) { } ) ; [ ] => ( ) } macro_rules ! E0 { ( ) => [ ] ; }

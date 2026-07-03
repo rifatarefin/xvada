@@ -1,1 +1,0 @@
-do while ( a - q - r - y < n + w -8- o ); while ( i <74);

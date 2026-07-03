@@ -1,1 +1,0 @@
-EXECUTE `CP932` USING @"\V" , @`\;\K``` , @"" ; RESET SLAVE ALL ; --

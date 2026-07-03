@@ -1,1 +1,0 @@
-REVOKE `vdN` , `ARMSCII8` , YEAR , `0` , `X` , `LATIN5` FROM '' , '' , RE_ , ''@```` , `\P\T\k` ; EXECUTE FIND_IN_SET -- ; RELEASE SAVEPOINT RELOAD -- ; --

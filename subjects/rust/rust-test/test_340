@@ -1,1 +1,0 @@
-pub ( self ) extern crate macro_rules as r#_0I ; extern crate self as _ ; $crate ! [ 5. ] ;

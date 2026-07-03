@@ -1,1 +1,0 @@
-open module permits { uses provides . P ; uses to . var . to ; }

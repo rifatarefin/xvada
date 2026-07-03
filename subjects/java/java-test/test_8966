@@ -1,1 +1,0 @@
-open module transitive . var { opens yield . exports . var to yield ; uses module ; provides open . with . to . to . opens with open . with . var ; }

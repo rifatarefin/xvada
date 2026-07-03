@@ -1,1 +1,0 @@
-namespace b { template < class ... , class f > extern template inline namespace _ { } } alignas ( class { } struct { private : } ... ) alignas ( this ( ) ... ) constexpr decltype ( auto ) :: ~ decltype ( auto ) ( ) and throw ( ) [ [ ] ] final final override = delete ;

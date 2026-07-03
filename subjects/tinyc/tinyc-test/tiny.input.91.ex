@@ -1,1 +1,0 @@
-{ do if ( r = j = b < n ); while ( k = k < f + x );}

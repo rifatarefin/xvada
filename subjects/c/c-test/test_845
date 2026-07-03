@@ -1,4 +1,0 @@
-; _Alignas ( volatile union c5 const volatile * volatile [ static const restrict restrict sizeof "" "" -- |= 1 ] [ * ] __attribute__ ( ( , , ) ) __asm ( "" "\
-" ) __asm ( u8"\
-B" ) __asm ( "\
-" ) ) _Bool ;

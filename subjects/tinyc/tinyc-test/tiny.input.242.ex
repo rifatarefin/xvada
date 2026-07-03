@@ -1,1 +1,0 @@
-do  i = t =( m < z )< e + d + x ;while ( j + f + a +9+ g <22- w );

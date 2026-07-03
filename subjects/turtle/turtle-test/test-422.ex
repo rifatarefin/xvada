@@ -1,1 +1,0 @@
-repeat 5 {c Md c Es l7 fill {c Gc Tx } c Qd Xry } c Sz Fyy

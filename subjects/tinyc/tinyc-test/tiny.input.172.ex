@@ -1,1 +1,0 @@
-while ( c ) r = u + o -( p < f )+7;

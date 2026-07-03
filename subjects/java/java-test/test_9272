@@ -1,1 +1,0 @@
-module provides . opens { provides open with var . record ; provides N3 with transitive . opens . opens ; requires to ; }

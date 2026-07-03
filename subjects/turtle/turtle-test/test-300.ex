@@ -1,1 +1,0 @@
-repeat 0 {f3 c Th Ho }

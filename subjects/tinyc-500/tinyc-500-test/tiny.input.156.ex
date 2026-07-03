@@ -1,1 +1,0 @@
-do ( q = z );while (( s )-( s = m ));

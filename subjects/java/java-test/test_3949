@@ -1,1 +1,0 @@
-@ record package open ; ; import exports . opens . requires . transitive ; ; ; static interface exports < @ var exports > extends to @ record . sealed ( ) @ open [ ] @ var record . module . provides . requires . permits . @ open [ ] [ ] permits K3 . module . @ C short @ $60 [ ] [ ] [ ] { }

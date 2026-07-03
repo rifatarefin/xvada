@@ -1,1 +1,0 @@
-module provides . with . yield . uses . provides { uses provides ; }

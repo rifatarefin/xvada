@@ -1,1 +1,0 @@
-do  r = f + d -5+0;while ( j = n =( o ));

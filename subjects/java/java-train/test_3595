@@ -1,1 +1,0 @@
-open module opens . with . provides { exports var . with ; }

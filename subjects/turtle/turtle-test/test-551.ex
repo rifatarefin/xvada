@@ -1,1 +1,0 @@
-repeat 3 {r1 c Mm Sz }

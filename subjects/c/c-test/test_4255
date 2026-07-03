@@ -1,3 +1,0 @@
-_Alignas ( __m128i _Atomic restrict [ * ] [ volatile restrict volatile _Atomic static 08 ] [ static restrict _Atomic 087 ] __asm ( u"" ) __attribute__ ( ( ) ) ) restrict W [ restrict static && p >>= 620 ] ( M ) __attribute__ ( ( ) ) __asm ( U"\
-b\
-" ) = { 0 } ;

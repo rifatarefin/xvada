@@ -1,1 +1,0 @@
-l8 repeat 0 {fill {r9 r5 fill {r0 } } c Azk } r0 c Jbn Lbm

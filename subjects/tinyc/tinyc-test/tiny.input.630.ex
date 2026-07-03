@@ -1,1 +1,0 @@
-while ( r = b = y + f - p < o ); 

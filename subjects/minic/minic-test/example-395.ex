@@ -1,1 +1,0 @@
-float a ( int a , bool a ) { a - a < 0 + ( 0 < a + a ) ; }

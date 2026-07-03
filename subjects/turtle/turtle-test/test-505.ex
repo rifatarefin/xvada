@@ -1,1 +1,0 @@
-fill {repeat 3 {r8 fill {b0 } } c Kj Zx fill {c Jg Wn fill {f2 } c Nur Bsh } } f1

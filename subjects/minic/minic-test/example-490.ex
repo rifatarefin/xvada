@@ -1,1 +1,0 @@
-bool a ( char a , int a ) { if ( a < a ) { } else { } }

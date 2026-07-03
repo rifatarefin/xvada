@@ -1,1 +1,0 @@
-repeat 8 {c Ax Pw }

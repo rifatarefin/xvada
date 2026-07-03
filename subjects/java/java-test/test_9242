@@ -1,1 +1,0 @@
-import static provides . * ; interface sealed permits char @ var ( ) @ module uses . @ module ( ) [ ] { transient static record with ( ) { } }

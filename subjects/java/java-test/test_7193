@@ -1,1 +1,0 @@
-module sealed { opens to ; exports open . module . provides to uses ; exports transitive . uses . var . sealed to requires ; uses record ; exports module ; }

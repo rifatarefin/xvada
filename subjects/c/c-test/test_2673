@@ -1,1 +1,0 @@
-^ ( * restrict _Atomic * _Atomic const restrict ^ restrict ( struct F3 ^ Ct ) ) { __asm __volatile__ ( : ) ; }

@@ -1,1 +1,0 @@
-fill {c Ka Efyh } c Yxi fill {b9 fill {c Makq } repeat 2 {f4 repeat 5 {c Thl } } } c Nbjo

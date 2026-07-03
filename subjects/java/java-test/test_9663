@@ -1,1 +1,0 @@
-module open . sealed . module { exports open . transitive . with . to ; opens record to exports . module ; }

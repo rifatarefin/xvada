@@ -1,1 +1,0 @@
-while ( t =( k )+ y < k + f -( a < e )-( a ))if (8+ n < j +( q < f ))if (1){ if ( a = e )do if ( b < x ); while ( c );{ ; }}

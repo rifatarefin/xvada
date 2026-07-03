@@ -1,1 +1,0 @@
-for Q = function ( ) end , ... == false & ... do return end return { } , nil

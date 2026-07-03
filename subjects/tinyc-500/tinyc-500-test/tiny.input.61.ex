@@ -1,1 +1,0 @@
-{ if ( w = f = a ){  s < h ;}else { do ; while ( q );if ( q < j ){ ; }} y +5< y +( f < w );}

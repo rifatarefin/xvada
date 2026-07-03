@@ -1,1 +1,0 @@
-_Alignas ( volatile enum E ) ; _Alignas ( __extension__ ( __m128d ) ^ _Atomic ( _Atomic ) restrict _Atomic restrict ^ ) extern __extension__ ( __m128d ) static _Atomic const _Complex m restrict ;

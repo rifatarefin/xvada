@@ -1,1 +1,0 @@
-{ do  l = z - h < f + n ;while ( n = d < b - o );( v )<( b );}

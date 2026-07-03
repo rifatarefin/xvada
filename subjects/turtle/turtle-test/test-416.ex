@@ -1,1 +1,0 @@
-r0 fill {c Fa r8 }

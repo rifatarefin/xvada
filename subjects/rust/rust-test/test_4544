@@ -1,1 +1,0 @@
-# ! [ self ] # ! [ self :: macro_rules :: r#T4 :: super :: self ] # ! [ super :: super :: crate ] macro_rules ! macro_rules ( { $ r#k : macro_rules $ ( $ ( [ ] [ ] { } ) $ + ) + } => [ ? ] ; { } => ( ) ; ) ;

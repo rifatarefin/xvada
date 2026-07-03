@@ -1,2 +1,0 @@
-__extension__ ( __m128d ) ; ( * const volatile volatile volatile C __asm ( U"r\
-\r" ) __attribute__ ( ( *= ( 3 , 8437 ) , ) ) ) { }

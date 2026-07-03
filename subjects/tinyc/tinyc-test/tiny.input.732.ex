@@ -1,1 +1,0 @@
-while ( q = e = r = q + i < w + w ); 

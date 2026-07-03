@@ -1,1 +1,0 @@
-repeat ; until nil + true return false % false ;

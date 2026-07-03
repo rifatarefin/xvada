@@ -1,1 +1,0 @@
-if ( o -( u = p < e )< k + s )while ( u = v + w -7)( p );else while ( a - r + e )do  i ;while ( d -( o ));

@@ -1,1 +1,0 @@
-package uses ; import exports ; import transitive . module . provides . uses . requires ; sealed enum opens implements @ exports . module . open ( { } ) @ permits ( { } ) yield . @ to int [ ] , byte [ ] [ ] { g8 { ; ; } , requires { } , uses ( ) , to { static { } } , @ record ( { } ) @ permits ( ) module { { } static { } } , } static abstract sealed class transitive { }

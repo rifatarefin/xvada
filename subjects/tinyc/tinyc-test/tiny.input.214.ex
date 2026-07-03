@@ -1,1 +1,0 @@
-do ; while ( s = i + t - u -54< k + h +( s < t )-90);

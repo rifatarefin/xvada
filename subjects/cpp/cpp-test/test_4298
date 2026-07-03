@@ -1,1 +1,0 @@
-extern "" [ [ E , i :: ROL ] ] [ [ ] ] [ [ ] ] mutable enum l :: template ~ decltype ( auto ) ( ) volatile [ [ ] ] -> volatile typename decltype ( auto ) :: template B < > :: * [ [ ] ] const ( && * ) final override = delete ;

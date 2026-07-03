@@ -1,1 +1,0 @@
-open module sealed . record . requires . record . opens . _ { }

@@ -1,1 +1,0 @@
-do { if ( x < u )if ( g = g )do ; while ( s );}while ( k = d +( n < z )+6< g + x -( n )-4);

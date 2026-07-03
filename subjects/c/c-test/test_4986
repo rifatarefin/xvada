@@ -1,6 +1,0 @@
-_Alignas ( struct { __extension__ ( __m128 ) ; } [ restrict _Atomic ] __asm ( u"\
-\
-\v" u8"\57\x3c5\
-" ":\?" "R" ) __attribute__ ( ( , L"1\
-\
-" ) ) ) ;

@@ -1,3 +1,0 @@
-_Atomic ( struct i8 const ( ^ _Atomic volatile _Atomic ^ _Atomic ^ * volatile _Atomic volatile ) __attribute__ ( ( , for ( ) ) ) __asm ( "\n\
-" u"\
-" "" ) ) _Alignas ( restrict short ^ * * ) ;

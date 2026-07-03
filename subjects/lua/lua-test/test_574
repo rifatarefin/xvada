@@ -1,1 +1,0 @@
-for m , n , t in true ^ true , nil or true , nil / ... do return end break return true > true , true or false , true - ... ;

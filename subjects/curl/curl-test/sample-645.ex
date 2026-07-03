@@ -1,1 +1,0 @@
-gopher://f.1GC.P-M.3W---A.yx/*

@@ -1,1 +1,0 @@
-do  u =( c )- l < m - l - g +59;while ( y = r = p = i );

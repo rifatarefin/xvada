@@ -1,1 +1,0 @@
-while ( q + v +( h < h )+( d )-18)if ( q + a - c +( e < j )< s + b ) m = l = h = q = s = t ;

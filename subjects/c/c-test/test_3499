@@ -1,2 +1,0 @@
-auto register * ^ const n ( u , i ) __asm ( "\uaDAa\
-\vy" "" "" "" ) __attribute__ ( ( __asm , default , ^= ( ) ) ) ;

@@ -1,1 +1,0 @@
-if ( v + k +( f )+8+1<( k )-( m )- c )if ( s + m + p +58<( i < w ))if ( m = q - q < l + o )while ( a = p ){ do  l < l ;while ( n < c );}

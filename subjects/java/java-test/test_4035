@@ -1,1 +1,0 @@
-module permits { opens f ; opens permits . requires . to . requires to to ; opens provides . module to provides . var ; opens opens . Ej to provides . var . module ; exports opens ; exports module ; }

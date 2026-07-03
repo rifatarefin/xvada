@@ -1,1 +1,0 @@
-repeat 7 {c Ue } fill {fill {f6 c Qr c Oh } }

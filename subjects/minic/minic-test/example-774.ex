@@ -1,1 +1,0 @@
-int a ( char a ) { if ( a ( 0 , 0 < 0 ) ) a < a ; else ; }

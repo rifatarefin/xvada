@@ -1,1 +1,0 @@
-template < typename Lu170 = volatile int union { ; } > typedef ... ~ decltype ( auto ) [ [ ] ] : X ( ) ... { }

@@ -1,1 +1,0 @@
-# [ :: super :: super :: crate :: crate :: crate ] macro_rules ! Sxug ( [ $ ( $ self : macro_rules ) $ * $ ( $ _u : macro_rules ) + ] => ( -> '_ ) ; { } => ( ) ; ) ;

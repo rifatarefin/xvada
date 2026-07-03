@@ -1,1 +1,0 @@
-opens . @ G5 ( module = @ exports . yield . permits , provides = super , uses = { } ) package yield ; ;

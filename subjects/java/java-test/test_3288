@@ -1,1 +1,0 @@
-open module permits . open { opens provides . sealed . uses to transitive . opens ; provides to . yield with opens . var ; }

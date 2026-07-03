@@ -1,1 +1,0 @@
-if (6)if (( o < z )-11< u + l -( q < a )-2)while ( s = c + s ){ if ( k )while ( m )if ( m ); else while ( o < f ) f ;}

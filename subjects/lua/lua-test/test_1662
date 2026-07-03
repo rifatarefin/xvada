@@ -1,1 +1,0 @@
-for qk = true ^ false & true - nil , [[yp]] do return end return ;

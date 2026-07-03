@@ -1,1 +1,0 @@
-c Qiif fill {b6 }

@@ -1,1 +1,0 @@
-@ sealed ( @ opens ( module = { , } ) ) package requires . uses ; import static requires . open . uses . record . uses . * ; ; ; ; ; @ interface V { }

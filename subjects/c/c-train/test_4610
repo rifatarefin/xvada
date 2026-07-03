@@ -1,6 +1,0 @@
-_Alignas ( volatile enum w0 ) * e = 22 , Q ( ) ( ) [ ] [ restrict static sizeof ( __extension__ ( __m128i ) _Atomic ^ ) /= 2 ] [ const ] __asm ( "" ) __attribute__ ( ( - , , ) ) = ! ( _Atomic [ ] [ const _Atomic restrict static 7 ] __asm ( u8"\
-\
-" u"\
-" ) __asm ( "\
-\
-" U"b" "" "" ) ) 3 %= __extension__ ( { } ) <<= 8 ; extern s __asm ( "U" ) = { . C = 7 } ;

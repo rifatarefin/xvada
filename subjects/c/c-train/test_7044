@@ -1,1 +1,0 @@
-_Atomic ( const char ^ const * * ^ ) union { volatile ; t6 const _Atomic __extension__ ( __m128d ) ; } _Alignas ( _Atomic ( restrict ^ ) ) restrict ; ;

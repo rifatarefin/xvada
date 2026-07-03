@@ -1,1 +1,0 @@
-float a ( bool a ) { a ( a ) < 0 ; }

@@ -1,1 +1,0 @@
-c Fdu c Ctw c Ef Ek c Pa Uf f1

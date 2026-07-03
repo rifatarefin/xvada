@@ -1,1 +1,0 @@
-while ( p = q = z = y = v < g ){ do while ( v = y < n ) x = y = o ;while ( m = u < r );; }

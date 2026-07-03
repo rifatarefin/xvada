@@ -1,1 +1,0 @@
-module var . record . with { exports provides to uses ; }

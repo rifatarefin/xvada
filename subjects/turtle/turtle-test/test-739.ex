@@ -1,1 +1,0 @@
-b6 fill {c Tc } l0 c Tpol Ln

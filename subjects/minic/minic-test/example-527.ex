@@ -1,1 +1,0 @@
-bool a ( char a , bool a ) { a + a ; }

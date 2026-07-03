@@ -1,1 +1,0 @@
-while ( n = d + x + c -( m < n )< l +( w )-0)do { while ( v = i = n < m ){ if ( e < b ); ; }if ( y ) k = m < b ;}while ( e );

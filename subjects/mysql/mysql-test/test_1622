@@ -1,1 +1,0 @@
-EXECUTE DAY INSERT IGNORE `b` .ANAN ( ED , `BIG5` ) ( ( ( SELECT SQL_BIG_RESULT * ) ) ) -- UPDATE `HP8` . `d` AS `85AM` SET COMMITTED = @"" := @@E WHERE @"""" := @@S

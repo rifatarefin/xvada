@@ -1,1 +1,0 @@
-telnet://@x4.S.e9f3Y.3-52.6.o.c7f.cJ7

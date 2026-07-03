@@ -1,1 +1,0 @@
-if (( r )< d )if (2)while ( h = p + y ) m = h = f ;else  f = b = q = v = o = j = e < k ;

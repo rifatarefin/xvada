@@ -1,1 +1,0 @@
-{ do  x = a < e ;while ( f = f = k = p < l );}

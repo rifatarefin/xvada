@@ -1,1 +1,0 @@
-{ while (( f )< j + q -( s ))do if ( v )if ( t < g )if ( x ) s < u ;else ; else  s = h = p ;while ( w = k < m );}

@@ -1,1 +1,0 @@
-module record . requires . yield . with { uses provides . opens . record . transitive . uses ; }

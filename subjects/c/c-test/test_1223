@@ -1,1 +1,0 @@
-* ^ volatile volatile _Atomic ( ^ volatile volatile const const _Atomic ^ a ) [ _Atomic volatile restrict static 224 ] ( restrict extern __attribute__ ( ( ) ) __attribute__ ( ( ) ) static * , ... ) [ const static 65840 ] [ * ] { do switch ( 0 , 89 , 599 , 6 , 14 ) for ( ; ; ) { } while ( 9 ) ; } ; auto ;

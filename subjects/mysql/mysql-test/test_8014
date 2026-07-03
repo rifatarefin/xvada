@@ -1,1 +1,0 @@
-CREATE USER ''@'\d\M\g' IDENTIFIED WITH `T` -- ; --

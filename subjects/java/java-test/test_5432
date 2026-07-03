@@ -1,1 +1,0 @@
-module sealed . var . record . provides . R . requires . provides { }

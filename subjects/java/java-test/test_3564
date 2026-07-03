@@ -1,1 +1,0 @@
-module module . module . open . transitive { provides var . var with yield . R ; requires q . sealed ; provides yield with requires . record . transitive ; }

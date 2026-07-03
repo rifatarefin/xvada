@@ -1,1 +1,0 @@
-char a ( float a ) { a ( 0 ) < a ; }

@@ -1,1 +1,0 @@
-for qGp_06 = true .. ... ^ ... , { } , true do return ; end return nil and false

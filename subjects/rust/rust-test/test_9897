@@ -1,1 +1,0 @@
-pub extern crate macro_rules as macro_rules ; $crate ! [ $ + { } ] ;

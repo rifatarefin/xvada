@@ -1,1 +1,0 @@
-_Alignas ( restrict int restrict ) T [ volatile _Atomic * ] [ * ] [ restrict volatile volatile static 2 ] ( ) { }

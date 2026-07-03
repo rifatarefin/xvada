@@ -1,1 +1,0 @@
-open module yield . opens . exports { opens sealed to sealed . permits . opens ; }

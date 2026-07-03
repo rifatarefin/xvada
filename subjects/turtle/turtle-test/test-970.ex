@@ -1,1 +1,0 @@
-r9 fill {repeat 0 {c Rg fill {c Zj c Kr } } c Obj }

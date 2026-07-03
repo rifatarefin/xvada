@@ -1,1 +1,0 @@
-{ if ( q = f = l = f ) f = u = z = i < h ;else ; }

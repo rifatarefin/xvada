@@ -1,1 +1,0 @@
-bool a ( float a ) { 0 ; }

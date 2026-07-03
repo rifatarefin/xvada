@@ -1,1 +1,0 @@
-repeat 0 {r2 repeat 2 {l6 } } c Wo Tq

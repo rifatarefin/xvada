@@ -1,1 +1,0 @@
-static_assert ( ( int ) sizeof ... ( Z5y6B ) ? throw : sizeof ... ( RJ92 ) >>= { } , "" ) ;

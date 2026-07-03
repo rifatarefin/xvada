@@ -1,1 +1,0 @@
-if ( b = r = c = e = w = k = h )if ( p = c + s + c <1)do ; while ( o + r < a + r +( u < m ));

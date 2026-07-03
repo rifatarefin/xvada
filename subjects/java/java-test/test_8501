@@ -1,1 +1,0 @@
-; ; ; sealed @ interface record { ; } enum transitive { yield ( ) { } , @ requires sealed ; } ; enum with { @ open ( { , } ) with . module . @ module ( { } ) permits ( ) , ; ; }

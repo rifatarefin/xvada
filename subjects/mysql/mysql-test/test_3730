@@ -1,1 +1,0 @@
-DELETE IGNORE FROM `o` . * USING `g` PARTITION ( `n` , `4#K` ) AS `37` IGNORE KEY ( `KS` , `4x` ) , USE KEY ( `]1` , `Z` ) WHERE NOT \N IS NOT TRUE -- ; --

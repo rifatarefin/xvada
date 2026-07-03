@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-b12000a4d9bfcc0dfd5a189137ce663b JavaLexer.cpp

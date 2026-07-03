@@ -1,1 +1,0 @@
-if ( u =1-( g < c ))do  x = a = d = v = f < t ;while ( f = l - s - c );

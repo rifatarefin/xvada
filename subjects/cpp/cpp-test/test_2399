@@ -1,1 +1,0 @@
-template < > inline namespace Y { template < class > [ [ ] ] ; } ; extern template template extern "" { template < > ; }

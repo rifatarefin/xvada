@@ -1,1 +1,0 @@
-# [ :: r#cS :: macro_rules ] type r#E < const macro_rules : 'static + '_ + , > where for < macro_rules : , > impl '_ + : 'static + = :: self ( ) -> ( ) ;

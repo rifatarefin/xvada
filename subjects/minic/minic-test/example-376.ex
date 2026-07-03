@@ -1,1 +1,0 @@
-void a ( bool a , int a ) { while ( a < a ) { } }

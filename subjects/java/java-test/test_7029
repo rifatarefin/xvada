@@ -1,1 +1,0 @@
-open module var { requires exports ; requires xn . uses ; }

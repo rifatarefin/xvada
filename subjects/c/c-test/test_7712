@@ -1,1 +1,0 @@
-; _Alignas ( union H3 { _Atomic ; } _Atomic restrict _Atomic ^ const ) _Alignas ( _Atomic ( long ^ restrict ) enum M ^ ) ; ;

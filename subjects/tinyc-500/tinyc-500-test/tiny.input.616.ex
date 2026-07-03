@@ -1,1 +1,0 @@
-while ( t = y = i +( b < k )); 

@@ -1,1 +1,0 @@
-float a ( bool a , int a , bool a ) { do { } while ( a < a ) ; }

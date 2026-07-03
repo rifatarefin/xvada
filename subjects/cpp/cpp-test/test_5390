@@ -1,1 +1,0 @@
-enum class { L , Q , } friend ( ... ~ decltype ( auto ) [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] ) override final = default ;

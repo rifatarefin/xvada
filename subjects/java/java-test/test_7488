@@ -1,1 +1,0 @@
-record requires ( ) { synchronized open { } { } to { } open { } }

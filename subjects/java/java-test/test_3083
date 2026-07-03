@@ -1,1 +1,0 @@
-@ open ( super ^ this ) @ transitive . uses . module . sealed @ provides @ yield . uses package record . requires . transitive ; import sealed . requires ; ; ; import sealed . provides . t06 . var . exports . * ;

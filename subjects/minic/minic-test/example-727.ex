@@ -1,1 +1,0 @@
-char a ( char a , float a ) { while ( a < a ) { } }

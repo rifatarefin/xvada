@@ -1,1 +1,0 @@
-{ ; { if ( v = g )do if ( h < x ); else ; while ( h < r );}}

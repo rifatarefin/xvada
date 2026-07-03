@@ -1,1 +1,0 @@
-void a ( float a ) { 0 ; }

@@ -1,1 +1,0 @@
-_Atomic auto typedef restrict ^ q5 [ * ] , ( * restrict n4 [ _Atomic static 8 ] [ static 6 ] ) [ static const 8 ] [ * ] __asm ( L"" ) __attribute__ ( ( , ) ) __attribute__ ( ( , l ( 48 ) ) ) = -- -- sizeof ( restrict short * * volatile [ const volatile _Atomic _Atomic static 49 ] ) += -- -- -- _Alignof ( restrict ) >>= 1615572 ;

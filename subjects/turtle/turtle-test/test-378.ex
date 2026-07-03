@@ -1,1 +1,0 @@
-c Saiq Mw c Fa Jx

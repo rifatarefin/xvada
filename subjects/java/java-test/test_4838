@@ -1,1 +1,0 @@
-package uses ; sealed strictfp protected private record requires < opens extends var . transitive . uses . record . with & int > ( ) implements long [ ] @ open . permits . uses @ requires ( ) [ ] { volatile @ interface transitive { ; } } ;

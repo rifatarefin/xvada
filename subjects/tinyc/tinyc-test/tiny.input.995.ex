@@ -1,1 +1,0 @@
-{ do if ( z = v = d ); while ( y - r );if ( k < p )while ( k ){ while ( f < r ); ; ; }; if ( g ) i ;}

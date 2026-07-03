@@ -1,1 +1,0 @@
-{ do { do do do ; while ( z );while ( n < i );while ( g = t < r );; if ( c < k ); ; }while ( z = e + a );}

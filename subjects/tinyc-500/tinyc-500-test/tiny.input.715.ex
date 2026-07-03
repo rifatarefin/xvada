@@ -1,1 +1,0 @@
-while ( l = e = v = p + t ){  m - v -8;{ do while ( w < f ); while ( u );}{ while ( q ); ; ; }}

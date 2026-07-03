@@ -1,1 +1,0 @@
-do if ( v = x = l = a = h = l < l ) e = x = g ;while (0-9- r );

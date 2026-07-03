@@ -1,1 +1,0 @@
-typedef _Alignas ( __m128i _Atomic ( restrict * ( ) ) ) ;

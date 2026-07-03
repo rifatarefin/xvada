@@ -1,1 +1,0 @@
-fill {fill {c Sh Mph l4 } fill {fill {b3 } } c Ejy c Rf } repeat 1 {b5 fill {b6 } }

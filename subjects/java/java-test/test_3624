@@ -1,1 +1,0 @@
-module provides . transitive { uses opens . record ; provides exports . open with module ; opens uses . uses to exports . transitive . yield ; }

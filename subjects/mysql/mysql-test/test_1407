@@ -1,1 +1,0 @@
-REVOKE REFERENCES ( `CP1251` , `0` ) ON * FROM ``@''''

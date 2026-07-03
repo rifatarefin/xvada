@@ -1,1 +1,0 @@
-do if ( q = t = d + f ) n - d + o -( h );while ( w = x < z + i +5);

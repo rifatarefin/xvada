@@ -1,1 +1,0 @@
-while ( h - c +4+1+( u )){ while ( l - l < p + h ) c = s < v ;}

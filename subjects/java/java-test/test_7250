@@ -1,1 +1,0 @@
-open module sIW . provides . sealed { requires e . transitive . opens . uses . requires . module ; }

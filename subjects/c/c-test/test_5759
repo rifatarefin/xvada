@@ -1,1 +1,0 @@
-_Alignas ( _Atomic ( __m128i ^ ( ) ) [ * ] ) _Thread_local union d * volatile _Atomic const v { }

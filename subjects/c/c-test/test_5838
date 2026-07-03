@@ -1,3 +1,0 @@
-; _Alignas ( d48e ^ restrict _Atomic volatile _Atomic _Atomic const [ * ] [ static 73 ] __attribute__ ( ( __m128i , ) ) __asm ( "" "\
-P*" ) __asm ( "\5\x3\n\
-" "" ) __asm ( U"" ) __asm ( u8"" ) ) ; typedef enum x _Alignas ( volatile f * volatile ^ ) enum i { KO , ia7 , i , m , } * restrict volatile ;

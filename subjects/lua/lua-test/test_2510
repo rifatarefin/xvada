@@ -1,1 +1,0 @@
-local function S ( ... ) goto A break return ; end return ;

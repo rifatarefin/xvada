@@ -1,1 +1,0 @@
-fill {fill {c Oqkr r9 fill {f7 repeat 4 {f6 } repeat 8 {l8 } c Ys Vyb c Kh } } c Gcqr Cx }

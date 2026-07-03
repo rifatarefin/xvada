@@ -1,1 +1,0 @@
-module CB . transitive { provides permits with to ; }

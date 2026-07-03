@@ -1,1 +1,0 @@
-float a ( int a , char a , char a ) { if ( a ( a = a = 0 < a ( a < a , 0 - ( a = a + a < ( a < a ) ) + a ( a ( a < a ) ) - ( a ( a < a ) + ( a < a ) < a ( a , a < a , a < a ) ) - 0 + a + a ( 0 - a + 0 , a < a ( a < a , a < a ) , a - a < a - a , a , a < a ) - 0 ) ) ) { ; } }

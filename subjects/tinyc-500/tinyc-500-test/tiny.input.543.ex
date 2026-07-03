@@ -1,1 +1,0 @@
-{ while ( j = f - j ) o = w + s ;}

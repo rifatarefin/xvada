@@ -1,1 +1,0 @@
-open module uses { requires static static transitive permits ; opens open to uses . l8n . opens ; uses open . record ; uses exports ; uses exports . requires ; }

@@ -1,1 +1,0 @@
-while ( x = v = t = c - j )if ( p = n = u + f < v + n ){ do { while ( o ); }while ( k = e = g );}

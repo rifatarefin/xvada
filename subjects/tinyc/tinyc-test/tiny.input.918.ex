@@ -1,1 +1,0 @@
-while ( h - k - d -( f )- s )while ( h + j -7)while ( g - r + m )while ( w < m - t )if ( l = h = z < t )while ( l ){ ; }

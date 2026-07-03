@@ -1,1 +1,0 @@
-module open . transitive { provides var with opens . module ; provides permits . to with yield . record ; }

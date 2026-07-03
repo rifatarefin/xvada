@@ -1,1 +1,0 @@
-{ if ( p )do if ( r )while ( p = m ); while ( h - h );}

@@ -1,1 +1,0 @@
-open module with { requires transitive transitive module . record . with . sealed . sealed . uses ; requires static static record . uses ; }

@@ -1,1 +1,0 @@
-repeat 2 {c Ua c Gfzk Vy } c Mm

@@ -1,1 +1,0 @@
-module opens { opens var . permits . provides ; opens permits ; provides uses with var ; }

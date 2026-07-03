@@ -1,1 +1,0 @@
-import to . yield . * ; import static open . * ; @ sealed interface requires < @ opens ( { , } ) permits > extends @ sealed ( { , } ) @ uses . opens . with . transitive . open ( { } ) @ var short { @ interface with { ; } enum permits { } }

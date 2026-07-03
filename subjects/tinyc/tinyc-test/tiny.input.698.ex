@@ -1,1 +1,0 @@
-if (2+57+ q ); else if ( m = d = n = j < t )if ( x = q - o ) u = g - j < r - d ;else ; 

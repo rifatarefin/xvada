@@ -1,1 +1,0 @@
-module open { exports sealed . transitive . record . transitive to provides ; requires opens . module . requires ; }

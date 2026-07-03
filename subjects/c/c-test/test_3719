@@ -1,2 +1,0 @@
-_Atomic ( volatile * volatile [ * ] __asm ( "" "" u"" L"\
-a\n" ) ) ; ;

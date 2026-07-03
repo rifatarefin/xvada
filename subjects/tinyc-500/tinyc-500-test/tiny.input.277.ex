@@ -1,1 +1,0 @@
-do do if ( g + c < v ); while ( h = l <( d < z ));while ( t + n );

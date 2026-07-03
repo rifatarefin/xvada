@@ -1,1 +1,0 @@
-union macro_rules { # [ $crate :: $crate :: macro_rules :: super ] pub ( super ) r#N : ( _ ) , # [ :: crate { } ] tHZ : impl 'static + '_ + 'static + , # [ :: self ] # [ super ] Hx : impl 'static , # [ :: macro_rules :: $crate :: z :: crate :: $crate :: self :: self :: crate ( [ ] ) ] pub ( self ) macro_rules : impl '_ + , }

@@ -1,1 +1,0 @@
-; __attribute__ ( ( continue , ) ) X [ volatile static 4 ] ( ) { }

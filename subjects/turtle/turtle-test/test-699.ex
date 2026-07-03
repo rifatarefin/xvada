@@ -1,1 +1,0 @@
-fill {repeat 1 {f4 c Jvrr fill {c Izg } } }

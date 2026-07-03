@@ -1,1 +1,0 @@
-extern template static_assert ( this ++ - sizeof ... ( N ) ? throw , throw throw : throw , "g" ) ;

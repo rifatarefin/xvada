@@ -1,1 +1,0 @@
-while (2-5)if ( y - l -0+ k <( z )+ y ) v = c ;else ; 

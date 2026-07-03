@@ -1,1 +1,0 @@
-@ yield transitive . open . @ record ( ) package transitive . opens ; ; ; record sealed ( ) implements byte { ; } ; strictfp @ interface yield { ; ; native @ interface open { } }

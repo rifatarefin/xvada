@@ -1,1 +1,0 @@
-if ( m = y = d - y < l )if ( c + o -( l < k )+( v )){ do ; while ( x = y = z );if ( x < w )if ( l < k ) s ;else if ( e ); }

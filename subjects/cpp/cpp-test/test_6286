@@ -1,1 +1,0 @@
-alignas ( class { } enum { } class { protected : ; protected : private : protected : ; protected : } [ [ ] ] [ [ ] ] ... ) alignas ( sizeof ... ( i ) ) ; asm ( "" ) ;

@@ -1,1 +1,0 @@
-enum struct alignas ( union { } [ [ ] ] [ [ ] ] ... ) s : typename decltype ( auto ) :: template x4 < > typename decltype ( auto ) :: J < > enum [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] { } float [ [ ] ] [ [ ] ] [ [ ] ] ;

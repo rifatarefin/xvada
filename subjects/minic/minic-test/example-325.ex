@@ -1,1 +1,0 @@
-void a ( int a , bool a , char a , bool a ) { a < a ; }

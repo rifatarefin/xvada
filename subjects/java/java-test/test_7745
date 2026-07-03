@@ -1,1 +1,0 @@
-@ uses ( ) @ provides ( ) package requires . opens . opens . c ; ; @ interface sealed { @ interface requires { ; } ; }

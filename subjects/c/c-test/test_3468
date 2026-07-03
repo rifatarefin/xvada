@@ -1,1 +1,0 @@
-; * restrict ( ^ const _Atomic restrict const PL [ restrict volatile ] __attribute__ ( ( struct ( ) ) ) __asm ( u8"" ) ) [ static const volatile const 58 ] [ static 9 ] { }

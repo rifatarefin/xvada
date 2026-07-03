@@ -1,1 +1,0 @@
-; for R , Q in nil + false do return end return true >> true ;

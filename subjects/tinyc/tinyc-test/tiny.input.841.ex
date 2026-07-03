@@ -1,1 +1,0 @@
-if (( j )-( g )-( q = q < v )<( o )+2)while ( p = u = n = b = e < n ); 

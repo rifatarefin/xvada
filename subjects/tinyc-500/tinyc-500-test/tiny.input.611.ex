@@ -1,1 +1,0 @@
-if ( i = w = b + d -8); else while (( l < m ))if ( r - v +( s < q )) e = n ;

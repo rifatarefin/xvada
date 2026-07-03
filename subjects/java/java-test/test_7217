@@ -1,1 +1,0 @@
-record . to . to . uses . @ requires ( super ( ) ) sealed . provides . @ open ( record = @ to , sealed = super ) @ open ( ) @ yield ( ) _ . to . @ to package to . uses . exports . to ; import T . * ; ;

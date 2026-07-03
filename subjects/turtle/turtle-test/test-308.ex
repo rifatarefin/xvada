@@ -1,1 +1,0 @@
-c Mjy fill {b2 f6 } c Gn Br

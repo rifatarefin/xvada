@@ -1,1 +1,0 @@
-while ( l -2< p ){  l = e - l < b ;while ( e = y = v < h )if ( m = x < h ); }

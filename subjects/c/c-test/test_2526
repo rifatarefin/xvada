@@ -1,5 +1,0 @@
-( fs [ ] __asm ( u"" "U\
-\
-MP" "\
-$\
-" ) __attribute__ ( ( ) ) ) ( ) [ static volatile restrict volatile sizeof ++ sizeof & 1 |= 63 ] [ 013 ] ( flFa , U ) { }

@@ -1,3 +1,0 @@
-_Atomic ( Q __asm ( L"\
-\
-" ) ) [ volatile "" L"" "" *= 45 ] ( __stdcall extern restrict , register ^ * , extern ) [ restrict const * ] ;

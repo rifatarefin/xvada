@@ -1,1 +1,0 @@
-c Dr f5 c On fill {fill {repeat 4 {repeat 3 {l2 } } fill {c Mw Hl } } }

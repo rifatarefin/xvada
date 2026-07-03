@@ -1,1 +1,0 @@
-void a ( int a ) { if ( a < a ) { } }

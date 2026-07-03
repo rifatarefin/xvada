@@ -1,1 +1,0 @@
-_Alignas ( const __extension__ ( __m128i ) ) * _Atomic * _Atomic restrict volatile ^ restrict * ^ const a [ _Atomic * ] { }

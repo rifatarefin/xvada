@@ -1,1 +1,0 @@
-{  u = p -( v ); s = m < j ;; do while ( o < u )do ; while ( q < l );while ( k = m );}

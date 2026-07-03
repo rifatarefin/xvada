@@ -1,1 +1,0 @@
-# ! [ crate :: macro_rules ] # ! [ crate [ ] ] extern crate macro_rules ; # [ $crate ] # [ :: A ] # [ :: crate :: crate ] macro_rules ! macro_rules [ [ ] => [ ] ] ; _M ! ( ( [ ] ) ) ;

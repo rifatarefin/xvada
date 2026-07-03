@@ -1,1 +1,0 @@
-extern template ... ~ decltype ( auto ) final final override override { }

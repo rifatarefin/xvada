@@ -1,1 +1,0 @@
-; private class A implements @ provides short [ ] [ ] permits short { static { } ; transient synchronized record sealed ( ) { } ; } ;

@@ -1,1 +1,0 @@
-open module to { exports sealed . with to transitive . sealed ; provides sealed . uses . transitive with yield ; }

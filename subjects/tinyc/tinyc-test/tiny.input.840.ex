@@ -1,1 +1,0 @@
-if (( s = b )){ do do do  e = k < k ;while ( g = r < z );while ( p = z < z );while ( u + p );}

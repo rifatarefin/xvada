@@ -1,1 +1,0 @@
-do while ( u = h + m -( n < b )) d + h - z +77< s + z + q -7;while ( j = v = i < r + w -( f ));

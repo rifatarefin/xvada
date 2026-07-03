@@ -1,1 +1,0 @@
-{ do if ( u = a = r ) u = l = l < l ;else ; while ( c + r );}

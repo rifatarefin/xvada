@@ -1,1 +1,0 @@
-while ( c -4-82<9){ while ( w = i < f )if ( b = q < c )do { ; ; }while ( h );}

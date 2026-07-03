@@ -1,1 +1,0 @@
-do { ; if ( x = r = w )if ( h ){ ; ; }}while ( x +( q ));

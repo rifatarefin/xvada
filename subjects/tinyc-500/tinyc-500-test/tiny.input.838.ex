@@ -1,1 +1,0 @@
-if ( f = n +0)do ; while (7-( m < s )< k - j +0+( f < c ));else if ( w = y - n +7); else  e + t -2+5;

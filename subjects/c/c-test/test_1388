@@ -1,1 +1,0 @@
-register auto ( * volatile * restrict const Sv [ * ] ( i7 , F97 ) [ static 617 ] __attribute__ ( ( , __builtin_va_arg ) ) __attribute__ ( ( , >= ) ) ) ; ;

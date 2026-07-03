@@ -1,1 +1,0 @@
-{ if ( r + b - a )if ( o = s = h ); else while ( k ) d = s ;}

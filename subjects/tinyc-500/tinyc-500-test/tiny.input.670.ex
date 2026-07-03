@@ -1,1 +1,0 @@
-do while ( u - z -( d < q ))if ( l +( x < x )< c - b - s )( r )< n -( c );while ( d = t = e - h );

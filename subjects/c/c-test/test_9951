@@ -1,1 +1,0 @@
-; ( ^ volatile ( ^ _Atomic g ) [ const const ] ) const _Thread_local ; { }

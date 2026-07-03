@@ -1,1 +1,0 @@
-c Fzumr Bgrld c Dt c Ea repeat 9 {fill {c Jf } b3 fill {c Ik } }

@@ -1,1 +1,0 @@
-repeat 0 {c La c Lt }

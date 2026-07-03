@@ -1,1 +1,0 @@
-r3 c Vy Nw c Pxo Jw r1

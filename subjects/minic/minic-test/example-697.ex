@@ -1,1 +1,0 @@
-void a ( float a , float a , int a , char a ) { while ( a < a ) { } }

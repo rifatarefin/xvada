@@ -1,1 +1,0 @@
-c Ke repeat 0 {c Rgp fill {fill {c Ny To } } }

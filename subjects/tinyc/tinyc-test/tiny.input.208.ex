@@ -1,1 +1,0 @@
-if ( r = e = l + b -0< v - h -( q < m ))do ; while ( x = l + r -1);

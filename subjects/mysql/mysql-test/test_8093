@@ -1,1 +1,0 @@
-CREATE OFFLINE FULLTEXT INDEX `\,n` USING BTREE ON HOUR ( "" ( 2 ) DESC , `/.` ASC , ```\U/` ( 1 ) , `LATIN7` DESC ) ; EXECUTE KOI8U USING @I , @'''' ;

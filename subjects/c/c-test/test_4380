@@ -1,3 +1,0 @@
-typedef const union x * volatile volatile ( ( U __asm ( U"\
-\
-" ) __asm ( "" L"" ) ) [ ] ) ;

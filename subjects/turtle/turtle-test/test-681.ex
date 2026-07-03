@@ -1,1 +1,0 @@
-repeat 5 {c Syg Tnup l3 }

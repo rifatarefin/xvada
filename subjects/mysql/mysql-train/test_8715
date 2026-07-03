@@ -1,1 +1,0 @@
-XA BEGIN B'11' RESUME -- HELP `\e` -- ; PREPARE `BINARY` FROM @"""" -- ; --

@@ -1,1 +1,0 @@
-while ( k + i - q +16- p < e - f - q + d + o )while ( j = e = c - s ); 

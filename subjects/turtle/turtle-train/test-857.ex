@@ -1,1 +1,0 @@
-c Msntrrz repeat 4 {c Na }

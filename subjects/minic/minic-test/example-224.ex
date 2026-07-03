@@ -1,1 +1,0 @@
-int a ( float a ) { while ( a = a = a < a ) a = a < 0 - ( 0 ) + ( a + 0 < a ) ; }

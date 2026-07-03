@@ -1,1 +1,0 @@
-# ! [ self :: M :: macro_rules :: self :: super :: super ] # ! [ :: super :: super :: $crate :: self :: self :: super ] enum macro_rules { # [ self ] # [ crate ] # [ crate :: self :: self :: self :: $crate ] pub macro_rules = ( ) ^ return , }

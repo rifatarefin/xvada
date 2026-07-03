@@ -1,1 +1,0 @@
-static_assert ( ( union { } [ [ ] ] ) sizeof ... ( M ) ? sizeof ... ( u ) *= throw : sizeof this &= { { } } , L"" ) ; ;

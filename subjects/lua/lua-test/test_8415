@@ -1,1 +1,0 @@
-for m = { } and false , nil and false >> "J3" do break return end return true ;

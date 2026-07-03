@@ -1,1 +1,0 @@
-do { { do if ( m < c ); else ; while ( q );}}while ( o = p = h = r );

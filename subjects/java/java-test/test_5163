@@ -1,1 +1,0 @@
-open module opens { provides var with exports ; requires static transitive . to ; }

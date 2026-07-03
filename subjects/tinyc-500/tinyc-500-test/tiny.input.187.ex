@@ -1,1 +1,0 @@
-{ do  n = t = q < o ;while ( l - u +7);}

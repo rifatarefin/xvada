@@ -1,1 +1,0 @@
-PREPARE `<` FROM '' XA ROLLBACK "\F" --

@@ -1,3 +1,0 @@
-_Thread_local __extension__ ( __m128 ) * const const volatile _Bool auto _Thread_local ^ const const _Atomic Z [ static 063 ] __asm ( "T\
-P" ) __attribute__ ( ( , , # include	""  
- ) ) = -- __extension__ ( char ) { 58 } [ sizeof ++ "" "" "" -= 4 , 77 , sizeof "" "" -- ++ -- ( ) >>= 7127 ] |= 2 , ^ restrict _Atomic const ( ^ volatile restrict ( __extension__ ( __m128 ) * c0 ) [ static 42801 ] ( ) __asm ( "" ) __attribute__ ( ( _Static_assert , ^ ( ) ) ) __asm ( U"t\t" ) __attribute__ ( ( long , inline , ) ) ) __attribute__ ( ( ) ) __attribute__ ( ( , , 1 , extern ( ) , ) ) ; ; ;

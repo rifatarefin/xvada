@@ -1,1 +1,0 @@
-module transitive { uses module . open . sealed . record . record . yield ; opens to ; requires static static with . yield . record ; }

@@ -1,1 +1,0 @@
-enum macro_rules < const macro_rules : ( ) , # [ super :: macro_rules ] macro_rules = impl 'static + '_ + 'static + > { }

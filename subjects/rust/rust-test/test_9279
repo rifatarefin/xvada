@@ -1,1 +1,0 @@
-# [ crate ] # [ :: $crate ] # [ :: super :: self :: crate [ ] ] # [ :: super ( [ ] { <<= [ $ $ $ $ { } ] } ) ] # [ :: self :: macro_rules :: super ] # [ :: macro_rules ] # [ crate = b'\0' ] self ! ( $ ) ; macro_rules ! macro_rules ( { } => { [ ] + $crate $ macro_rules } ; ) ; crate ! [ ] ; macro_rules ! r#_HU7lFF { ( ) => [ [ ] [ ] [ ] [ ] ] } self ! { }

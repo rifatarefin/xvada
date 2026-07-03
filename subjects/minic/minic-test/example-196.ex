@@ -1,1 +1,0 @@
-bool a ( bool a ) { if ( a < a ) { } else { } }

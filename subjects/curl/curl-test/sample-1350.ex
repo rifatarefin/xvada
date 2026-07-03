@@ -1,1 +1,0 @@
-ftp://6-H.rS/&/%ec?&;type=d

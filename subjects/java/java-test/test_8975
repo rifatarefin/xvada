@@ -1,1 +1,0 @@
-module provides { opens with to permits ; uses provides . module . provides ; provides yield with uses . permits . uses . requires . yield ; uses module . requires ; }

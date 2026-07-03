@@ -1,2 +1,0 @@
-# Hashes of file build rules.
-04dfae1168c85b2e9c37badd281aac2d MySqlLexer.cpp

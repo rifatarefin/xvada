@@ -1,1 +1,0 @@
-if ( t = g =4); else while ( o - o + p -( z < o )){ { while ( y < p ) c < p ;}}

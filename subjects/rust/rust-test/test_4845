@@ -1,1 +1,0 @@
-static mut macro_rules : impl ( $crate :: < > ) + ? for < > :: self :: :: super :: ( ) + ( ? $crate :: :: self ( ) :: super ) + 'static + = < fn ( ) > :: Self :: self ; pub ( self ) static macro_rules : dyn '_x + ;

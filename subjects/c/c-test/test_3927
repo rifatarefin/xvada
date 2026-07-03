@@ -1,1 +1,0 @@
-; static _Alignas ( _Atomic ( const volatile ) ) volatile ; ;

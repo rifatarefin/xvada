@@ -1,1 +1,0 @@
-while ( l = c = h = k )while (( t )-( t < t )){ { ; }}

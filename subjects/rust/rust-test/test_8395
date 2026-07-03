@@ -1,1 +1,0 @@
-crate :: super :: $crate :: self ! ( { } ) ; # [ $crate :: self ] # [ a ] macro_rules ! _a [ ( ) => [ [ ] { } { } ] ; ( $ self : macro_rules $ ( [ ] $ macro_rules : macro_rules ) ref + ) => [ ] ; { $ self : macro_rules } => [ ] ; [ ] => ( ) ; ] ;

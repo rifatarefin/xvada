@@ -1,1 +1,0 @@
-{ while ( i + o < n + c - y )do do ; while ( y < v );while ( a - v < o + x );}

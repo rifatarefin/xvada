@@ -1,1 +1,0 @@
-module transitive . yield . module . permits { uses sealed . yield ; opens uses ; }

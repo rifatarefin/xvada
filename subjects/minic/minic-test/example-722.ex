@@ -1,1 +1,0 @@
-int a ( float a , int a , char a ) { do char a ; while ( a = a ) ; }

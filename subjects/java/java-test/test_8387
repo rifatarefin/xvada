@@ -1,1 +1,0 @@
-module requires . record . transitive { requires transitive provides ; exports yield . open ; }

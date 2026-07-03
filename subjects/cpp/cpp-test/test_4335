@@ -1,1 +1,0 @@
-template < class f = union { } , class ... x > asm ( R"()\"" ) ;

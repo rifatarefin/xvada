@@ -1,1 +1,0 @@
-open module sealed . module . yield . provides { uses sealed ; provides var with exports . yield ; exports uses . module ; uses var . permits . record ; exports exports . to . o to var . opens . exports . transitive . record . opens . with ; exports r140 . record . sealed ; }

@@ -1,1 +1,0 @@
-# ! [ :: $crate :: super :: macro_rules :: macro_rules :: r#_X :: $crate :: r#E ] macro_rules ! z ( ( $ ( $ macro_rules : macro_rules ) false * ) => ( ) ; [ ] => [ [ ] ] ) ; macro_rules ! r#C ( { } => [ ] ; { } => { ? + } ; [ [ ] ] => [ ... $ $ <<= @ { } <<= ] ) ; :: crate ! [ ] ; pub ( crate ) type r#_5i ;

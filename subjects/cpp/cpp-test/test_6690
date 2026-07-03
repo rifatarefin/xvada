@@ -1,1 +1,0 @@
-thread_local ( & ... ~ decltype ( auto ) [ [ ] ] [ [ ] ] ) final try : decltype ( auto ) ( ) { [ [ ] ] default : ; [ [ ] ] [ [ ] ] [ [ ] ] return ; [ [ ] ] [ [ ] ] { continue ; } } catch ( ... ) { }

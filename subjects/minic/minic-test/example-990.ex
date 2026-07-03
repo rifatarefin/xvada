@@ -1,1 +1,0 @@
-bool a ( int a , float a , float a , char a , int a , float a ) { while ( a < a ) { } }

@@ -1,1 +1,0 @@
-float a ( char a , int a ) { do while ( a = a - ( ( a ) ) + a ( a < ( a = 0 < ( 0 - a < ( a ( a < a , a < a ) < a - a ) + 0 + ( a = a ) ) ) , a ( a ( a < a ) + 0 + ( a < a ) + a + a - a ( 0 ) , a < a ) < a , a = a ( a , a = a = 0 < a ) < ( a = a ( a = a = a < a ) ) ) + 0 < 0 ) while ( 0 ) bool a ; while ( a ) ; }

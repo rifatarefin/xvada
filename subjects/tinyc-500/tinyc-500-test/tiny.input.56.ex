@@ -1,1 +1,0 @@
-if ( y <6) i = w + j + a +( q < v )< u - v +( e < z );else ; 

@@ -1,1 +1,0 @@
-do { while ( x + h )if ( a = q )do if ( z )if ( q ); while ( z );{ ;  g ;; ; }}while ( x - d );

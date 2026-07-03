@@ -1,1 +1,0 @@
-if (942< i ){ { ; do if ( e ); else ; while ( z );}}

@@ -1,1 +1,0 @@
-extern "" { [ [ ] ] [ [ ] ] signed constexpr [ [ ] ] ... ~ decltype ( auto ) ( ) volatile const volatile and throw ( ) -> const & ... [ ] try { { } continue ; } catch ( ... ) { } using typename decltype ( throw , throw ) :: operator == ; } namespace { }

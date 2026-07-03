@@ -1,1 +1,0 @@
-# ! [ super :: $crate :: super ] # ! [ crate :: super :: self [ b'\'' ] ] # ! [ :: super ] # [ self :: $crate = r##"S"## ] macro_rules ! r#_Q [ [ $ macro_rules : F ] => ( [ ] { } , ) ] ; :: self ! { }

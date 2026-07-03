@@ -1,1 +1,0 @@
-if ( r - e - x -( i )+5)( o < t )+ s -( u = q );else do if (( i < f )< i ){ if ( h = e < i )while ( j < x )if ( s < z ); else while ( q )do ; while ( p < b );while ( l < x ) c ;}else { while ( w = g )if ( r ); }while ( g = c = r = o = j < u );

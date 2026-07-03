@@ -1,1 +1,0 @@
-int a ( char a , bool a ) { a ( a ( a < a ) ) < 0 ; }

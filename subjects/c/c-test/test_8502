@@ -1,7 +1,0 @@
-l [ restrict const static 03 ] ( _m0C auto * volatile * * const ^ ^ const ) __attribute__ ( ( & ( ) , , 5 ( -- ~ 58 -= 28 ) ) ) __asm ( "" u"\U7fc27aBe\
-" U"\
-\Uc5d3A9E3z" ) __asm ( u8"" ) __asm ( "" U"\
-\
-" L"" U"\
-" U"\
-" ) __attribute__ ( ( const , __m128 ( ) ) ) __asm ( u"\x1" "" ) __attribute__ ( ( , , register ) ) __attribute__ ( ( ) ) volatile ( __extension__ ( __m128d ) * volatile restrict restrict * _Atomic restrict const f0Gp ) [ static volatile 3 ] [ restrict static sizeof ++ && G -= 5 ] = { { 10 } , { 2530 , 1 , 298 , } , . c27G2 = { 953 , 6 , } , . a23 = { 8367 , 359 , } , } ; struct l volatile _Alignas ( struct S0 _Bool [ * ] ) _Thread_local _Atomic static _Alignas ( const ) _Alignas ( T void * ^ ^ ^ __extension__ ( __m128d ) restrict ^ ^ ^ ) extern static ; { } typedef ;

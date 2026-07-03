@@ -1,1 +1,0 @@
-while (17<( w )+( l < u )-( c = l < h ))while ( z - u +( z )+92< u )if ( v - j - a < u + p + s )if ( y - u )if ( z < v ); 

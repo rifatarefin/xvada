@@ -1,1 +1,0 @@
-if ( i -9-4-9<7-9+( j ))while ( g + l -8-67)do if ( l = q )while ( e < k ); else while ( n ); while ( b = d - w < p - d );

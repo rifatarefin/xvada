@@ -1,1 +1,0 @@
-if ( q = u = s + d -6<( p )){ while ( g < k - l ) b = v ;if ( v = v < s )while ( y < j )do { ; }while ( r < k );else if ( t = e )if ( i )if ( r ); else ; else while ( n < w ); else while ( n < r )while ( v );  g ;}

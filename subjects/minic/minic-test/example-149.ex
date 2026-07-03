@@ -1,1 +1,0 @@
-void a ( bool a , int a , char a , char a , int a , float a ) { { } }

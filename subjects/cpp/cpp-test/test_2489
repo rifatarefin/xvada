@@ -1,1 +1,0 @@
-; template < > extern template [ [ ] ] [ [ ] ] [ [ ] ] ; inline namespace D { ; extern inline constexpr [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] ~ decltype ( auto ) [ [ ] ] ( ) const [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] [ [ ] ] -> bool volatile volatile & and :: * { } }

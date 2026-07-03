@@ -1,1 +1,0 @@
-open module uses . module { exports var . open to sealed . opens ; }

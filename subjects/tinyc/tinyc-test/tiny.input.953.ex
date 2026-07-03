@@ -1,1 +1,0 @@
-if ( q = v < d - l -4+( g < j )); else ; 

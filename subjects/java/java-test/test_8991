@@ -1,1 +1,0 @@
-module var { uses var . transitive . opens . open . open ; opens permits ; }

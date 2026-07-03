@@ -1,1 +1,0 @@
-extern template template < template < typename , class , class , typename ... > class ... , constexpr friend explicit [ [ ] ] [ [ ] ] * ( ) [ ] = { } , constexpr extern register [ [ ] ] && ... [ ] , [ [ ] ] [ [ ] ] static = { } , [ [ ] ] [ [ ] ] [ [ ] ] typedef [ [ ] ] [ [ ] ] [ [ ] ] ( ) > template < class ... , typedef = { } > using namespace :: v ;

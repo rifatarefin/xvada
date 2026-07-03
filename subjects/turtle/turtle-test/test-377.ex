@@ -1,1 +1,0 @@
-fill {repeat 3 {c Xq Sg } } c Kpngi Zjo

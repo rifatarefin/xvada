@@ -1,2 +1,0 @@
-( _Atomic ( __extension__ ( __m128 ) ) * * ^ restrict * const ^ * restrict restrict restrict const restrict restrict * * ( ^ * K2 ) ) ( volatile * , ... ) [ volatile 9 ] [ * ] __asm ( "\
-" ) _Thread_local __declspec ( K6 ) ; extern _Bool ; { { restrict unsigned _Atomic extern static ; } }

@@ -1,1 +1,0 @@
-repeat 9 {c Qo Edjc c Vgtna }

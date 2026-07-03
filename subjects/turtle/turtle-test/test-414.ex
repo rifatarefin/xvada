@@ -1,1 +1,0 @@
-c Qw Kqxr c Sy repeat 6 {fill {b5 fill {r0 } } }

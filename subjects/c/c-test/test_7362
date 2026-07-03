@@ -1,1 +1,0 @@
-_Thread_local ; inline _Alignas ( _Atomic _Atomic ( volatile [ * ] ) const long * const restrict ) ; ^ * _Atomic restrict ^ const const restrict const volatile ^ * restrict _Atomic K [ static 8 ] { __asm __volatile__ ( : : ) ; static _Noreturn volatile ; }

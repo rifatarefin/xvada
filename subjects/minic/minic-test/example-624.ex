@@ -1,1 +1,0 @@
-char a ( float a , bool a ) { if ( a = 0 - a < ( a = a ) ) ; }

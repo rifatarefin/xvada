@@ -1,1 +1,0 @@
-template inline namespace Q { } template namespace X = decltype ( auto ) :: KI1 ;

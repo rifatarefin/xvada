@@ -1,1 +1,0 @@
-@ open . yield package with . exports ; import uses ; import static transitive . * ; enum with { @ exports ( { , } ) record ( ) , } sealed final final public enum record { }

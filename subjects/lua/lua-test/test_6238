@@ -1,1 +1,0 @@
-; if false and nil | nil - false then end for H in false << nil do end return ;

@@ -1,1 +1,0 @@
-open module var . provides . uses . to . opens . requires { requires uses ; }

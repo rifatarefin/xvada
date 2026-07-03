@@ -1,1 +1,0 @@
-template < > static_assert ( sizeof ... ( h ) , L"\x3B" ) ; asm ( R"B-(12ko)" ) ;

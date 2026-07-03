@@ -1,1 +1,0 @@
-extern template friend constexpr decltype ( auto ) :: template ~ decltype ( auto ) [ [ ] ] ( ) volatile noexcept [ [ ] ] -> class decltype ( auto ) :: template F < > [ [ ] ] [ [ ] ] { V0 : ; asm ( "" ) ; ; ; [ [ ] ] [ [ ] ] { } } asm ( R"(F)\(" ) ;

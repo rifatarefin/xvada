@@ -1,1 +1,0 @@
-if (08){ do if ( h )if ( d < a )while ( u < r ){ ; }else ; else if ( l = i )if ( j < f )if ( b < a ); else ; else  o ;else do if ( b < v ); else ; while ( u );while ( q );}else ; 

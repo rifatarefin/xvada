@@ -1,1 +1,0 @@
-while ( a + p + i + j +( y < j ))if ( t = q = c = z = i = x ){ if ( y )if ( d = w )if ( p < n )if ( y < j ); else ; if ( n ); if ( g ); ; ; }else while ( d + p ){  x < v ; g = b ;}

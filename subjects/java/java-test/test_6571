@@ -1,1 +1,0 @@
-sealed . @ record ( super & this ) provides . provides . requires . @ provides ( { this , this , } ) @ sealed package to . uses ; ;

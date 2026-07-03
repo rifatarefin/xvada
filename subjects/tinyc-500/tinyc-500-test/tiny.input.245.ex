@@ -1,1 +1,0 @@
-while ( d = k = q - t + o < n ); 

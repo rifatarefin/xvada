@@ -1,1 +1,0 @@
-{ while ( y - n +8) e = v < d - c ;}

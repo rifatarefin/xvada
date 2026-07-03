@@ -1,1 +1,0 @@
-if ( m = p = z = j = j < b )do  x + a ;while (9<( i < l ));

@@ -1,1 +1,0 @@
-char a ( int a ) { if ( 0 ) { } }

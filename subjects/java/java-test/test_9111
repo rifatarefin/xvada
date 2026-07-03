@@ -1,1 +1,0 @@
-final record yield < @ requires opens extends @ record @ to sealed [ ] & permits & module [ ] > ( ) implements @ opens @ provides ( ) transitive { open { permits : return ; } class record { ; ; ; } native protected with { } with { return ; } ; abstract with { for ( ; ; ) return ; } }

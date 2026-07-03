@@ -1,1 +1,0 @@
-local function e ( yo , ... ) return end return true .. true , not ... ;

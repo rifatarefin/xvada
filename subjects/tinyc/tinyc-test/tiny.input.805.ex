@@ -1,1 +1,0 @@
-if (( v )+( h )+75)while (( l )- j <( a < s )+( r < g ))do ; while ( k = r + n < g );

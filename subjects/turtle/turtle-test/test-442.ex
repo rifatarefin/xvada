@@ -1,1 +1,0 @@
-fill {c Bzkog Iyikp r2 }

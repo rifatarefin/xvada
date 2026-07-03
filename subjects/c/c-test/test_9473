@@ -1,1 +1,0 @@
-; register static __attribute__ ( ( _Thread_local ) ) int _Thread_local static ;

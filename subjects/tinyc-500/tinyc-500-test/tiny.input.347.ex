@@ -1,1 +1,0 @@
-if (5)if ( o + o -( h )+ z ); else ; 

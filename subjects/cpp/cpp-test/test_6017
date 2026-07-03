@@ -1,1 +1,0 @@
-template < > using :: oTX < ~ decltype ( auto ) ... , ~ decltype ( auto ) ... , ~ decltype ( auto ) , ~ decltype ( auto ) ... , ~ decltype ( auto ) ... > :: operator / ;

@@ -1,1 +1,0 @@
-{ if ( j - r < q ) g = d = k ;else do  u + u ;while ( x = z < a );; }

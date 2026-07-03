@@ -1,1 +1,0 @@
-bool a ( char a , char a ) { do a = ( 0 + ( a + ( a < 0 ) - 0 ) ) + ( a = a = a + 0 + a ( a ( ( a < a ) + a - a < a ( a < a ) , a + a < a - a , a , a < a , a < a ) ) < a ) - a ( 0 + a < ( a < a + ( ( a ) ) ) , 0 ) + a ; while ( a ) ; }

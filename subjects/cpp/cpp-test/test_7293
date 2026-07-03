@@ -1,1 +1,0 @@
-alignas ( this ( ) -- ( ) ->* sizeof ... ( vCx ) * this -- ? throw : throw ... ) ; extern "\414" ; asm ( "" ) ;

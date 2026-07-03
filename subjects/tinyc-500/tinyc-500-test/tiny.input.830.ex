@@ -1,1 +1,0 @@
-{ while ( z - r + z )do while ( b )if ( r = c < t )while ( w < s ) e < p ;while ( c < x - h );{ ; }; }

@@ -1,1 +1,0 @@
-open module to { exports R7 . requires . record . provides . var . to . permits . X . to to module ; uses transitive ; }

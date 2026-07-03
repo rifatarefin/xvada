@@ -1,1 +1,0 @@
-{  s = o < t ;if ( y = m = x = m < i )do do { ; ; }while ( u < w );while ( j = i );else  q = i = r < s ;; }

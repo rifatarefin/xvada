@@ -1,1 +1,0 @@
-open module provides . provides { exports permits . provides . to . exports . opens ; }
