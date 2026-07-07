@@ -52,7 +52,7 @@ To reproduce the experiments, run `run_experiments.sh`.
 ```
 bash run_experiments.sh
 ```
-All seeds and black-box parsers are available in the `experiments` folder. Make sure to install `python-liquid` if you plan to run experiments on the `liquid` subject.
+All seeds and black-box parsers are available in the `experiments` folder. Make sure to install `python-liquid` if you plan to run experiments on the `liquid` subject. Also, we released [Crucio](https://github.com/rifatarefin/xvada/tree/master/crucio) with grammar-export feature for easy comparison.
 
 ## Practical Utility
 

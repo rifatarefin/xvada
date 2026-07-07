@@ -1,21 +1,7 @@
 # Crucio
 
-**Crucio** is a grammar inference tool that learns context-free grammars from a set of example inputs. It consists of two main phases: inference and evaluation.
+This repo contains original [Crucio](https://github.com/Sinpersrect/crucio), with support for grammar export. See [Changes](https://github.com/rifatarefin/xvada/commit/f589d1fcf988ff7073a2cbb7473901da1b88a8cc) we made to original Crucio.
 
-# 🐳 Run with Docker (recommended)
-
-If you prefer to use Docker instead of installing dependencies manually,  
-you can pull and run the pre-built Docker image:
-
-```bash
-docker pull dedider/crucio:artifact
-```
-
-Run Crucio inside a container:
-
-```bash
-docker run -it dedider/crucio:artifact
-```
 
 
 ## Installation
@@ -69,7 +55,8 @@ python3 eval.py TEST_DIR LOG_FILE
 ```
 
 - `TEST_DIR`: Path to the directory containing test examples.
-- `LOG_FILE`: The same log file produced by `infer.py`, which contains the grammar used for evaluation.
+- `LOG_FILE`: The same log file produced by `infer.py`.
+- `LOG_FILE.eval`: **Contains the inferred grammar in text format.**
 
 **Example:**
 
