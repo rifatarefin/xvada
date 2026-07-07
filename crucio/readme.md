@@ -1,6 +1,6 @@
 # Crucio
 
-This repo contains original [Crucio](https://github.com/Sinpersrect/crucio), with support for grammar export. See [Changes](https://github.com/rifatarefin/xvada/commit/f589d1fcf988ff7073a2cbb7473901da1b88a8cc) we made to original Crucio.
+This repo contains original [Crucio](https://github.com/Sinpersrect/crucio), with support for grammar export. See the [Patch](https://sharepatch.com/patches/mQ7YT2CrIR#diff-file-crucio-data-types-grammar-py) for the changes.
 
 
 

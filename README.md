@@ -1,6 +1,6 @@
 # XVada Overview
 
-XVada infers context-free grammars from example programs. It has only black-box access to the language parser (an oracle) during the learning process. XVada extends [TreeVada](https://github.com/rifatarefin/treevada)'s parse-tree generalization based approach for faster and more accurate grammar inference. The inferred grammars are intended to be easy to inspect with intuitive non-terminal names.
+XVada infers context-free grammars from example programs. It has only black-box access to the language parser (an oracle) during the learning process. XVada extends TreeVada's parse-tree generalization based approach for faster and more accurate grammar inference. The inferred grammars are intended to be easy to inspect with intuitive non-terminal names.
 
 Key features
 - Requires only a few example programs and an oracle; the oracle is a command that accepts a filename and returns exit code 0 for valid inputs.
@@ -52,7 +52,7 @@ To reproduce the experiments, run `run_experiments.sh`.
 ```
 bash run_experiments.sh
 ```
-All seeds and black-box parsers are available in the `experiments` folder. Make sure to install `python-liquid` if you plan to run experiments on the `liquid` subject. Also, we released [Crucio](https://github.com/rifatarefin/xvada/tree/master/crucio) with grammar-export feature for easy comparison.
+All seeds and black-box parsers are available in the `experiments` folder. Make sure to install `python-liquid` if you plan to run experiments on the `liquid` subject. Also, we released [Crucio](crucio/readme.md) with grammar-export feature for easy comparison.
 
 ## Practical Utility
 
