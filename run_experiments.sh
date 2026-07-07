@@ -13,5 +13,5 @@ for lan in turtle "while" lisp xml json tinyc tinyc-500 tiny minic curl liquid l
     echo "Running experiments for $lan"
     python3 search.py $parser $train $log
     pypy eval.py $parser $test $log
-    done
+done
 

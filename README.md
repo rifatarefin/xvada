@@ -4,7 +4,7 @@ XVada infers context-free grammars from example programs. It has only black-box 
 
 Key features
 - Requires only a few example programs and an oracle; the oracle is a command that accepts a filename and returns exit code 0 for valid inputs.
-- Produces human-readable grammars with meaningful non-terminals.
+- Produces human-comprehensible grammars with descriptive non-terminal labels.
 - Generates grammars in ANTLR4 format, which are directly compatible with popular grammar-based fuzzers (for example, [Grammarinator](https://github.com/renatahodovan/grammarinator)).
 
 
@@ -40,21 +40,23 @@ If you have a held-out test set in `TEST_DIR`, you can evaluate the precision an
 ```
 $ pypy eval.py [--no-antlr4] [--memory-safe] [-n PRECISION_SET_SIZE] ORACLE_CMD TEST_DIR LOG_FILE
 ```
-- The Python Earley parser is faster with `pypy`; using `pypy` is recommended for running `eval.py`.
+- The Lark Earley parser is faster with [pypy](https://pypy.org), `pypy` is recommended for running `eval.py`.
 - `PRECISION_SET_SIZE` (optional) is the number of samples to draw from the learned grammar to estimate precision (default: 1000).
 - `TEST_DIR` is a directory of held-out valid programs.
 - The `--no-antlr4` flag prevents generating an ANTLR4 grammar; otherwise an ANTLR4 `.g4` file is produced.
 - The `--memory-safe` option attempts to parse each test program individually with a maximum memory cap so a single large program won't cause the whole run to fail; this is useful on machines with limited memory.
 
-## Experiments
+## Reproduce Experiments
 
-To reproduce the experiments, run the `run_experiments.sh` script. 
+To reproduce the experiments, run `run_experiments.sh`. 
 ```
 bash run_experiments.sh
 ```
-All seeds and black-box parsers are available in the `experiments` folder. Make sure to install `python-liquid` if you plan to run experiments for the `liquid` subject.
+All seeds and black-box parsers are available in the `experiments` folder. Make sure to install `python-liquid` if you plan to run experiments on the `liquid` subject.
 
+## Practical Utility
 
+XVada found a DoS vulnerability in [python-liquid](https://github.com/jg-rp/liquid). With XVada-inferred grammar, a [Nautilus](https://www.ndss-symposium.org/wp-content/uploads/2019/02/ndss2019_04A-3_Aschermann_paper.pdf) backed fuzzing campaign found 5 more confirmed bugs.
 <!-- ## Acknowledgements
 
 
