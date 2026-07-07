@@ -271,9 +271,33 @@ class Grammar(Generic[T]):
     def getRules(self) -> Tuple[Rule[T], ...]:
         return tuple(self._rules.values())
 
+    def print_grammar(self):
+        def token2lark(ttype, values) -> str:
+            # Escape quotes in each value and join with |
+            value_str = '\n  | '.join('"' + str(v).replace('\n', r'\n').replace('"', r'\"') + '"' for v in values)
+            return f"{ttype}: {value_str}\n"
+
+        s = str(self)
+        # terminals = self.getCharset()
+        # Manually find terminals by traversing all productions from grammar rules
+        terminals_dict = {}
+        for rule in self.getRules():
+            for prod in rule.getProds():
+                for symbol in prod:
+                    if symbol.isTerminal():
+                        token = symbol.getValue()
+                        if token.type not in terminals_dict:
+                            terminals_dict[token.type] = set()
+                        terminals_dict[token.type].add(token.value)
+        # Convert sets to tuples for immutability
+        terminals = {ttype: tuple(values) for ttype, values in terminals_dict.items()}
+        if len(terminals) == 0:
+            return s
+        return s + '\n' + ''.join(token2lark(ttype, values) for ttype, values in terminals.items())
+
     def __str__(self) -> str:
         return '\n'.join(['start:%s' % self.getStart()] + [str(rule) for rule in self._rules.values()])
-
+        
     def pretty(self) -> str:
         return '\n'.join(['start:%s' % self.getStart()] + [rule.pretty() for rule in self._rules.values()])
 

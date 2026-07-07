@@ -47,6 +47,9 @@ class ExternalOracle(CachedStringOracle):
         """
         super().__init__()
         self.command = command
+        if command=="liquid":
+            from liquid import Environment
+            self._environment_class = Environment
 
     def _parse(self, sentence: str) -> bool:
         return self.__parse_internal(sentence)
@@ -56,6 +59,12 @@ class ExternalOracle(CachedStringOracle):
         Does the work of calling the subprocess.
         """
         # print(string)
+        if self.command=="liquid":
+            try:
+                self._environment_class().from_string(string)
+                return True
+            except Exception:
+                return False
         FNULL = open(os.devnull, 'w')
         f = tempfile.NamedTemporaryFile()
         f.write(bytes(string, 'utf-8'))
