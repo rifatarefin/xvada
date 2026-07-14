@@ -56,7 +56,7 @@ All seeds and black-box parsers are available in the `experiments` folder. Make 
 
 ## Practical Utility
 
-XVada found a DoS vulnerability in [python-liquid](https://github.com/jg-rp/liquid). With XVada-inferred grammar, a [Nautilus](https://www.ndss-symposium.org/wp-content/uploads/2019/02/ndss2019_04A-3_Aschermann_paper.pdf) backed fuzzing campaign found 5 more confirmed bugs.
+XVada found a DoS vulnerability in [python-liquid](https://github.com/jg-rp/liquid). With XVada-inferred grammar, a LibAFL [Nautilus](https://www.ndss-symposium.org/wp-content/uploads/2019/02/ndss2019_04A-3_Aschermann_paper.pdf) backed fuzzing campaign found 5 more confirmed bugs.
 <!-- ## Acknowledgements
 
 

@@ -1258,6 +1258,13 @@ def relabel_tree_nonterminals(trees: List[ParseNode], grammar: Grammar):
     Relabels all nonterminal nodes in the fully constructed trees with
     LLM-suggested names, then returns the relabeled trees and rebuilt grammar.
     """
+    # identifies the dummy parent non-terminals for leaves
+    def is_dummy(nonterminal: str) -> bool:
+        if len(grammar.rules[nonterminal].bodies) == 1 and \
+            grammar.rules[nonterminal].bodies[0]  == [f"\"{nonterminal}\""]:
+            return True
+        return False
+
     def relabel_node(node: ParseNode, label_map: Dict[str, str]):
         if node.is_terminal:
             return
@@ -1271,7 +1278,10 @@ def relabel_tree_nonterminals(trees: List[ParseNode], grammar: Grammar):
     reserved_labels = {START, 'start'}
 
     for nonterminal, _ in nonterminals:
-        if nonterminal == START or nonterminal == 'start':
+        if nonterminal in reserved_labels:
+            continue
+        if is_dummy(nonterminal):
+            reserved_labels.add(nonterminal)
             continue
         label_map[nonterminal] = get_llm_label(nonterminal, nonterminal, tree_list, reserved_labels)
         reserved_labels.add(label_map[nonterminal])
