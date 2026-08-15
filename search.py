@@ -6,7 +6,13 @@ from parse_tree import ParseTree, ParseNode
 from grammar import Grammar, Rule
 from token_expansion import initial_token_replacement
 from lark import Lark
-from oracle import CachingOracle, ExternalOracle
+from oracle import (
+    CachingOracle,
+    ExternalOracle,
+    OracleInfrastructureError,
+    ParseException,
+    PersistentExternalOracle,
+)
 import string, config
 from datetime import datetime
 
@@ -106,10 +112,26 @@ def main_internal(external_folder, log_file, random_guides=False):
     main(parser_command, guide_folder, log_file)
 
 
-def main(oracle_cmd, guide_examples_folder,  log_file_name):
+def main(
+    oracle_cmd,
+    guide_examples_folder,
+    log_file_name,
+    persistent_oracle=False,
+    oracle_timeout=None,
+    oracle_max_retries=None,
+    oracle_failure_dir=None,
+):
     from start import build_start_grammar, get_times
 
-    oracle = ExternalOracle(oracle_cmd)
+    oracle_class = PersistentExternalOracle if persistent_oracle else ExternalOracle
+    oracle_options = {}
+    if oracle_timeout is not None:
+        oracle_options["timeout"] = oracle_timeout
+    if oracle_max_retries is not None:
+        oracle_options["max_retries"] = oracle_max_retries
+    if oracle_failure_dir is not None:
+        oracle_options["failure_dir"] = oracle_failure_dir
+    oracle = oracle_class(oracle_cmd, **oracle_options)
     if config.USE_PRETOKENIZATION:
        print("Using approximate pre-tokenization stage")
 
@@ -126,7 +148,12 @@ def main(oracle_cmd, guide_examples_folder,  log_file_name):
             
             oracle.parse(guide_raw)
 
-        except Exception as e:
+        except OracleInfrastructureError as e:
+            print("\n xxxOracle infrastructure failure while validating seed")
+            print(full_filename)
+            print(e)
+            raise
+        except ParseException as e:
             print("\n xxxInvalid seed input")
             print(full_filename)
             print(guide_raw)
@@ -173,7 +200,8 @@ def main(oracle_cmd, guide_examples_folder,  log_file_name):
         import pickle
         
 
-        pickle.dump(hdd_grammar.rules, open(log_file_name + ".gramdict", "wb"))
+        primary_grammar = hdd_grammar if hdd_grammar is not None else grammar
+        pickle.dump(primary_grammar.rules, open(log_file_name + ".gramdict", "wb"))
         pickle.dump(grammar.rules, open(log_file_name + "_no_hdd.gramdict", "wb"))
 
         print(f'Date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}', file=f)
@@ -182,6 +210,8 @@ def main(oracle_cmd, guide_examples_folder,  log_file_name):
         print(f'Time spent in oracle calls: {oracle_time_spent}')
         print(f'Time spent building grammar: {build_time}s', file=f)
         print(f'Time spent building grammar: {build_time}s', )
+        print(f'HDD enabled: {hdd_grammar is not None}', file=f)
+        print(f'HDD enabled: {hdd_grammar is not None}')
         print(f'Scoring time: {time.time() - build_time - start_time}', file=f)
         print(f'Time breakdown: {get_times()}', file=f)
         print(f'Time breakdown: {get_times()}')
@@ -196,7 +226,12 @@ def main(oracle_cmd, guide_examples_folder,  log_file_name):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     
-    parser.add_argument('oracle_cmd', help='the oracle command; should be invocable on a filename via `oracle_cmd filename`, and return a non-zero exit code on invalid inputs', type=str)
+    parser.add_argument(
+        'oracle_cmd',
+        help=('oracle executable: filename mode invokes `oracle_cmd filename` '
+              '(exit 0 accept, 1 reject); --persistent-oracle selects JSONL mode'),
+        type=str,
+    )
     parser.add_argument('examples_dir', help='folder containing the training examples', type=str)
     parser.add_argument('log_file', help='name of file to write output log to', type=str)
     
@@ -208,6 +243,62 @@ if __name__ == '__main__':
     parser.add_argument('--group_punctuation', help=f'group sequences of punctuation during pretokenization', action='store_true')
     parser.add_argument('--group_upper_lower',
                                  help=f'group uppercase characters with lowerchase characters during pretokenization', action='store_true')
+    parser.add_argument(
+        '--constructor-aware-brackets',
+        help=(
+            'attach an adjacent alphanumeric constructor tag (for example '
+            'M or V8) to its square-bracket subtree without changing bytes'
+        ),
+        action='store_true',
+    )
+    parser.add_argument(
+        '--constructor-role-aware-brackets',
+        help=(
+            'reuse an initial nonterminal for square-bracket subtrees with '
+            'the same adjacent constructor tag (for example M or V4)'
+        ),
+        action='store_true',
+    )
+    parser.add_argument(
+        '--constructor-value-role-aware-leaves',
+        help=(
+            'separate scalar/string value leaves by V2/V4/V5/V6/V8/V10 '
+            'constructor role before oracle-guided token expansion'
+        ),
+        action='store_true',
+    )
+    parser.add_argument(
+        '--constructor-v6-semantic-float-leaves',
+        help=(
+            'retokenize canonical V6 float contents into fixed prefix, '
+            'whole mantissa, sign, and exponent leaves without changing bytes'
+        ),
+        action='store_true',
+    )
+    parser.add_argument(
+        '--sentinel-role-aware-brackets',
+        help=(
+            'assign the same initial nonterminal to square-bracket '
+            'subtrees that start with the same supported punctuation '
+            'role sentinel'
+        ),
+        action='store_true',
+    )
+    parser.add_argument(
+        '--recall-focused-token-expansion',
+        help=(
+            'retain concrete TRAIN terminal alternatives while adding '
+            'deterministic, bounded lexical generalizations'
+        ),
+        action='store_true',
+    )
+    parser.add_argument('--persistent-oracle', help='keep the external oracle process alive and exchange JSON lines', action='store_true')
+    parser.add_argument('--oracle-timeout', type=float, default=None,
+                        help='per-query oracle timeout in seconds (default: 3 filename, 30 persistent)')
+    parser.add_argument('--oracle-max-retries', type=int, default=None,
+                        help='bounded retries after an oracle infrastructure failure (default: 1)')
+    parser.add_argument('--oracle-failure-dir', type=str, default=None,
+                        help='directory for quarantined oracle infrastructure failures')
     #TODO: what is this error?
     args = parser.parse_args()
     
@@ -217,8 +308,45 @@ if __name__ == '__main__':
     config.USE_PRETOKENIZATION = not args.no_pretokenize if args.no_pretokenize else config.USE_PRETOKENIZATION
     config.GROUP_PUNCTUATION = args.group_punctuation if args.group_punctuation else config.GROUP_PUNCTUATION
     config.SPLIT_UPPER_AND_LOWER = args.group_upper_lower if args.group_upper_lower else config.SPLIT_UPPER_AND_LOWER
+    config.CONSTRUCTOR_AWARE_BRACKETS = (
+        args.constructor_aware_brackets
+        if args.constructor_aware_brackets
+        else config.CONSTRUCTOR_AWARE_BRACKETS
+    )
+    config.CONSTRUCTOR_ROLE_AWARE_BRACKETS = (
+        args.constructor_role_aware_brackets
+        if args.constructor_role_aware_brackets
+        else config.CONSTRUCTOR_ROLE_AWARE_BRACKETS
+    )
+    config.CONSTRUCTOR_VALUE_ROLE_AWARE_LEAVES = (
+        args.constructor_value_role_aware_leaves
+        if args.constructor_value_role_aware_leaves
+        else config.CONSTRUCTOR_VALUE_ROLE_AWARE_LEAVES
+    )
+    config.CONSTRUCTOR_V6_SEMANTIC_FLOAT_LEAVES = (
+        args.constructor_v6_semantic_float_leaves
+        if args.constructor_v6_semantic_float_leaves
+        else config.CONSTRUCTOR_V6_SEMANTIC_FLOAT_LEAVES
+    )
+    config.SENTINEL_ROLE_AWARE_BRACKETS = (
+        args.sentinel_role_aware_brackets
+        if args.sentinel_role_aware_brackets
+        else config.SENTINEL_ROLE_AWARE_BRACKETS
+    )
+    config.RECALL_FOCUSED_TOKEN_EXPANSION = (
+        args.recall_focused_token_expansion
+        if args.recall_focused_token_expansion
+        else config.RECALL_FOCUSED_TOKEN_EXPANSION
+    )
     config.AI_LABEL = not args.no_ai_label if args.no_ai_label else config.AI_LABEL
 
-    main(args.oracle_cmd, args.examples_dir, args.log_file)
+    main(
+        args.oracle_cmd,
+        args.examples_dir,
+        args.log_file,
+        args.persistent_oracle,
+        args.oracle_timeout,
+        args.oracle_max_retries,
+        args.oracle_failure_dir,
+    )
     
-

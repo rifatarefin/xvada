@@ -412,8 +412,8 @@ class Grammar():
         return current_grammar
     
     def to_antlr4(self, log_file_name):
-        
-        antlr4_rules = self.remove_indirect_left_recursion()
+
+        antlr4_rules = self
         rules = '\n'.join([rule.antlr4() for rule in antlr4_rules.rules.values()])
         return f"grammar {log_file_name};\n{rules}"
     

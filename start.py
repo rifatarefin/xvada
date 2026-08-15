@@ -4,7 +4,7 @@ from typing import List, Tuple, Set, Dict, Optional, Union
 import statistics
 from bubble import Bubble
 from group import group, is_balanced, pre_bubble
-from oracle import ExternalOracle, ParseException
+from oracle import ExternalOracle, OracleInfrastructureError, ParseException
 from parse_tree import ParseNode, ParseTreeList, build_grammar, START
 from grammar import *
 from token_expansion import expand_tokens
@@ -14,10 +14,11 @@ from replacement_utils import get_strings_with_replacement, get_strings_with_rep
 import config
 from next_tid import allocate_tid
 # from PrettyPrint import PrettyPrintTree
-from label_llm import generate_label_api, regenerate_label
-from bubble_llm import bubble_api
-from bubble_pair_llm import bubble_pair_api
+# from label_llm import generate_label_api, regenerate_label
+# from bubble_llm import bubble_api
+# from bubble_pair_llm import bubble_pair_api
 import json
+import re
 import string
 import functools
 """
@@ -76,7 +77,9 @@ def check_recall(oracle, grammar: Grammar):
     for pos in positives:
         try:
             oracle.parse(pos)
-        except:
+        except OracleInfrastructureError:
+            raise
+        except ParseException:
             return False
     return True
 
@@ -137,6 +140,101 @@ def build_start_grammar(oracle, leaves, bbl_bounds = (3,10)):
     return grammar, hdd_grammar
 
 
+def semanticize_v6_float_leaves(
+    leaves: List[ParseNode],
+) -> List[ParseNode]:
+    """Retokenize canonical V6 float contents into semantic leaves.
+
+    Approximate tokenization splits a lowercase hexadecimal mantissa whenever
+    it changes between digits and letters.  That made the inferred shape
+    depend on a particular TRAIN spelling.  This pass recognizes only the
+    already-canonical typed-cons ``V6[...]`` surface form and combines the
+    mantissa into one leaf.  The derived bytes and every non-V6 token remain
+    unchanged.
+    """
+    if not config.CONSTRUCTOR_V6_SEMANTIC_FLOAT_LEAVES:
+        return leaves
+    result: List[ParseNode] = []
+    index = 0
+    while index < len(leaves):
+        prefix_length = 0
+        if (
+            index + 2 < len(leaves)
+            and leaves[index].payload == "V"
+            and leaves[index + 1].payload == "6"
+            and leaves[index + 2].payload == "["
+        ):
+            prefix_length = 3
+        elif (
+            index + 1 < len(leaves)
+            and leaves[index].payload == "V6"
+            and leaves[index + 1].payload == "["
+        ):
+            prefix_length = 2
+        if not prefix_length:
+            result.append(leaves[index])
+            index += 1
+            continue
+        content_start = index + prefix_length
+        close = content_start
+        while close < len(leaves) and leaves[close].payload != "]":
+            close += 1
+        if close == len(leaves):
+            result.append(leaves[index])
+            index += 1
+            continue
+        content = "".join(
+            leaf.payload for leaf in leaves[content_start:close]
+        )
+        match = re.fullmatch(
+            r"0x([01])\.([0-9a-f]+)p([+-])([0-9]+)",
+            content,
+        )
+        if match is None:
+            result.append(leaves[index])
+            index += 1
+            continue
+        significand, mantissa, sign, exponent = match.groups()
+        canonical_shape = (
+            (
+                significand == "0"
+                and mantissa == "0"
+                and sign == "+"
+                and exponent == "0"
+            )
+            or (
+                significand == "1"
+                and len(mantissa) == 13
+            )
+        )
+        if not canonical_shape:
+            result.append(leaves[index])
+            index += 1
+            continue
+        result.extend(leaves[index:content_start])
+        result.extend(
+            [
+                ParseNode("0", True, [], "DIGIT"),
+                ParseNode("x", True, [], "LOWERCASE"),
+                ParseNode(significand, True, [], "DIGIT"),
+                ParseNode(".", True, [], "PUNCTUATION"),
+                # Deliberately classified as DIGIT so the isolated semantic
+                # role enters the bounded hex-class probe in token expansion.
+                ParseNode(mantissa, True, [], "DIGIT"),
+                ParseNode("p", True, [], "LOWERCASE"),
+                ParseNode(sign, True, [], "PUNCTUATION"),
+                ParseNode(exponent, True, [], "DIGIT"),
+            ]
+        )
+        result.append(leaves[close])
+        index = close + 1
+    if "".join(node.payload for node in result) != "".join(
+        node.payload for node in leaves
+    ):
+        raise ValueError("V6 semantic retokenization changed derived bytes")
+    return result
+
+
 def build_naive_parse_trees(leaves: List[List[ParseNode]], bracket_items: List, oracle: ExternalOracle):
     """
     Builds naive parse trees for each leaf in `leaves`, assigning each unique
@@ -144,6 +242,10 @@ def build_naive_parse_trees(leaves: List[List[ParseNode]], bracket_items: List, 
     nonterminal.
     bracket_items is a list of bracket enclosed sequence lengths.
     """
+    leaves = [
+        semanticize_v6_float_leaves(leaf_list)
+        for leaf_list in leaves
+    ]
     terminals = list(dict.fromkeys([leaf.payload for leaf_lst in leaves for leaf in leaf_lst]))
     reserved = [START, 'start']
     get_class = {t: t for t in terminals if t not in reserved}
@@ -153,21 +255,162 @@ def build_naive_parse_trees(leaves: List[List[ParseNode]], bracket_items: List, 
             new_nt = new_nt + "_"
         get_class[r] = new_nt
     quotes = ["\"", "\'"]
+    sentinel_roles = frozenset("!;|$^<>/&*~+?=:\\")
 
-    def braces_tree(leaves: List[ParseNode], index: int, open_list: List[int], close_list: List[int], first: ParseNode = None):
+    def constructor_prefix_start(children: List[ParseNode]) -> int:
+        """Return the start of an adjacent alphanumeric constructor tag.
+
+        Approximate tokenization may split ``V8`` into ``V`` and ``8``.
+        Constructor-aware bracket trees therefore collect every adjacent
+        alphanumeric/underscore leaf immediately before ``[`` while requiring
+        at least one ASCII letter.  The nodes stay byte-for-byte in place in
+        the derived string; only their initial tree parent changes.
+        """
+        start = len(children)
+        saw_letter = False
+        while start:
+            candidate = children[start - 1]
+            if (
+                candidate.is_terminal
+                or len(candidate.children) != 1
+                or not candidate.children[0].is_terminal
+            ):
+                break
+            text = candidate.derived_string()
+            if not text or any(
+                character not in string.ascii_letters
+                + string.digits
+                + "_"
+                for character in text
+            ):
+                break
+            saw_letter = saw_letter or any(
+                character in string.ascii_letters
+                for character in text
+            )
+            start -= 1
+        return start if saw_letter else len(children)
+
+    def constructor_tag(
+        constructor_prefix: List[ParseNode] | tuple[ParseNode, ...],
+    ) -> str:
+        text = "".join(
+            node.derived_string() for node in constructor_prefix
+        )
+        if (
+            text
+            and any(character in string.ascii_letters for character in text)
+            and all(
+                character
+                in string.ascii_letters + string.digits + "_"
+                for character in text
+            )
+        ):
+            return text
+        return ""
+
+    def constructor_value_leaf_class(
+        node: ParseNode,
+        children: List[ParseNode],
+        constructor_prefix: tuple[ParseNode, ...],
+    ) -> str:
+        """Give supported V-value leaves an independent lexical role.
+
+        Numeric tokens were previously shared with tensor dimensions,
+        offsets, counts, and derived fields.  Oracle-guided expansion then
+        had to reject otherwise-safe V4/V5 integer classes because replacing
+        the shared token also broke those relational fields.  The role name
+        changes only the initial nonterminal parent; terminals and derived
+        bytes are unchanged.
+        """
+        fallback = get_class[node.payload]
+        if not config.CONSTRUCTOR_VALUE_ROLE_AWARE_LEAVES:
+            return fallback
+        tag = constructor_tag(constructor_prefix)
+        if tag not in {"V2", "V4", "V5", "V6", "V8", "V10"}:
+            return fallback
+        if node.lex_type not in {
+            "DIGIT",
+            "STRING",
+            "LETTER",
+            "LOWERCASE",
+            "UPPERCASE",
+        }:
+            return fallback
+        content_children = children[len(constructor_prefix) + 1 :]
+        same_type_ordinal = sum(
+            1
+            for child in content_children
+            if (
+                not child.is_terminal
+                and len(child.children) == 1
+                and child.children[0].is_terminal
+                and child.children[0].lex_type == node.lex_type
+            )
+        )
+        lexical_role = node.lex_type.lower()
+        if (
+            tag == "V6"
+            and node.lex_type == "DIGIT"
+            and same_type_ordinal == 2
+            and config.CONSTRUCTOR_V6_SEMANTIC_FLOAT_LEAVES
+        ):
+            earlier_digits = [
+                child.derived_string()
+                for child in content_children
+                if (
+                    not child.is_terminal
+                    and len(child.children) == 1
+                    and child.children[0].is_terminal
+                    and child.children[0].lex_type == "DIGIT"
+                )
+            ]
+            if len(earlier_digits) == 2:
+                significand_role = (
+                    "zero"
+                    if earlier_digits[1] == "0"
+                    else "nonzero"
+                )
+                return (
+                    f"role_value_v6_{significand_role}_mantissa"
+                )
+        if (
+            tag == "V6"
+            and node.lex_type == "DIGIT"
+            and same_type_ordinal == 3
+            and config.CONSTRUCTOR_V6_SEMANTIC_FLOAT_LEAVES
+        ):
+            return "role_value_v6_exponent"
+        return (
+            f"role_value_{tag.lower()}_{lexical_role}_"
+            f"{same_type_ordinal}"
+        )
+
+    def braces_tree(
+        leaves: List[ParseNode],
+        index: int,
+        open_list: List[int],
+        close_list: List[int],
+        first: ParseNode = None,
+        constructor_prefix: List[ParseNode] = None,
+    ):
         """ 
         returns a initial parse tree based on brackets.
         input: a {b c}
         parse tree: 
              START
-             /  \
+             /  \\
             a   t1
-              / /\ \
+              / /\\ \\
               { b c }
         """
 
+        node_constructor_prefix = tuple(constructor_prefix or ())
         if first:
-            children = [ParseNode(get_class[first.payload], False, [first])]
+            children = list(node_constructor_prefix)
+            children.append(
+                ParseNode(get_class[first.payload], False, [first])
+            )
         else:
             nonlocal bracket_items
             bracket_items = []
@@ -179,17 +422,61 @@ def build_naive_parse_trees(leaves: List[List[ParseNode]], bracket_items: List, 
             
             
             if (token == "{" or token == "[" or token == "(") and index in open_list:
+                constructor_prefix = []
+                if (
+                    (
+                        config.CONSTRUCTOR_AWARE_BRACKETS
+                        or config.CONSTRUCTOR_ROLE_AWARE_BRACKETS
+                        or config.CONSTRUCTOR_VALUE_ROLE_AWARE_LEAVES
+                    )
+                    and token == "["
+                ):
+                    prefix_start = constructor_prefix_start(children)
+                    constructor_prefix = children[prefix_start:]
+                    del children[prefix_start:]
                 index += 1
-                child, index = braces_tree(leaves, index, open_list, close_list, node)
+                child, index = braces_tree(
+                    leaves,
+                    index,
+                    open_list,
+                    close_list,
+                    node,
+                    constructor_prefix,
+                )
                 children.append(child)
 
             elif (token == "}" or token == "]" or token == ")") and index in close_list:
                 children.append(ParseNode(get_class[token], False, [node]))
                 bracket_items.append(len(children))
-                return ParseNode(allocate_tid(), False, children), index + 1
+                nonterminal = allocate_tid()
+                tag = constructor_tag(node_constructor_prefix)
+                if (
+                    config.CONSTRUCTOR_ROLE_AWARE_BRACKETS
+                    and tag
+                ):
+                    nonterminal = (
+                        "role_constructor_"
+                        + tag.lower()
+                    )
+                if (
+                    config.SENTINEL_ROLE_AWARE_BRACKETS
+                    and first is not None
+                    and first.payload == "["
+                    and not node_constructor_prefix
+                    and len(children) >= 3
+                ):
+                    role = children[1].derived_string()
+                    if len(role) == 1 and role in sentinel_roles:
+                        nonterminal = f"role_{ord(role):02x}"
+                return ParseNode(nonterminal, False, children), index + 1
 
             else:
-                children.append(ParseNode(get_class[token], False, [node]))
+                leaf_class = constructor_value_leaf_class(
+                    node,
+                    children,
+                    node_constructor_prefix,
+                )
+                children.append(ParseNode(leaf_class, False, [node]))
                 index += 1
 
         bracket_items.append(len(children))
@@ -213,7 +500,9 @@ def build_naive_parse_trees(leaves: List[List[ParseNode]], bracket_items: List, 
 
             oracle.parse(new_children.derived_string())
 
-        except:
+        except OracleInfrastructureError:
+            raise
+        except ParseException:
             print("\nInvalid tree constructed!")
             exit(1)
 
@@ -277,7 +566,9 @@ def hdd_decompose(trees: List[ParseNode], oracle: ExternalOracle, new_trees: dic
                 new_trees[seed] = node.copy()
                 new_trees[seed].update_cache_info()
                 return True
-        except:
+        except OracleInfrastructureError:
+            raise
+        except ParseException:
             cache_str[seed] = False
             return False
     
@@ -950,7 +1241,9 @@ def coalesce_partial(oracle, trees: List[ParseNode], grammar: Grammar,
             try:
                 for replaced_str in everywhere_by_some_candidates:
                     oracle.parse(replaced_str)
-            except Exception as e:
+            except OracleInfrastructureError:
+                raise
+            except ParseException:
                 return []
 
         if (len(everywhere_derivable_strings) == 0): return {}
@@ -980,7 +1273,9 @@ def coalesce_partial(oracle, trees: List[ParseNode], grammar: Grammar,
                     oracle.parse(candidate)
                 replacing_positions[(rule[0], tuple(rule[1]))].append(posn)
                 language_expanded = True
-            except ParseException as e:
+            except OracleInfrastructureError:
+                raise
+            except ParseException:
                 continue
 
         if MUST_EXPAND_IN_PARTIAL and coalesce_target is not None and not language_expanded:
@@ -1208,7 +1503,9 @@ def replacement_valid(oracle, replacer_derivable_strings, replacee, trees : Pars
     for s in replaced_strings:
         try:
             oracle.parse(s)
-        except:
+        except OracleInfrastructureError:
+            raise
+        except ParseException:
             return False, []
     return True, replaced_strings
 
@@ -1314,6 +1611,16 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
     (found equivalent).
     """
 
+    def is_protected_constructor_role(nonterminal: str) -> bool:
+        if (
+            config.CONSTRUCTOR_ROLE_AWARE_BRACKETS
+            and nonterminal.startswith("role_constructor_")
+        ):
+            return True
+        return (
+            config.CONSTRUCTOR_VALUE_ROLE_AWARE_LEAVES
+            and nonterminal.startswith("role_value_")
+        )
 
     def replacement_valid_and_expanding(nt1, nt2, trees: ParseTreeList):
         """
@@ -1507,6 +1814,11 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
             second = coalesced_into[second]
         # and check that it's still valid
         if first == second:
+            continue
+        if (
+            is_protected_constructor_role(first)
+            or is_protected_constructor_role(second)
+        ):
             continue
         if (first, second) in checked:
             continue

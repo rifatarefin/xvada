@@ -9,6 +9,7 @@ from parse_tree import ParseNode, fixup_terminal
 import string
 
 from replacement_utils import get_strings_with_replacement, nt_in_tree
+import config
 
 """
 I'm sorry this code is so so so ugly. 
@@ -66,6 +67,35 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
             r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add("tnzdigit") + rules_to_add("tdigits")
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
+    elif rule_start.startswith("tfloat32mantissa"):
+        r.add_body(
+            ["thexdigit"] * 5
+            + ["tfloat32lasthex"]
+            + ['"0"'] * 7
+        )
+        if symbols:
+            return (
+                [r, char_rule]
+                + rules_to_add("thexdigit")
+                + rules_to_add("tfloat32lasthex")
+            )
+        return (
+            [r]
+            + rules_to_add("thexdigit")
+            + rules_to_add("tfloat32lasthex")
+        )
+    elif rule_start.startswith("tfloat32lasthex"):
+        for c in "02468ace":
+            r.add_body([f'"{c}"'])
+        if symbols:
+            return [r, char_rule]
+        return [r]
+    elif rule_start.startswith("thexdigit"):
+        for c in string.digits + "abcdef":
+            r.add_body([f'"{c}"'])
+        if symbols:
+            return [r, char_rule]
+        return [r]
     elif rule_start.startswith("tnzinteger"):
         r.add_body(['tnzdigit'])
         r.add_body(["tnzdigit", "tdigits" ])
@@ -253,11 +283,21 @@ def initial_token_replacement(oracle: ExternalOracle, token_list: List[ParseNode
     preceding = ''.join([t.payload for t in token_list])
     candidates = []
     if category == "STRING":
-        candidates.extend([
-            random.choice(["0 Test#String", "1_Test String", "2 Test#String!"]),
-            random.choice(["0TestString", "1TestString"]),
-            random.choice(["TestString0", "TestString1"])
-        ])
+        if config.RECALL_FOCUSED_TOKEN_EXPANSION:
+            candidates.extend(
+                [
+                    "0 Test#String",
+                    "1_Test String",
+                    "0TestString",
+                    "TestString0",
+                ]
+            )
+        else:
+            candidates.extend([
+                random.choice(["0 Test#String", "1_Test String", "2 Test#String!"]),
+                random.choice(["0TestString", "1TestString"]),
+                random.choice(["TestString0", "TestString1"])
+            ])
 
     elif category == "WHITESPACE":
         # if (not preceding) or (preceding and preceding[-1] in string.whitespace) or all(t in string.whitespace for t in trailing):
@@ -329,20 +369,87 @@ def generalize_digits_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: L
 
     existing_bodies = [''.join([fixup_terminal(elem) for elem in body]) for idx, body in enumerate(grammar.rules[rule_start].bodies) if idx in body_idxs]
 
+    if (
+        config.RECALL_FOCUSED_TOKEN_EXPANSION
+        and config.CONSTRUCTOR_VALUE_ROLE_AWARE_LEAVES
+        and config.CONSTRUCTOR_V6_SEMANTIC_FLOAT_LEAVES
+        and rule_start == "role_value_v6_nonzero_mantissa"
+    ):
+        # Canonical typed-cons V6 values use lowercase hexadecimal mantissas.
+        # A source-width float32 has five arbitrary hex digits, one even hex
+        # digit (three residual precision bits), and seven trailing zeroes.
+        # Probe that exact bit-precision class in the isolated nonzero V6
+        # mantissa role before the generic decimal ladder.
+        hex_candidates = [
+            "0000000000000",
+            "fffffe0000000",
+            "0123460000000",
+            "abcdea0000000",
+            "deadbe0000000",
+            "e666660000000",
+            "3333340000000",
+        ]
+        hex_ok = True
+        for tree in [
+            tree for tree in trees if nt_in_tree(tree, rule_start)
+        ]:
+            candidates = get_strings_with_replacement(
+                tree,
+                rule_start,
+                hex_candidates,
+            )
+            if not try_strings(oracle, candidates):
+                hex_ok = False
+                break
+        if hex_ok:
+            return body_idxs, "tfloat32mantissa"
+
     if all(len(body) == 1 for body in existing_bodies):
         single_digit_candidates = [s for s in string.digits if s not in existing_bodies]
     else:
         single_digit_candidates = []
 
     single_nzdigit_candidates = [s for s in single_digit_candidates if s != '0']
-    nzinteger_candidates = []
-    digits_candidates = []
-    for i in range(MAX_SAMPLES):
-        first_dig = random.choice("123456789")
-        leng = random.randint(1, 10)
-        other_digs  = random.sample(string.digits, leng)
-        nzinteger_candidates.append(first_dig + ''.join(other_digs))
-        digits_candidates.append('0' + ''.join(other_digs))
+    if config.RECALL_FOCUSED_TOKEN_EXPANSION:
+        # Keep probes valid across the narrowest signed/unsigned scalar
+        # constructors.  The grammar class can still express larger canonical
+        # integers, while the collapse guard independently measures precision.
+        nzinteger_candidates = [
+            "10",
+            "11",
+            "16",
+            "24",
+            "32",
+            "42",
+            "64",
+            "99",
+            "100",
+            "127",
+        ]
+        # Leading-zero multi-digit spellings are intentionally invalid in the
+        # canonical IR.  Retaining them here prevents an unsafe ``tdigits``
+        # promotion while still allowing ``tinteger``/``tnzinteger``.
+        digits_candidates = [
+            "00",
+            "01",
+            "02",
+            "07",
+            "08",
+            "09",
+            "010",
+            "011",
+            "064",
+            "099",
+        ]
+    else:
+        nzinteger_candidates = []
+        digits_candidates = []
+        for i in range(MAX_SAMPLES):
+            first_dig = random.choice("123456789")
+            leng = random.randint(1, 10)
+            other_digs  = random.sample(string.digits, leng)
+            nzinteger_candidates.append(first_dig + ''.join(other_digs))
+            digits_candidates.append('0' + ''.join(other_digs))
     integer_candidates = nzinteger_candidates + [i for i in string.digits]
 
     digit_ok = True if single_digit_candidates else False
@@ -406,16 +513,50 @@ def generalize_letters_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: 
     if all(len(body) == 1 for body in existing_bodies):
         single_candidates = [s for s in expansion_set if s not in existing_bodies]
         if not single_candidates:
-            single_candidates = [s for s in random.sample(expansion_set, min(MAX_SAMPLES, len(expansion_set)))]
+            if config.RECALL_FOCUSED_TOKEN_EXPANSION:
+                single_candidates = list(expansion_set[:MAX_SAMPLES])
+            else:
+                single_candidates = [s for s in random.sample(expansion_set, min(MAX_SAMPLES, len(expansion_set)))]
         if len(single_candidates) > MAX_SAMPLES:
-            single_candidates = random.sample(single_candidates, MAX_SAMPLES - 1)
+            if config.RECALL_FOCUSED_TOKEN_EXPANSION:
+                single_candidates = sorted(single_candidates)[:MAX_SAMPLES - 1]
+            else:
+                single_candidates = random.sample(single_candidates, MAX_SAMPLES - 1)
     else:
         single_candidates = []
 
-    multi_candidates = [''.join(random.sample(expansion_set, random.randint(2, 10))) for _ in range(MAX_SAMPLES)]
-    capital_candidates = [random.choice(string.ascii_uppercase) + 
-                                  ''.join(random.sample(string.ascii_lowercase, random.randint(1, 10)))
-                                    for _ in range(MAX_SAMPLES)]
+    if config.RECALL_FOCUSED_TOKEN_EXPANSION:
+        multi_candidates = [
+            "ab",
+            "xyz",
+            "test",
+            "model",
+            "value",
+            "alpha",
+            "tensor",
+            "metadata",
+            "context",
+            "architecture",
+        ]
+        if expansion_type == uppercase_type:
+            multi_candidates = [value.upper() for value in multi_candidates]
+        capital_candidates = [
+            "Aa",
+            "Test",
+            "Model",
+            "Value",
+            "Alpha",
+            "Tensor",
+            "Metadata",
+            "Context",
+            "Architecture",
+            "General",
+        ]
+    else:
+        multi_candidates = [''.join(random.sample(expansion_set, random.randint(2, 10))) for _ in range(MAX_SAMPLES)]
+        capital_candidates = [random.choice(string.ascii_uppercase) +
+                                      ''.join(random.sample(string.ascii_lowercase, random.randint(1, 10)))
+                                        for _ in range(MAX_SAMPLES)]
     
     # will try to expand to single character, multi character, and capitalized multi character
     expand_1_ok = True if single_candidates else False
@@ -474,23 +615,68 @@ def generalize_to_alphanum(oracle: ExternalOracle, grammar: Grammar, trees: List
     if all(len(body) == 1 for body in existing_bodies):
         single_candidates = [s for s in expansion_set if s not in existing_bodies]
         if len(single_candidates) > MAX_SAMPLES:
-            single_candidates = random.sample(single_candidates, MAX_SAMPLES - 1)
+            if config.RECALL_FOCUSED_TOKEN_EXPANSION:
+                single_candidates = sorted(single_candidates)[:MAX_SAMPLES - 1]
+            else:
+                single_candidates = random.sample(single_candidates, MAX_SAMPLES - 1)
         single_candidates.extend(["a", "1"])
     else:
         single_candidates = []
 
 
-    multi_candidates = [''.join(random.sample(expansion_set, random.randint(2, 10))) for _ in range(MAX_SAMPLES)]
+    if config.RECALL_FOCUSED_TOKEN_EXPANSION:
+        multi_candidates = [
+            "a1",
+            "A0",
+            "abc",
+            "123",
+            "model2",
+            "qwen3",
+            "tensor42",
+            "metadata7",
+            "context128",
+            "architecture9",
+        ]
+    else:
+        multi_candidates = [''.join(random.sample(expansion_set, random.randint(2, 10))) for _ in range(MAX_SAMPLES)]
     # JIC we're missing a number or lower case or upper case... :)
     multi_candidates.insert(0, "0a1Te3t")
     # more options: starts with letter then alphanum, starts with letters then digits
-    letter_alphanum_candidates = [random.choice(string.ascii_letters) +
-                                  ''.join(random.sample(expansion_set, random.randint(1, 10)))
-                                      for _ in range(MAX_SAMPLES)]
+    if config.RECALL_FOCUSED_TOKEN_EXPANSION:
+        letter_alphanum_candidates = [
+            "a1",
+            "Z9",
+            "model2",
+            "qwen3",
+            "A128",
+            "tensor42",
+            "value7",
+            "context8",
+            "metadata9",
+            "General4",
+        ]
+    else:
+        letter_alphanum_candidates = [random.choice(string.ascii_letters) +
+                                      ''.join(random.sample(expansion_set, random.randint(1, 10)))
+                                          for _ in range(MAX_SAMPLES)]
     letter_alphanum_candidates.insert(0, "a1Te3t")
-    letter_digits_candidates = [random.choice(string.ascii_letters) +
-                                  ''.join(random.sample(string.digits, random.randint(1, 10)))
-                                      for _ in range(MAX_SAMPLES)]
+    if config.RECALL_FOCUSED_TOKEN_EXPANSION:
+        letter_digits_candidates = [
+            "a1",
+            "Z9",
+            "A10",
+            "b16",
+            "m24",
+            "q32",
+            "t42",
+            "v64",
+            "x99",
+            "y127",
+        ]
+    else:
+        letter_digits_candidates = [random.choice(string.ascii_letters) +
+                                      ''.join(random.sample(string.digits, random.randint(1, 10)))
+                                          for _ in range(MAX_SAMPLES)]
 
     expand_1_ok = True if single_candidates else False
     expand_multi_ok = True
@@ -682,8 +868,9 @@ def expand_tokens(oracle : ExternalOracle, grammar : Grammar, trees: List[ParseN
                 idxs_to_replace.update(sb_tr)
                 add_body_tuple(sb_r_str, printables, bodies_to_add)
 
-        for body_idx in sorted(idxs_to_replace, reverse = True):
-            rule.bodies.pop(body_idx)
+        if not config.RECALL_FOCUSED_TOKEN_EXPANSION:
+            for body_idx in sorted(idxs_to_replace, reverse = True):
+                rule.bodies.pop(body_idx)
         for nt_name, printables in sorted(bodies_to_add, key= lambda x: x[0]):
             rule.add_body([nt_name])
             rs_to_add = rules_to_add(nt_name, printables)

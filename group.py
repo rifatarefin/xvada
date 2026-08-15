@@ -1,4 +1,3 @@
-from lib2to3.pgen2 import token
 from math import ceil
 import random
 from collections import defaultdict
