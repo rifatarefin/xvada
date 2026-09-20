@@ -48,6 +48,8 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
 
     if rule_start.startswith("tupper_lowers"):
         r.add_body(['tupper', 'tlowers'])
+        if rule_start.endswith("_single"):
+            r.add_body(['tupper'])
         if symbols:
             r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tupper') + rules_to_add('tlowers')
@@ -75,12 +77,14 @@ def rules_to_add(rule_start: str, symbols: List[str] = None):
         return [r] + rules_to_add("tdigits") + rules_to_add("tnzdigit")
     elif rule_start.startswith("tletter_alphanums"):
         r.add_body(['tletter', 'talphanums'])
+        r.add_body(['tletter'])
         if symbols:
             r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tletter') + rules_to_add('talphanums')
         return [r] + rules_to_add('tletter') + rules_to_add('talphanums')
     elif rule_start.startswith("tletter_digits"):
         r.add_body(['tletter', 'tdigits'])
+        r.add_body(['tletter'])
         if symbols:
             r.add_body([char_rule.start, rule_start])
             return [r, char_rule] + rules_to_add('tletter') + rules_to_add('tdigits')
@@ -451,6 +455,8 @@ def generalize_letters_in_rule(oracle: ExternalOracle, grammar: Grammar, trees: 
             return body_idxs, 'tletters'
 
     elif expand_Capital_ok:
+        if expand_1_ok and expansion_type == uppercase_type:
+            return body_idxs, 'tupper_lowers_single'
         return body_idxs, 'tupper_lowers'
 
     elif expand_1_ok:
