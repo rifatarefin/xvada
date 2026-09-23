@@ -111,16 +111,16 @@ def compare_nonterminals(golden_rules, xvada_rules, model_name="sentence-transfo
 
     sim_df = pd.DataFrame(sim, index=golden_names, columns=xvada_names)
 
-    best_matches = []
-    max_scores = []
+    golden_to_xvada_matches = []
+    golden_to_xvada_scores = []
 
     for i, g_name in enumerate(golden_names):
         best_j = sim_df.iloc[i].argmax()
         x_name = xvada_names[best_j]
         score = float(sim_df.iloc[i, best_j])
-        max_scores.append(score)
+        golden_to_xvada_scores.append(score)
 
-        best_matches.append({
+        golden_to_xvada_matches.append({
             "golden_nonterminal": g_name,
             "best_xvada_match": x_name,
             "similarity": round(score, 4),
@@ -128,11 +128,48 @@ def compare_nonterminals(golden_rules, xvada_rules, model_name="sentence-transfo
             "xvada_rule": xvada_rules[x_name],
         })
 
-    best_df = pd.DataFrame(best_matches).sort_values(by="similarity", ascending=False)
+    xvada_to_golden_matches = []
+    xvada_to_golden_scores = []
 
-    final_score = sum(max_scores) / len(max_scores) if max_scores else 0.0
+    for j, x_name in enumerate(xvada_names):
+        best_i = sim_df.iloc[:, j].argmax()
+        g_name = golden_names[best_i]
+        score = float(sim_df.iloc[best_i, j])
+        xvada_to_golden_scores.append(score)
 
-    return sim_df, best_df, final_score
+        xvada_to_golden_matches.append({
+            "xvada_nonterminal": x_name,
+            "best_golden_match": g_name,
+            "similarity": round(score, 4),
+            "xvada_rule": xvada_rules[x_name],
+            "golden_rule": golden_rules[g_name],
+        })
+
+    golden_to_xvada_df = pd.DataFrame(golden_to_xvada_matches).sort_values(
+        by="similarity", ascending=False
+    )
+    xvada_to_golden_df = pd.DataFrame(xvada_to_golden_matches).sort_values(
+        by="similarity", ascending=False
+    )
+
+    golden_to_xvada_score = (
+        sum(golden_to_xvada_scores) / len(golden_to_xvada_scores)
+        if golden_to_xvada_scores
+        else 0.0
+    )
+    xvada_to_golden_score = (
+        sum(xvada_to_golden_scores) / len(xvada_to_golden_scores)
+        if xvada_to_golden_scores
+        else 0.0
+    )
+
+    return (
+        sim_df,
+        golden_to_xvada_df,
+        golden_to_xvada_score,
+        xvada_to_golden_df,
+        xvada_to_golden_score,
+    )
 
 
 if __name__ == "__main__":
@@ -153,22 +190,36 @@ if __name__ == "__main__":
     golden_texts = build_rule_texts(golden_parsed, include_lhs=True)
     xvada_texts = build_rule_texts(xvada_parsed, include_lhs=True)
 
-    sim_df, best_df, final_score = compare_nonterminals(golden_texts, xvada_texts)
+    (
+        sim_df,
+        golden_to_xvada_df,
+        golden_to_xvada_score,
+        xvada_to_golden_df,
+        xvada_to_golden_score,
+    ) = compare_nonterminals(golden_texts, xvada_texts)
 
     print("\n=== Pairwise similarity matrix ===")
     print(sim_df.round(4).to_string())
 
     print("\n=== Best XVada match for each golden nonterminal ===")
-    print(best_df.to_string(index=False))
+    print(golden_to_xvada_df.to_string(index=False))
 
-    print(f"\n=== Final Grammar Similarity Score ===")
-    print(f"{final_score:.4f}")
+    print("\n=== Best golden match for each XVada nonterminal ===")
+    print(xvada_to_golden_df.to_string(index=False))
+
+    print("\n=== Golden-to-XVada Similarity Score ===")
+    print(f"{golden_to_xvada_score:.4f}")
+
+    print("\n=== XVada-to-Golden Similarity Score ===")
+    print(f"{xvada_to_golden_score:.4f}")
 
     sim_df.to_csv("golden_vs_xvada_pairwise_similarity.csv")
-    best_df.to_csv("golden_vs_xvada_best_matches.csv", index=False)
+    golden_to_xvada_df.to_csv("golden_vs_xvada_best_matches.csv", index=False)
+    xvada_to_golden_df.to_csv("xvada_vs_golden_best_matches.csv", index=False)
 
     summary_df = pd.DataFrame([{
-        "final_score": round(final_score, 4),
+        "golden_to_xvada_score": round(golden_to_xvada_score, 4),
+        "xvada_to_golden_score": round(xvada_to_golden_score, 4),
         "num_golden_nonterminals": len(golden_texts),
         "num_xvada_nonterminals": len(xvada_texts),
     }])
@@ -177,4 +228,5 @@ if __name__ == "__main__":
     print("\nSaved:")
     print("  golden_vs_xvada_pairwise_similarity.csv")
     print("  golden_vs_xvada_best_matches.csv")
+    print("  xvada_vs_golden_best_matches.csv")
     print("  golden_vs_xvada_summary.csv")
