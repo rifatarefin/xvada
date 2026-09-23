@@ -1,0 +1,12 @@
+xvada_nonterminal,best_golden_match,similarity,xvada_rule,golden_rule
+start,start,1.0,start,start
+stmt,stmt,1.0,stmt,stmt
+boolexpr,boolexpr,1.0,boolexpr,boolexpr
+numexpr,numexpr,1.0,numexpr,numexpr
+boolexpr_,boolexpr,0.9202,boolexpr_,boolexpr
+stmt_2,stmt,0.8314,stmt_2,stmt
+stmt_1,stmt,0.8132,stmt_1,stmt
+expr_stmt,stmt,0.7197,expr_stmt,stmt
+expr,boolexpr,0.3782,expr,boolexpr
+expr_1,boolexpr,0.3243,expr_1,boolexpr
+expr_2,boolexpr,0.3161,expr_2,boolexpr

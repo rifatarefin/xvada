@@ -1,2 +1,2 @@
-final_score,num_golden_nonterminals,num_xvada_nonterminals
-1.0,4,11
+golden_to_xvada_score,xvada_to_golden_score,num_golden_nonterminals,num_xvada_nonterminals
+1.0,0.7548,4,11
