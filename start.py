@@ -698,10 +698,10 @@ def build_trees(oracle, leaves):
                 else:
                     reapply = False
 
-            # if valid_bubble:
+            if valid_bubble:
                 
-            #     if no_llm:
-            #         break
+                if no_llm:
+                    break
 
         
         return best_trees, updated, loop_coalesce_into
