@@ -22,7 +22,7 @@ def clean_label(label):
     cleaned = re.sub(r'[^a-zA-Z0-9_]', '', label)
     # Remove leading digits
     cleaned = re.sub(r'^\d+', 't_', cleaned)
-    return cleaned
+    return cleaned or "t_default"
 
 def build_base_messages():
     messages = [{'role': 'system', 'content': SYSTEM_PROMPT}]
