@@ -848,8 +848,8 @@ def build_trees(oracle, leaves):
         grp_size = MIN_GROUP_LEN
         while threshold:
            
-            pre_bubbles = pre_bubble(best_trees)
-            best_trees, updated, coalesced_into = bubble_loop(best_trees, count, pre_bubbles, True)
+            # pre_bubbles = pre_bubble(best_trees)
+            # best_trees, updated, coalesced_into = bubble_loop(best_trees, count, pre_bubbles, True)
 
             group_start = time.time()
             bubble_list = group(best_trees, grp_size)
