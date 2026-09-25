@@ -633,12 +633,12 @@ def build_trees(oracle, leaves):
     
     def bubble_loop(best_trees, count, bubble_list, no_llm = False, grp_size = -1):    # delete grp_size later
         updated, nlg = False, len(bubble_list)
-        loop_coalesce_into = {}
         nt_set = set()
         print(f"Bubbles in list: {nlg}")
         for i, grouping in enumerate(bubble_list):
             
             reapply = True
+            loop_coalesce_into = {}
             last = -1
             valid_bubble = False
             while reapply:
@@ -681,19 +681,19 @@ def build_trees(oracle, leaves):
                     print(('[Group len %d] Bubbling iteration %d (%d/%d)...' % (grp_size, count, i + 1, nlg)).ljust(50))
                     print(grouping_str)
                     print("coalesced into: ", coalesced_into)
-
+                    loop_coalesce_into = coalesced_into
                     # first, flatten multi-hop coalesced_into
-                    for k in list(coalesced_into.keys()):
-                        v = coalesced_into[k]
-                        while v in coalesced_into and not v == coalesced_into[v]:
-                            v = coalesced_into[v]
-                        coalesced_into[k] = v
+                    # for k in list(coalesced_into.keys()):
+                    #     v = coalesced_into[k]
+                    #     while v in coalesced_into and not v == coalesced_into[v]:
+                    #         v = coalesced_into[v]
+                    #     coalesced_into[k] = v
 
                     # grouping = get_updated_bubble(grouping, coalesced_into)                           
                     updated, valid_bubble = True, True
 
                     # need to maintain another coalesced_into for the entire bubble loop?
-                    loop_coalesce_into.update(coalesced_into)
+                    # loop_coalesce_into.update(coalesced_into)
                
                 else:
                     reapply = False
