@@ -593,26 +593,30 @@ def build_trees(oracle, leaves):
         
         if isinstance(bubble, Bubble):
             new_nt = None
-            for elem in bubble.bubbled_elems:
+            for i, elem in enumerate(bubble.bubbled_elems):
                 if elem.payload in coalesced_into:
                     # handle multi-hop coalescing
                     new_nt = coalesced_into[elem.payload]
                     while new_nt in coalesced_into and not new_nt == coalesced_into[new_nt]:
                         new_nt = coalesced_into[new_nt]
-                    elem.payload = new_nt
-            if new_nt and new_nt != coalesced_into.get(new_nt, None):
+                    new_elem = elem.copy()
+                    new_elem.payload = new_nt
+                    bubble.bubbled_elems[i] = new_elem
+            if bubble.new_nt in coalesced_into or (new_nt and new_nt != coalesced_into.get(new_nt, None)):
                 bubble.new_nt = allocate_tid()
                 bubble.bubble_str = ''.join([e.payload for e in bubble.bubbled_elems])
         else:
             for bubble_single in bubble:
                 new_nt = None
-                for elem in bubble_single.bubbled_elems:
+                for i, elem in enumerate(bubble_single.bubbled_elems):
                     if elem.payload in coalesced_into:
                         new_nt = coalesced_into[elem.payload]
                         while new_nt in coalesced_into and not new_nt == coalesced_into[new_nt]:
                             new_nt = coalesced_into[new_nt]
-                        elem.payload = new_nt
-                if new_nt and new_nt != coalesced_into.get(new_nt, None):      
+                        new_elem = elem.copy()
+                        new_elem.payload = new_nt
+                        bubble_single.bubbled_elems[i] = new_elem
+                if bubble_single.new_nt in coalesced_into or (new_nt and new_nt != coalesced_into.get(new_nt, None)):      
                     bubble_single.new_nt = allocate_tid()
                     bubble_single.bubble_str = ''.join([e.payload for e in bubble_single.bubbled_elems])
         return bubble
