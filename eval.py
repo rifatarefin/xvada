@@ -194,7 +194,15 @@ def main(oracle_cmd, log_file_name, test_examples_folder):
         print("Eval of precision:")
         for example in tqdm(precision_set):
             try:
-                oracle.parse(example)
+                if MEMORY_SAFE_RECALL:
+                    parsed, reason = parse_with_limits(
+                        oracle,
+                        example,
+                    )
+                    if not parsed:
+                        raise RuntimeError(reason)
+                else:
+                    oracle.parse(example)
                 print(example, "<----- PASSED", file=f)
                 num_precision_parsed += 1
             except Exception as e:
