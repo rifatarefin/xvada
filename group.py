@@ -70,19 +70,19 @@ def pre_bubble(trees) -> List[Bubble]:
         if len(layer) > 2 and ((layer[0].payload == "[" and layer[-1].payload == "]") or (layer[0].payload == "{" and layer[-1].payload == "}") or (layer[0].payload == "(" and layer[-1].payload == ")")):
             layer = layer[1:-1]
 
-        # skip leading and trailing whitespace
-        start, end = 0, len(layer)
-        while start < end and layer[start].payload in string.whitespace:
-            start += 1
-        while end > start and layer[end - 1].payload in string.whitespace:
-            end -= 1
-        if end - start > 0:
-            layer = layer[start:end]
-        
-        layer_str = ' '.join([t.payload for t in layer])
-        # only add non-terminals
-        if layer_str not in layers and all([not t.is_terminal for t in layer]):
-            layers[layer_str] = Bubble(allocate_tid(), layer, depth)
+            # skip leading and trailing whitespace
+            start, end = 0, len(layer)
+            while start < end and layer[start].payload in string.whitespace:
+                start += 1
+            while end > start and layer[end - 1].payload in string.whitespace:
+                end -= 1
+            if end - start > 0:
+                layer = layer[start:end]
+            
+            layer_str = ' '.join([t.payload for t in layer])
+            # only add non-terminals
+            if layer_str not in layers and all([not t.is_terminal for t in layer]):
+                layers[layer_str] = Bubble(allocate_tid(), layer, depth)
 
         for child in tree.children:
             if not child.is_terminal:
