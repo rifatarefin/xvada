@@ -22,6 +22,10 @@ ANTLR4_OUTPUT=True
 MEMORY_SAFE_RECALL=False
 
 
+def _create_learned_grammar(start_rule=None):
+    return Grammar(START if start_rule is None else start_rule)
+
+
 def _parse_with_limits_worker(parser, example, memory_mb, result_queue):
     try:
         if memory_mb is not None:
@@ -136,7 +140,7 @@ def main_internal(external_folder, log_file, random_guides=False):
     
     main(parser_command, log_file, test_folder)
 
-def main(oracle_cmd, log_file_name, test_examples_folder):
+def main(oracle_cmd, log_file_name, test_examples_folder, pad=False, start_rule=None):
     oracle = ExternalOracle(oracle_cmd)
 
 
@@ -153,7 +157,7 @@ def main(oracle_cmd, log_file_name, test_examples_folder):
     with open(log_file_name + ".eval", 'w+') as f:
         start_time = time.time()
         import pickle
-        learned_grammar = Grammar(START)
+        learned_grammar = Grammar(START) if start_rule is None else Grammar(start_rule)
         grammar_dict : Dict[str, Rule] = pickle.load(open(log_file_name + ".gramdict", "rb"))
         for key, rule in grammar_dict.items():
             print(rule)
@@ -185,7 +189,11 @@ def main(oracle_cmd, log_file_name, test_examples_folder):
             print(e)
             exit()
         parser: Lark = learned_grammar.parser()
-        precision_set = learned_grammar.sample_positives(PRECISION_SIZE, max(longest_rule_distance, 5))
+        precision_set = learned_grammar.sample_positives(
+            PRECISION_SIZE,
+            max(longest_rule_distance, 5),
+            pad=pad,
+        )
 
         num_precision_parsed = 0
 
@@ -258,6 +266,8 @@ if __name__ == '__main__':
     parser.add_argument('--no-antlr4', help='also output an ANTLR4 grammar file', action='store_true', dest='no_antlr4')
     parser.add_argument('-n', '--precision_set_size', help='size of precision set to sample from learned grammar (default 1000)', type=int, default=1000)
     parser.add_argument('--memory-safe', help='run each recall parse in a separate child process with a memory limit to avoid OOM killing the evaluator', action='store_true', dest='memory_safe_recall')
+    parser.add_argument('--pad', help='separate generated positive-example elements with spaces', action='store_true')
+    parser.add_argument('--start-rule', help=f'grammar start rule (default: {START})')
     args = parser.parse_args()
     
     if args.precision_set_size is not None:
@@ -266,4 +276,10 @@ if __name__ == '__main__':
         ANTLR4_OUTPUT = False
     if args.memory_safe_recall:
         MEMORY_SAFE_RECALL = True
-    main(args.oracle_cmd, args.log_file, args.examples_dir)
+    main(
+        args.oracle_cmd,
+        args.log_file,
+        args.examples_dir,
+        pad=args.pad,
+        start_rule=args.start_rule,
+    )

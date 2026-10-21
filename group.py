@@ -8,7 +8,7 @@ from typing import Union, List, Dict, Tuple
 from bubble import Bubble
 from next_tid import allocate_tid
 from parse_tree import ParseNode
-MAX_PRE_BUBBLE_LEN = 10
+MAX_PRE_BUBBLE_LEN = 100
 MAX_BUBBLES_FOR_RANKING = 10000
 
 last_bubble_lst = None

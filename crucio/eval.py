@@ -17,9 +17,12 @@ if __name__ == '__main__':
         oracle = grammar_dict['oracle']
         tokenizer = grammar_dict['tokenizer']
         g = grammar_dict['grammar']
+    space_sensitive = oracle.getIns().sep == ''
     gram_str = g.print_grammar()
     with open(f'{args.log_path}.lark','w') as f:
+        print(f"//space_sensitive = {space_sensitive}", file=f)
         print(gram_str, file=f)
+    print(f"//space_sensitive = {space_sensitive}")
     print(gram_str)
     dl = MultiFileDataLoader()
     test_set = dl.load(args.test_path)

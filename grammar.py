@@ -198,7 +198,7 @@ class Grammar():
         except:
             return negative_example
 
-    def sample_positives(self, n, max_depth):
+    def sample_positives(self, n, max_depth, pad=False):
         """
         Samples n random strings that belong to the grammar.
         Returns the unique subset of these.
@@ -208,7 +208,7 @@ class Grammar():
         while len(samples) < n and attempts < 100*n:
             attempts += 1
             try:
-                sample = self.generate_positive_example(max_depth)
+                sample = self.generate_positive_example(max_depth, pad=pad)
                 # we blindly consider strings of all lengths
                 # if len(sample) > 300:
                 #     continue
@@ -226,26 +226,28 @@ class Grammar():
                 nonterminals.append(item)
         return nonterminals
     
-    def generate_positive_example(self, max_depth, start_nonterminal='start', cur_depth=0):
+    def generate_positive_example(self, max_depth, start_nonterminal='start', cur_depth=0, pad=False):
         """
         Samples a random positive example from the grammar, with max_depth as much as possible.
+        When pad is true, separates expanded production elements with one space.
         """
-        
+        separator = " " if pad else ""
+
         bodies = self.rules[start_nonterminal].bodies
         # If we've reached the max depth, try to choose a non-recursive rule.
         if cur_depth >= max_depth:
             terminal_bodies = [body for body in bodies if len(self.body_nonterminals(self, body)) == 0]
             if len(terminal_bodies) > 0:
                 terminal_body = terminal_bodies[random.randint(0, len(terminal_bodies)-1)]
-                return "".join([elem.replace('"', '') for elem in terminal_body])
+                return separator.join([elem.replace('"', '') for elem in terminal_body])
             # Otherwise... guess we'll have to try to stop later.
         body_to_expand = bodies[random.randint(0, len(bodies) -1)]
         nonterminals_to_expand = self.body_nonterminals(self, body_to_expand)
-        expanded_body = [self.generate_positive_example(max_depth, elem, cur_depth + 1)
+        expanded_body = [self.generate_positive_example(max_depth, elem, cur_depth + 1, pad=pad)
                                 if elem in nonterminals_to_expand
                                 else elem[1:-1]   # really just wanna non-clean up the terminals
                                 for elem in body_to_expand]
-        return "".join(expanded_body)
+        return separator.join(expanded_body)
 
     
     def sample_trees(self, n, max_depth):
