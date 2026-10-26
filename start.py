@@ -1366,21 +1366,21 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
             bubble              bubble
             /   \       ->      /   \ 
           nt1   target        nt1   label
+                  |                   |
+               children             target
+                                      |
+                                   children
 
-             target              target
-               |        ->         |
-            children             label
-                                   |
-                                children
+
         """
-        if node.payload == coalesce_target.new_nt:
+        if node.payload == coalesce_target.new_nt:  # node is the bubble node
             # node.cache_valid = False
             for child in node.children:
                 if child.payload == target:
+                    new_node = ParseNode(target, False, child.children)
+                    child.children = [new_node]
                     child.payload = label
-        elif node.payload == target:
-            new_node = ParseNode(label, False, node.children)
-            node.children = [new_node]
+
 
         for child in node.children:
             rewrite_recursive_targets(child, target, label)
@@ -1548,7 +1548,7 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
                 """
                 
                 label = allocate_tid()
-                tmp_trees = [rewrite_recursive_targets(tree.copy(), second, label) for tree in trees]
+                tmp_trees = [rewrite_recursive_targets(tree.copy(), second, label) for tree in tree_list.inner_list]
                 [tree.update_cache_info() for tree in tmp_trees]
                 tmp_grammar = build_grammar(tmp_trees)
                 tmp_tree_list = ParseTreeList(tmp_trees, tmp_grammar)

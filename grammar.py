@@ -214,7 +214,6 @@ class Grammar():
                 #     continue
                 samples.add(sample)
             except RecursionError:
-                print("RecursionError occurred")
                 continue
         return samples
 
