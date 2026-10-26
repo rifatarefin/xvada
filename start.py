@@ -1366,20 +1366,21 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
             bubble              bubble
             /   \       ->      /   \ 
           nt1   target        nt1   label
-                  |                   |
-               children             target
-                                      |
-                                   children
 
-
+             target              target
+               |        ->         |
+            children             label
+                                   |
+                                children
         """
-        if node.payload == coalesce_target.new_nt:  # node is the bubble node
+        if node.payload == coalesce_target.new_nt:
             # node.cache_valid = False
             for child in node.children:
                 if child.payload == target:
-                    new_node = ParseNode(target, False, child.children)
-                    child.children = [new_node]
                     child.payload = label
+        elif node.payload == target:
+            new_node = ParseNode(label, False, node.children)
+            node.children = [new_node]
 
 
         for child in node.children:
