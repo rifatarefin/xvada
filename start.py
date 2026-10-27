@@ -1350,11 +1350,11 @@ def coalesce(oracle, trees: List[ParseNode], grammar: Grammar,
         if nt1_valid and nt2_valid:
             return "<TRUE>"
         
-        # Non-recursive merge case
-        if nt2_valid and isinstance(coalesce_target, Bubble) and coalesce_target.new_nt == nt1:
-            nt2_is_child = any(nt2 in bodies for bodies in grammar.rules[nt1].bodies)
-            if nt2_is_child:
-                return nt2
+        # # Non-recursive merge case
+        # if nt2_valid and isinstance(coalesce_target, Bubble) and coalesce_target.new_nt == nt1:
+        #     nt2_is_child = any(nt2 in bodies for bodies in grammar.rules[nt1].bodies)
+        #     if nt2_is_child:
+        #         return nt2
 
         return False
 
